@@ -45,12 +45,11 @@ class _AlbumViewState extends State<AlbumView> {
   late ScrollController scrollController;
   double imageSize = 0;
   double initialSize = 240;
-  double containerHeight = 500;
-  double containerinitalHeight = 500;
+  double imageTopMargin = 80; // Initial top margin for the image
+  double minImageSize = 100; // Minimum size the image can shrink to
   double imageOpacity = 1;
   bool showTopBar = false;
   late PaletteGenerator _paletteGenerator;
-  bool _isLoading = true;
   Color? _backgroundColor;
 
   @override
@@ -58,21 +57,19 @@ class _AlbumViewState extends State<AlbumView> {
     imageSize = initialSize;
     scrollController = ScrollController()
       ..addListener(() {
-        imageSize = initialSize - scrollController.offset;
-        if (imageSize < 0) {
-          imageSize = 0;
-        }
-        containerHeight = containerinitalHeight - scrollController.offset;
-        if (containerHeight < 0) {
-          containerHeight = 0;
-        }
-        imageOpacity = imageSize / initialSize;
-        if (scrollController.offset > 224) {
-          showTopBar = true;
+        double offset = scrollController.offset;
+        if (offset < imageTopMargin) {
+          // Image moves up with the rest of the screen
+          imageOpacity = 1;
         } else {
-          showTopBar = false;
+          // Image starts shrinking and fading when it reaches the top
+          double shrinkOffset = offset - imageTopMargin;
+          imageSize =
+              (initialSize - shrinkOffset).clamp(minImageSize, initialSize);
+          imageOpacity =
+              ((initialSize - shrinkOffset) / initialSize).clamp(0.0, 1.0);
         }
-        print(scrollController.offset);
+        showTopBar = offset > (initialSize - minImageSize + imageTopMargin);
         setState(() {});
       });
     super.initState();
@@ -84,24 +81,33 @@ class _AlbumViewState extends State<AlbumView> {
     _paletteGenerator = await PaletteGenerator.fromImageProvider(imageProvider);
     setState(() {
       _backgroundColor = _paletteGenerator.dominantColor?.color;
-      _isLoading = false;
     });
   }
 
   @override
+  void dispose() {
+    scrollController.dispose(); // Dispose the scroll controller properly
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: NoGlowScrollBehavior(), // Disable overscroll glow effect
-      child: Scaffold(
-        body: SingleChildScrollView(
-          physics:
-              const ClampingScrollPhysics(), // Disable bouncing scroll effect
-          child: Stack(
+    double topPosition = (scrollController.hasClients &&
+            scrollController.offset < imageTopMargin)
+        ? imageTopMargin - scrollController.offset
+        : 0;
+
+    return SafeArea(
+      child: ScrollConfiguration(
+        behavior: NoGlowScrollBehavior(), // Disable overscroll glow effect
+        child: Scaffold(
+          body: Stack(
             children: [
               SafeArea(
                 child: SingleChildScrollView(
                   controller: scrollController,
-                  physics: const BouncingScrollPhysics(),
+                  physics:
+                      const ClampingScrollPhysics(), // Disable bouncing scroll effect
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: 1200,
@@ -116,65 +122,80 @@ class _AlbumViewState extends State<AlbumView> {
                         end: Alignment.center,
                       ),
                     ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: initialSize + imageTopMargin + 50),
+                        Text(
+                          widget.song1singers,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 16),
+                        ),
+                        // Rest of your content here
+                      ],
+                    ),
                   ),
                 ),
               ),
-              Container(
-                height: 700,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      AppBar(
-                        title: Text(
+              Positioned(
+                top: topPosition + 20,
+                left: MediaQuery.of(context).size.width / 2 - imageSize / 2,
+                child: Opacity(
+                  opacity: imageOpacity,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                          color: Colors.black.withOpacity(0.8),
+                        ),
+                      ],
+                    ),
+                    child: Image.network(
+                      widget.imageUrl,
+                      height: imageSize,
+                      width: imageSize,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Opacity(
+                  opacity: showTopBar ? 1 : 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                      colors: [
+                        _backgroundColor ?? Colors.black,
+                        const Color.fromARGB(209, 0, 0, 0)
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    )),
+                    child: AppBar(
+                      scrolledUnderElevation: 0,
+                      title: Opacity(
+                        opacity: showTopBar ? 1 : 0,
+                        child: Text(
                           widget.title,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                           ),
                         ),
-                        backgroundColor: _backgroundColor != null
-                            ? Colors.transparent
-                            : Colors.transparent,
-                        leading: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(Icons.arrow_back_ios_new_sharp),
-                        ),
-                        elevation: 0,
                       ),
-                      Container(
-                        height: 500,
-                        child: Center(
-                          child: _isLoading
-                              ? const CircularProgressIndicator()
-                              : Column(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.only(top: 60),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 10,
-                                              spreadRadius: 2,
-                                              color:
-                                                  Colors.black.withOpacity(0.8),
-                                            ),
-                                          ],
-                                        ),
-                                        child: Image.network(
-                                          widget.imageUrl,
-                                          height: 250,
-                                          width: 250,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                        ),
-                      )
-                    ],
+                      backgroundColor: Colors.transparent,
+                      leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.arrow_back_ios_new_sharp),
+                      ),
+                      elevation: 0,
+                    ),
                   ),
                 ),
               ),

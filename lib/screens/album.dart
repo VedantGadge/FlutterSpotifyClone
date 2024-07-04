@@ -48,7 +48,7 @@ class _AlbumViewState extends State<AlbumView> {
   double imageTopMargin = 80; // Initial top margin for the image
   double minImageSize = 100; // Minimum size the image can shrink to
   double imageOpacity = 1;
-  bool showTopBar = false;
+  double appBarOpacity = 0;
   late PaletteGenerator _paletteGenerator;
   Color? _backgroundColor;
 
@@ -69,7 +69,18 @@ class _AlbumViewState extends State<AlbumView> {
           imageOpacity =
               ((initialSize - shrinkOffset) / initialSize).clamp(0.0, 1.0);
         }
-        showTopBar = offset > (initialSize - minImageSize + imageTopMargin);
+
+        // Adjust app bar opacity based on when the image reaches its minimum size
+        if (imageSize == minImageSize) {
+          double minSizeOffset =
+              offset - (initialSize - minImageSize + imageTopMargin);
+          appBarOpacity =
+              minSizeOffset / 50.0; // Adjust 50.0 to control the fade-in speed
+          appBarOpacity = appBarOpacity.clamp(0.0, 1.0);
+        } else {
+          appBarOpacity = 0;
+        }
+
         setState(() {});
       });
     super.initState();
@@ -124,7 +135,12 @@ class _AlbumViewState extends State<AlbumView> {
                     ),
                     child: Column(
                       children: [
-                        SizedBox(height: initialSize + imageTopMargin),
+                        SizedBox(height: initialSize + imageTopMargin + 50),
+                        Text(
+                          widget.song1singers,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 16),
+                        ),
                         // Rest of your content here
                       ],
                     ),
@@ -158,26 +174,40 @@ class _AlbumViewState extends State<AlbumView> {
                 top: 0,
                 left: 0,
                 right: 0,
-                child: AppBar(
-                  scrolledUnderElevation: 0,
-                  title: Opacity(
-                    opacity: showTopBar ? 1 : 0,
-                    child: Text(
-                      widget.title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
+                child: Opacity(
+                  opacity: appBarOpacity,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                      colors: [
+                        _backgroundColor ?? Colors.black,
+                        Color.fromARGB(138, 0, 0, 0)
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    )),
+                    child: AppBar(
+                      scrolledUnderElevation: 0,
+                      title: Opacity(
+                        opacity: appBarOpacity,
+                        child: Text(
+                          widget.title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
                       ),
+                      backgroundColor: Colors.transparent,
+                      leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.arrow_back_ios_new_sharp),
+                      ),
+                      elevation: 0,
                     ),
                   ),
-                  backgroundColor: Colors.transparent,
-                  leading: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.arrow_back_ios_new_sharp),
-                  ),
-                  elevation: 0,
                 ),
               ),
             ],

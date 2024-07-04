@@ -4,7 +4,6 @@ class CategoryOperations {
   CategoryOperations._() {} //Writing the constructor withm '._' so that the constructor remains private, and does not gets tampered later on.
   static List<Category> getCategories() {
     return <Category>[
-
       Category(
           name: 'This Is \nArijit Singh',
           imageURL:
@@ -22,7 +21,7 @@ class CategoryOperations {
           imageURL:
               'https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evO1IPOOk-default.jpg'),
       Category(
-          name: 'DIVIDE',
+          name: '÷ (Deluxe)',
           imageURL:
               'https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96'),
       Category(
