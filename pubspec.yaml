@@ -32,6 +32,7 @@ dependencies:
     sdk: flutter
   flutter_svg: ^2.0.10+1
   palette_generator: ^0.3.3+3
+  google_fonts: ^6.2.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -80,10 +81,16 @@ flutter:
      - family: Proxima Nova
        fonts:
          - asset: assets/fonts/Proxima Nova Black.otf
+           weight: 900
          - asset: assets/fonts/Proxima Nova Bold.otf
+           weight: 700
          - asset: assets/fonts/Proxima Nova ExtraBold.otf
+           weight: 800
          - asset: assets/fonts/Proxima Nova Thin.otf
+           weight: 100
          - asset: assets/fonts/ProximaNova-Regular.otf
+           weight: 400
+
 
      - family: Circular
        fonts:

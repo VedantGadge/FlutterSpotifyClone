@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
           song1imageUrl = '';
           song2imageUrl = '';
           song3imageUrl = '';
-          song1name = '';
+          song1name = 'Shape Of You';
           song1singers = 'Ed Sheeran';
           song2name = '';
           song2singers = '';
@@ -196,8 +196,8 @@ class _HomePageState extends State<HomePage> {
           song1imageUrl = '';
           song2imageUrl = '';
           song3imageUrl = '';
-          song1name = '';
-          song1singers = 'Weeknd';
+          song1name = 'Blinding Lights';
+          song1singers = 'The Weeknd';
           song2name = '';
           song2singers = '';
           song3name = '';
