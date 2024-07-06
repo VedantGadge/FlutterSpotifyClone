@@ -7,6 +7,14 @@ import 'package:spotify_clone_app/services/category_operations.dart';
 import 'package:spotify_clone_app/services/musicList_operations1.dart';
 import 'package:spotify_clone_app/services/musicList_operations2.dart';
 
+class Song {
+  String songUrl;
+  String songName;
+  String songArtists;
+
+  Song(this.songUrl, this.songName, this.songArtists);
+}
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -103,120 +111,31 @@ class _HomePageState extends State<HomePage> {
   Widget createCategory(BuildContext context, Category category, int index) {
     return GestureDetector(
       onTap: () {
-        String song1Url,
-            song2Url,
-            song3Url,
-            albumDesc,
-            song1imageUrl,
-            song2imageUrl,
-            song3imageUrl,
-            song1name,
-            song1singers,
-            song2name,
-            song2singers,
-            song3name,
-            song3singers;
-
-        // Determine the song URLs based on the tapped category
-        if (index == 0) {
-          song1Url = "url1_for_category_0";
-          song2Url = "url2_for_category_0";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = 'Arijit Singh';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 1) {
-          song1Url = "url1_for_category_1";
-          song2Url = "url2_for_category_1";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = 'Travis Scott';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 2) {
-          song1Url = "url1_for_category_2";
-          song2Url = "url2_for_category_2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = 'DIVINE';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 3) {
-          song1Url = "url1_for_category_2";
-          song2Url = "url2_for_category_2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = 'Kendrick Lamar';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 4) {
-          song1Url = "url1_for_category_2";
-          song2Url = "url2_for_category_2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = 'Shape Of You';
-          song1singers = 'Ed Sheeran';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 5) {
-          song1Url = "url1_for_category_2";
-          song2Url = "url2_for_category_2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = 'Blinding Lights';
-          song1singers = 'The Weeknd';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else {
-          // Default URLs or add more conditions as needed
-          song1Url = "default_url1";
-          song2Url = "default_url2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
+        List<Song> songs;
+        switch (index) {
+          case 0:
+            songs = [Song("url1_for_category_0", "", '')];
+            break;
+          case 1:
+            songs = [Song("url1_for_category_1", "FE!N", "Travis Scott")];
+            break;
+          case 2:
+            songs = [Song("url1_for_category_2", "DIVINE", "")];
+            break;
+          case 3:
+            songs = [Song("url1_for_category_3", "Kendrick Lamar", "")];
+            break;
+          case 4:
+            songs = [Song("url1_for_category_4", "Shape Of You", "Ed Sheeran")];
+            break;
+          case 5:
+            songs = [
+              Song("url1_for_category_5", "Blinding Lights", "The Weeknd"),
+              Song("url1_for_category_5", "Die For You", "The Weeknd"),
+            ];
+            break;
+          default:
+            songs = [Song("default_url1", "", "")];
         }
 
         Navigator.push(
@@ -225,19 +144,9 @@ class _HomePageState extends State<HomePage> {
             builder: (context) => AlbumView(
               title: category.name,
               imageUrl: category.imageURL,
-              song1Url: song1Url,
-              song2Url: song2Url,
-              song3Url: song3Url,
-              albumDesc: albumDesc,
-              song1imageUrl: song1imageUrl,
-              song2imageUrl: song2imageUrl,
-              song3imageUrl: song3imageUrl,
-              song1name: song1name,
-              song1singers: song1singers,
-              song2name: song2name,
-              song2singers: song2singers,
-              song3name: song3name,
-              song3singers: song3singers,
+              songInfo: songs,
+              desc: category.desc,
+              year: category.year,
             ),
           ),
         );
@@ -303,76 +212,25 @@ class _HomePageState extends State<HomePage> {
   Widget madeForYou(BuildContext context, MusicList music, int index) {
     return GestureDetector(
       onTap: () {
-        String song1Url,
-            song2Url,
-            song3Url,
-            albumDesc,
-            song1imageUrl,
-            song2imageUrl,
-            song3imageUrl,
-            song1name,
-            song1singers,
-            song2name,
-            song2singers,
-            song3name,
-            song3singers;
-
-        if (index == 0) {
-          song1Url = "url1_for_music_0";
-          song2Url = "url2_for_music_0";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 1) {
-          song1Url = "url1_for_music_1";
-          song2Url = "url2_for_music_1";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 2) {
-          song1Url = "url1_for_music_2";
-          song2Url = "url2_for_music_2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else {
-          song1Url = "default_url1";
-          song2Url = "default_url2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
+        List<Song> songs;
+        switch (index) {
+          case 0:
+            songs = [
+              Song(
+                "url1_for_music_0",
+                "",
+                "",
+              )
+            ];
+            break;
+          case 1:
+            songs = [Song("url1_for_music_1", "", "")];
+            break;
+          case 2:
+            songs = [Song("url1_for_music_2", "", "")];
+            break;
+          default:
+            songs = [Song("default_url1", "", "")];
         }
 
         Navigator.push(
@@ -381,19 +239,9 @@ class _HomePageState extends State<HomePage> {
               builder: (context) => AlbumView(
                 title: music.name,
                 imageUrl: music.imageURL,
-                song1Url: song1Url,
-                song2Url: song2Url,
-                song3Url: song3Url,
-                albumDesc: albumDesc,
-                song1imageUrl: song1imageUrl,
-                song2imageUrl: song2imageUrl,
-                song3imageUrl: song3imageUrl,
-                song1name: song1name,
-                song1singers: song1singers,
-                song2name: song2name,
-                song2singers: song2singers,
-                song3name: song3name,
-                song3singers: song3singers,
+                songInfo: songs,
+                desc: music.description,
+                year: music.year,
               ),
             ));
       },
@@ -411,7 +259,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10),
             Text(music.name,
                 style: const TextStyle(color: Colors.white)), // Music name
-            Text(music.description,
+            Text(music.desc,
                 style: const TextStyle(
                     color: Colors.white54, fontSize: 13)), // Music description
           ],
@@ -456,97 +304,30 @@ class _HomePageState extends State<HomePage> {
   Widget bestOfArtists(BuildContext context, MusicList music, int index) {
     return GestureDetector(
       onTap: () {
-        String song1Url,
-            song2Url,
-            song3Url,
-            albumDesc,
-            song1imageUrl,
-            song2imageUrl,
-            song3imageUrl,
-            song1name,
-            song1singers,
-            song2name,
-            song2singers,
-            song3name,
-            song3singers;
-
-        if (index == 0) {
-          song1Url = "url1_for_music_0";
-          song2Url = "url2_for_music_0";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 1) {
-          song1Url = "url1_for_music_1";
-          song2Url = "url2_for_music_1";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 2) {
-          song1Url = "url1_for_music_2";
-          song2Url = "url2_for_music_2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else {
-          song1Url = "default_url1";
-          song2Url = "default_url2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
+        List<Song> songs;
+        switch (index) {
+          case 0:
+            songs = [Song("url1_for_music_0", "", "")];
+            break;
+          case 1:
+            songs = [Song("url1_for_music_1", "", "")];
+            break;
+          case 2:
+            songs = [Song("url1_for_music_2", "", "")];
+            break;
+          default:
+            songs = [Song("default_url1", "", "")];
         }
 
         Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => AlbumView(
-                title: music.name,
+                title: '',
                 imageUrl: music.imageURL,
-                song1Url: song1Url,
-                song2Url: song2Url,
-                song3Url: song3Url,
-                albumDesc: albumDesc,
-                song1imageUrl: song1imageUrl,
-                song2imageUrl: song2imageUrl,
-                song3imageUrl: song3imageUrl,
-                song1name: song1name,
-                song1singers: song1singers,
-                song2name: song2name,
-                song2singers: song2singers,
-                song3name: song3name,
-                song3singers: song3singers,
+                songInfo: songs,
+                desc: music.description,
+                year: music.year,
               ),
             ));
       },
@@ -564,7 +345,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10),
             Text(music.name,
                 style: const TextStyle(color: Colors.white)), // Music name
-            Text(music.description,
+            Text(music.desc,
                 style: const TextStyle(
                     color: Colors.white54, fontSize: 13)), // Music description
           ],

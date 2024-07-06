@@ -1,42 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:spotify_clone_app/screens/home.dart';
 
 class AlbumView extends StatefulWidget {
   final String title;
   final String imageUrl;
-  final String song1Url;
-  final String song2Url;
-  final String song3Url;
-  final String albumDesc;
-  final String song1imageUrl;
-  final String song2imageUrl;
-  final String song3imageUrl;
-  final String song1name;
-  final String song1singers;
-  final String song2name;
-  final String song2singers;
-  final String song3name;
-  final String song3singers;
+  final String desc;
+  final String year;
+  final List<Song> songInfo;
 
-  const AlbumView({
-    Key? key,
+  AlbumView({
+    super.key,
     required this.title,
     required this.imageUrl,
-    required this.song1Url,
-    required this.song2Url,
-    required this.song3Url,
-    required this.albumDesc,
-    required this.song1imageUrl,
-    required this.song2imageUrl,
-    required this.song3imageUrl,
-    required this.song1name,
-    required this.song1singers,
-    required this.song2name,
-    required this.song2singers,
-    required this.song3name,
-    required this.song3singers,
-  }) : super(key: key);
+    required this.songInfo,
+    required this.desc,
+    required this.year,
+  });
 
   @override
   _AlbumViewState createState() => _AlbumViewState();
@@ -140,66 +121,7 @@ class _AlbumViewState extends State<AlbumView> {
                         SizedBox(height: initialSize + imageTopMargin + 30),
                         albumInfo(),
                         playlistFunctions(),
-                        Container(
-                          padding: const EdgeInsets.only(top: 20, left: 10),
-                          width: MediaQuery.of(context).size.width,
-                          height: 600,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween, //Using .spaceBetween so that can use the flex thingy.
-                                children: [
-                                  Flexible(
-                                      //We are using this flexible so that we can divide the row area into the clickable song part, so that the song can start playing and the song functions part.
-                                      flex: 7,
-                                      child: GestureDetector(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              widget.song1name,
-                                              style: GoogleFonts.roboto(
-                                                  color: const Color.fromARGB(
-                                                      248, 255, 255, 255),
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(
-                                              widget.song1singers,
-                                              style: GoogleFonts.roboto(
-                                                  color: const Color.fromARGB(
-                                                      161, 255, 255, 255),
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                  const Flexible(
-                                    flex: 2,
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.favorite_outline,
-                                            color: Colors.white),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Icon(Icons.more_vert_rounded,
-                                            color: Colors.white),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                        // Rest of your content here
+                        ...generateSongWidgets(context),
                       ],
                     ),
                   ),
@@ -272,6 +194,69 @@ class _AlbumViewState extends State<AlbumView> {
     );
   }
 
+  List<Widget> generateSongWidgets(BuildContext context) {
+    List<Widget> songWidgets = [];
+    for (int i = 0; i < widget.songInfo.length; i++) {
+      songWidgets.add(songWidget(context, i));
+    }
+    return songWidgets;
+  }
+
+  Widget songWidget(BuildContext context, int index) {
+    return Container(
+      padding: EdgeInsets.only(left: 10, top: index == 0 ? 20 : 0),
+      width: MediaQuery.of(context).size.width,
+      height: 80,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                flex: 7,
+                child: GestureDetector(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.songInfo[index].songName,
+                        style: GoogleFonts.roboto(
+                          color: const Color.fromARGB(248, 255, 255, 255),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        widget.songInfo[index].songArtists,
+                        style: GoogleFonts.roboto(
+                          color: const Color.fromARGB(161, 255, 255, 255),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const Flexible(
+                flex: 2,
+                child: Row(
+                  children: [
+                    Icon(Icons.favorite_outline, color: Colors.white),
+                    SizedBox(width: 20),
+                    Icon(Icons.more_vert_rounded, color: Colors.white),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   Column albumInfo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,15 +271,15 @@ class _AlbumViewState extends State<AlbumView> {
         Padding(
           padding: const EdgeInsets.only(left: 7, top: 5),
           child: Text(
-            widget.song1singers,
+            widget.songInfo[0].songArtists,
             style: const TextStyle(color: Colors.white, fontSize: 13),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.only(left: 7, top: 5),
+        Padding(
+          padding: const EdgeInsets.only(left: 7, top: 5),
           child: Text(
-            'Album • 2017',
-            style: TextStyle(
+            'Album • ${widget.year}',
+            style: const TextStyle(
                 color: Colors.white60,
                 fontSize: 12,
                 fontFamily: 'Proxima Nova',

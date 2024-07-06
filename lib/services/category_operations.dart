@@ -5,29 +5,47 @@ class CategoryOperations {
   static List<Category> getCategories() {
     return <Category>[
       Category(
-          name: 'This Is \nArijit Singh',
-          imageURL:
-              'https://i.scdn.co/image/ab67706f0000000285c716247c24f66ef40f011e'),
+        name: 'This Is \nArijit Singh',
+        imageURL:
+            'https://i.scdn.co/image/ab67706f0000000285c716247c24f66ef40f011e',
+        desc: '',
+        year: '',
+      ),
       Category(
-          name: 'UTOPIA',
-          imageURL:
-              'https://i.scdn.co/image/ab67616d0000b273881d8d8378cd01099babcd44'),
+        name: 'UTOPIA',
+        imageURL:
+            'https://i.scdn.co/image/ab67616d0000b273881d8d8378cd01099babcd44',
+        desc: '',
+        year: '',
+      ),
       Category(
-          name: 'Punya Paap',
-          imageURL:
-              'https://i.scdn.co/image/ab67616d0000b27383c726c3768d0981c76acd38'),
+        name: 'Punya Paap',
+        imageURL:
+            'https://i.scdn.co/image/ab67616d0000b27383c726c3768d0981c76acd38',
+        desc: '',
+        year: '',
+      ),
       Category(
-          name: 'This is \nKendrick Lamar',
-          imageURL:
-              'https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evO1IPOOk-default.jpg'),
+        name: 'This is \nKendrick Lamar',
+        imageURL:
+            'https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evO1IPOOk-default.jpg',
+        desc: '',
+        year: '',
+      ),
       Category(
-          name: '÷ (Deluxe)',
-          imageURL:
-              'https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96'),
+        name: '÷ (Deluxe)',
+        imageURL:
+            'https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96',
+        desc: '',
+        year: '',
+      ),
       Category(
-          name: 'Starboy',
-          imageURL:
-              'https://i.scdn.co/image/ab67616d0000b2734718e2b124f79258be7bc452'),
+        name: 'Starboy',
+        imageURL:
+            'https://i.scdn.co/image/ab67616d0000b2734718e2b124f79258be7bc452',
+        desc: '',
+        year: '2016',
+      ),
     ];
   }
 }
