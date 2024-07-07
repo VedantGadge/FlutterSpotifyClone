@@ -4,5 +4,7 @@ class MusicList {
   String description;
   String desc;
   String year;
-  MusicList(this.name, this.imageURL, this.description, this.desc, this.year);
+  bool showTitle;
+  MusicList(this.name, this.imageURL, this.description, this.desc, this.year,
+      this.showTitle);
 }

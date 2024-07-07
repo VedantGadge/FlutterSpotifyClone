@@ -11,8 +11,9 @@ class Song {
   String songUrl;
   String songName;
   String songArtists;
+  bool isExplicit;
 
-  Song(this.songUrl, this.songName, this.songArtists);
+  Song(this.songUrl, this.songName, this.songArtists, this.isExplicit);
 }
 
 class HomePage extends StatefulWidget {
@@ -114,45 +115,71 @@ class _HomePageState extends State<HomePage> {
         List<Song> songs;
         switch (index) {
           case 0:
-            songs = [Song("url1_for_category_0", "", '')];
+            songs = [
+              Song("url1_for_category_0", "Tera Fitoor", 'Arijit Singh', false),
+            ];
             break;
           case 1:
-            songs = [Song("url1_for_category_1", "FE!N", "Travis Scott, Playboi Carti"),
-            Song("url1_for_category_1", "GOD'S COUNTRY", "Travis Scott"),
-            Song("url1_for_category_1", "MY EYES", "Travis Scott"),
-            Song("url1_for_category_1", "HYAENA", "Travis Scott"),
-            Song("url1_for_category_1", "TOPIA TWINS", "Travis Scott, Rob49, 21 Savage"),
-            Song("url1_for_category_1", "CIRCUS MAXIMUS", "Travis Scott, The Weeknd, Swae Lee"),
-            Song("url1_for_category_1", "K-POP", "Travis Scott, Bad Bunny, The Weeknd"),];
+            songs = [
+              Song("url1_for_category_1", "FE!N", "Travis Scott, Playboi Carti",
+                  true),
+              Song(
+                  "url1_for_category_1", "GOD'S COUNTRY", "Travis Scott", true),
+              Song("url1_for_category_1", "MY EYES", "Travis Scott", true),
+              Song("url1_for_category_1", "HYAENA", "Travis Scott", true),
+              Song("url1_for_category_1", "TOPIA TWINS",
+                  "Travis Scott, Rob49, 21 Savage", true),
+              Song("url1_for_category_1", "CIRCUS MAXIMUS",
+                  "Travis Scott, The Weeknd, Swae Lee", true),
+              Song("url1_for_category_1", "K-POP",
+                  "Travis Scott, Bad Bunny, The Weeknd", true),
+            ];
             break;
           case 2:
-            songs = [Song("url1_for_category_2", "DIVINE", "")];
+            songs = [Song("url1_for_category_2", "DIVINE", "", false)];
             break;
           case 3:
-            songs = [Song("url1_for_category_3", "Kendrick Lamar", "")];
+            songs = [
+              Song(
+                  "url1_for_category_3", "Not Like Us", "Kendrick Lamar", true),
+              Song("url1_for_category_3", "Kendrick Lamar", "", false),
+              Song("url1_for_category_3", "Kendrick Lamar", "", false),
+              Song("url1_for_category_3", "Kendrick Lamar", "", false),
+              Song("url1_for_category_3", "Kendrick Lamar", "", false),
+              Song("url1_for_category_3", "Kendrick Lamar", "", false),
+              Song("url1_for_category_3", "Kendrick Lamar", "", false),
+            ];
             break;
           case 4:
-            songs = [Song("url1_for_category_4", "Shape Of You", "Ed Sheeran"),
-            Song("url1_for_category_4", "Perfect", "Ed Sheeran"),
-            Song("url1_for_category_4", "Eraser", "Ed Sheeran"),
-            Song("url1_for_category_4", "Happier", "Ed Sheeran"),
-            Song("url1_for_category_4", "What Do I Know?", "Ed Sheeran"),
-            Song("url1_for_category_4", "Let Her Go", "Ed Sheeran, Passenger"),
-            Song("url1_for_category_4", "Let Her Go", "Ed Sheeran, Passenger"),];
+            songs = [
+              Song("url1_for_category_4", "Shape Of You", "Ed Sheeran", false),
+              Song("url1_for_category_4", "Perfect", "Ed Sheeran", false),
+              Song("url1_for_category_4", "Eraser", "Ed Sheeran", false),
+              Song("url1_for_category_4", "Happier", "Ed Sheeran", false),
+              Song("url1_for_category_4", "What Do I Know?", "Ed Sheeran",
+                  false),
+              Song("url1_for_category_4", "Let Her Go", "Ed Sheeran, Passenger",
+                  false),
+              Song("url1_for_category_4", "Castle on the Hill", "Ed Sheeran",
+                  false),
+            ];
             break;
           case 5:
             songs = [
-              Song("url1_for_category_5", "Starboy", "The Weeknd"),
-              Song("url1_for_category_5", "Die For You", "The Weeknd"),
-              Song("url1_for_category_5", "Rockin'", "The Weeknd"),
-              Song("url1_for_category_5", "Blinding Lights", "The Weeknd"),
-              Song("url1_for_category_5", "Stargirl Interlude", "The Weeknd, Lana Del Ray"),
-              Song("url1_for_category_5", "I Feel It Coming", "The Weeknd, Daft Punk"),
-              Song("url1_for_category_5", "Party Monster", "The Weeknd"),
+              Song("url1_for_category_5", "Starboy", "The Weeknd", false),
+              Song("url1_for_category_5", "Die For You", "The Weeknd", false),
+              Song("url1_for_category_5", "Rockin'", "The Weeknd", false),
+              Song("url1_for_category_5", "Blinding Lights", "The Weeknd",
+                  false),
+              Song("url1_for_category_5", "Stargirl Interlude",
+                  "The Weeknd, Lana Del Ray", false),
+              Song("url1_for_category_5", "I Feel It Coming",
+                  "The Weeknd, Daft Punk", false),
+              Song("url1_for_category_5", "Party Monster", "The Weeknd", false),
             ];
             break;
           default:
-            songs = [Song("default_url1", "", "")];
+            songs = [Song("default_url1", "", "", false)];
         }
 
         Navigator.push(
@@ -164,6 +191,7 @@ class _HomePageState extends State<HomePage> {
               songInfo: songs,
               desc: category.desc,
               year: category.year,
+              showTitle: category.showTitle,
             ),
           ),
         );
@@ -232,22 +260,16 @@ class _HomePageState extends State<HomePage> {
         List<Song> songs;
         switch (index) {
           case 0:
-            songs = [
-              Song(
-                "url1_for_music_0",
-                "",
-                "",
-              )
-            ];
+            songs = [Song("url1_for_music_0", "", "", false)];
             break;
           case 1:
-            songs = [Song("url1_for_music_1", "", "")];
+            songs = [Song("url1_for_music_1", "", "", false)];
             break;
           case 2:
-            songs = [Song("url1_for_music_2", "", "")];
+            songs = [Song("url1_for_music_2", "", "", false)];
             break;
           default:
-            songs = [Song("default_url1", "", "")];
+            songs = [Song("default_url1", "", "", false)];
         }
 
         Navigator.push(
@@ -259,6 +281,7 @@ class _HomePageState extends State<HomePage> {
                 songInfo: songs,
                 desc: music.description,
                 year: music.year,
+                showTitle: music.showTitle,
               ),
             ));
       },
@@ -324,16 +347,16 @@ class _HomePageState extends State<HomePage> {
         List<Song> songs;
         switch (index) {
           case 0:
-            songs = [Song("url1_for_music_0", "", "")];
+            songs = [Song("url1_for_music_0", "", "", false)];
             break;
           case 1:
-            songs = [Song("url1_for_music_1", "", "")];
+            songs = [Song("url1_for_music_1", "", "", false)];
             break;
           case 2:
-            songs = [Song("url1_for_music_2", "", "")];
+            songs = [Song("url1_for_music_2", "", "", false)];
             break;
           default:
-            songs = [Song("default_url1", "", "")];
+            songs = [Song("default_url1", "", "", false)];
         }
 
         Navigator.push(
@@ -345,6 +368,7 @@ class _HomePageState extends State<HomePage> {
                 songInfo: songs,
                 desc: music.description,
                 year: music.year,
+                showTitle: music.showTitle,
               ),
             ));
       },

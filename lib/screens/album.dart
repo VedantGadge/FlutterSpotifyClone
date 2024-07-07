@@ -9,6 +9,7 @@ class AlbumView extends StatefulWidget {
   final String desc;
   final String year;
   final List<Song> songInfo;
+  final bool showTitle;
 
   AlbumView({
     super.key,
@@ -17,6 +18,7 @@ class AlbumView extends StatefulWidget {
     required this.songInfo,
     required this.desc,
     required this.year,
+    required this.showTitle,
   });
 
   @override
@@ -204,20 +206,23 @@ class _AlbumViewState extends State<AlbumView> {
   }
 
   Widget songWidget(BuildContext context, int index) {
-    return Container(
-      padding: const EdgeInsets.only(left: 10),
-      width: MediaQuery.of(context).size.width,
-      height: 75,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                flex: 7,
-                child: GestureDetector(
-                  child: Column(
+    return InkWell(
+      //We are using InkWell instead of GestureDetector because, if we use GestureDetector, only the Title Text is tappable and not the whole row container, this we use InkWell so that the whole area is tappable.
+      onTap: () {
+        print('${widget.songInfo[index].songName} button pressed');
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        width: MediaQuery.of(context).size.width,
+        height: 70,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -229,31 +234,48 @@ class _AlbumViewState extends State<AlbumView> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Text(
-                        widget.songInfo[index].songArtists,
-                        style: GoogleFonts.roboto(
-                          color: const Color.fromARGB(161, 255, 255, 255),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      widget.songInfo[index].isExplicit
+                          ? Row(
+                              children: [
+                                const Icon(
+                                  Icons.explicit_rounded,
+                                  color: Colors.white54,
+                                  size: 17,
+                                ),
+                                const SizedBox(width: 2),
+                                Text(
+                                  widget.songInfo[index].songArtists,
+                                  style: GoogleFonts.roboto(
+                                    color: const Color.fromARGB(
+                                        161, 255, 255, 255),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Text(
+                              widget.songInfo[index].songArtists,
+                              style: GoogleFonts.roboto(
+                                color: const Color.fromARGB(161, 255, 255, 255),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                     ],
                   ),
-                ),
+                  GestureDetector(
+                    child: const Icon(Icons.more_vert_rounded,
+                        color: Colors.white),
+                    onTap: () {
+                      print('More button pressed');
+                    },
+                  ),
+                ],
               ),
-              const Flexible(
-                flex: 2,
-                child: Row(
-                  children: [
-                    Icon(Icons.favorite_outline, color: Colors.white),
-                    SizedBox(width: 20),
-                    Icon(Icons.more_vert_rounded, color: Colors.white),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -263,30 +285,46 @@ class _AlbumViewState extends State<AlbumView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 5),
-          child: Text(
-            widget.title,
-            style: const TextStyle(color: Colors.white, fontSize: 25),
-          ),
+          padding: const EdgeInsets.only(top: 5, left: 5),
+          child: widget.showTitle
+              ? Text(
+                  widget.title,
+                  style: const TextStyle(color: Colors.white, fontSize: 25),
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Text(
+                    widget.desc,
+                    style: GoogleFonts.roboto(
+                      color: Colors.white54,
+                      fontSize: 14.5,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 7, top: 5),
-          child: Text(
-            widget.songInfo[0].songArtists,
-            style: const TextStyle(color: Colors.white, fontSize: 13),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 7, top: 5),
-          child: Text(
-            'Album • ${widget.year}',
-            style: const TextStyle(
-                color: Colors.white60,
-                fontSize: 12,
-                fontFamily: 'Proxima Nova',
-                fontWeight: FontWeight.w700),
-          ),
-        ),
+        widget.showTitle
+            ? Padding(
+                padding: const EdgeInsets.only(left: 7, top: 5),
+                child: Text(
+                  widget.songInfo[0].songArtists,
+                  style: const TextStyle(color: Colors.white, fontSize: 13),
+                ),
+              )
+            : const SizedBox(),
+        widget.showTitle
+            ? Padding(
+                padding: const EdgeInsets.only(left: 7, top: 5),
+                child: Text(
+                  widget.showTitle ? 'Album • ${widget.year}' : '',
+                  style: const TextStyle(
+                      color: Colors.white60,
+                      fontSize: 12,
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w700),
+                ),
+              )
+            : const SizedBox(),
       ],
     );
   }
@@ -318,7 +356,9 @@ class _AlbumViewState extends State<AlbumView> {
               size: 25,
             ),
           ),
-          onTap: () {},
+          onTap: () {
+            print('Add to playlist button tapped');
+          },
         ),
         GestureDetector(
           child: const Padding(
@@ -329,7 +369,9 @@ class _AlbumViewState extends State<AlbumView> {
               size: 25,
             ),
           ),
-          onTap: () {},
+          onTap: () {
+            print('Download button tapped');
+          },
         ),
         GestureDetector(
           child: const Padding(
@@ -340,7 +382,9 @@ class _AlbumViewState extends State<AlbumView> {
               size: 25,
             ),
           ),
-          onTap: () {},
+          onTap: () {
+            print('More button tapped');
+          },
         ),
         GestureDetector(
           child: const Padding(
@@ -351,7 +395,9 @@ class _AlbumViewState extends State<AlbumView> {
               size: 25,
             ),
           ),
-          onTap: () {},
+          onTap: () {
+            print('Shuffle button tapped');
+          },
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8),
