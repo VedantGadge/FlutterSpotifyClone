@@ -5,7 +5,7 @@ class CategoryOperations {
   static List<Category> getCategories() {
     return <Category>[
       Category(
-        name: 'This Is \nArijit Singh',
+        name: 'This Is Arijit Singh',
         imageURL:
             'https://i.scdn.co/image/ab67706f0000000285c716247c24f66ef40f011e',
         desc: 'Bollywood crooner\'s essential songs.',
@@ -29,7 +29,7 @@ class CategoryOperations {
         showTitle: true,
       ),
       Category(
-        name: 'This is \nKendrick Lamar',
+        name: 'This is Kendrick Lamar',
         imageURL:
             'https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evO1IPOOk-default.jpg',
         desc:

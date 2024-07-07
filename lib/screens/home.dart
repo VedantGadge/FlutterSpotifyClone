@@ -6,6 +6,7 @@ import 'package:spotify_clone_app/screens/album.dart';
 import 'package:spotify_clone_app/services/category_operations.dart';
 import 'package:spotify_clone_app/services/musicList_operations1.dart';
 import 'package:spotify_clone_app/services/musicList_operations2.dart';
+import 'package:spotify_clone_app/services/musicList_operations3.dart';
 
 class Song {
   String songUrl;
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   late List<Category> categoryList;
   late List<MusicList> musicList1;
   late List<MusicList> musicList2;
+  late List<MusicList> musicList3;
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _HomePageState extends State<HomePage> {
     categoryList = CategoryOperations.getCategories();
     musicList1 = MusiclistOperations1.getMusic1();
     musicList2 = MusiclistOperations2.getMusic2();
+    musicList3 = MusiclistOperations3.getMusic3();
   }
 
   @override
@@ -63,7 +66,9 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: 10),
                 createMusicList1(context), // First list of music
                 const SizedBox(height: 10),
-                createMusicList2(context), // Second list of music
+                createMusicList2(context),
+                const SizedBox(height: 10),
+                createMusicList3(context), // Second list of music
               ],
             ),
           ),
@@ -117,6 +122,28 @@ class _HomePageState extends State<HomePage> {
           case 0:
             songs = [
               Song("url1_for_category_0", "Tera Fitoor", 'Arijit Singh', false),
+              Song("url1_for_category_0", "Chaleya",
+                  'Arijit Singh, Anirudh Ravichander, Shilpa Rao,', false),
+              Song("url1_for_category_0", "Kabhi Jo Baadal Barse",
+                  'Arijit Singh', false),
+              Song("url1_for_category_0", "Tere Hawale",
+                  'Arijit Singh,Pritam,Shilpa Rao', false),
+              Song("url1_for_category_0", "Raabta", 'Arijit Singh,Pritam',
+                  false),
+              Song("url1_for_category_0", "Ghungroo", 'Arijit Singh,Shilpa Rao',
+                  false),
+              Song("url1_for_category_0", "Chahun Main Ya Naa",
+                  'Arijit Singh,Palak Muchhal', false),
+              Song(
+                  "url1_for_category_0", "Ilahi", 'Arijit Singh,Pritam', false),
+              Song("url1_for_category_0", "Main Rang Sharabton Ka",
+                  'Arijit Singh,Pritam', false),
+              Song("url1_for_category_0", "Shaayraana", 'Arijit Singh,Pritam',
+                  false),
+              Song("url1_for_category_0", "Phir Mohabbat",
+                  'Arijit Singh,Mohammed Irfan,Saim Bhat', false),
+              Song("url1_for_category_0", "Phir Bhi Tumko Chaahunga",
+                  'Arijit Singh,Mithoon,Shashaa Tirupati', false),
             ];
             break;
           case 1:
@@ -136,18 +163,35 @@ class _HomePageState extends State<HomePage> {
             ];
             break;
           case 2:
-            songs = [Song("url1_for_category_2", "DIVINE", "", false)];
+            songs = [
+              Song("url1_for_category_2", "3:59", "DIVINE", true),
+              Song("url1_for_category_2", "Satya", "DIVINE", true),
+              Song("url1_for_category_2", "Punya Paap", "DIVINE", false),
+              Song("url1_for_category_2", "Mirchi",
+                  "DIVINE, MC Altaf, Stylo G, Phenom", false),
+              Song("url1_for_category_2", "Baazigar", "DIVINE, Armani White",
+                  true),
+              Song("url1_for_category_2", "Drill Karte", "DIVINE, dutchavelli",
+                  false),
+              Song("url1_for_category_2", "Kaam 25 - Sacred Games", "DIVINE",
+                  false),
+            ];
             break;
           case 3:
             songs = [
               Song(
                   "url1_for_category_3", "Not Like Us", "Kendrick Lamar", true),
-              Song("url1_for_category_3", "Kendrick Lamar", "", false),
-              Song("url1_for_category_3", "Kendrick Lamar", "", false),
-              Song("url1_for_category_3", "Kendrick Lamar", "", false),
-              Song("url1_for_category_3", "Kendrick Lamar", "", false),
-              Song("url1_for_category_3", "Kendrick Lamar", "", false),
-              Song("url1_for_category_3", "Kendrick Lamar", "", false),
+              Song("url1_for_category_3", "family ties",
+                  "Kendrick Lamar, Baby Keem", true),
+              Song("url1_for_category_3", "HUMBLE.", "Kendrick Lamar", true),
+              Song("url1_for_category_3", "Like That",
+                  "Kendrick Lamar, Future, Metro Boomin", true),
+              Song("url1_for_category_3", "Pray For Me",
+                  "Kendrick Lamar, The Weeknd", true),
+              Song("url1_for_category_3", "Don't Wanna Know",
+                  "Kendrick Lamar, Maroon 5", false),
+              Song("url1_for_category_3", "Poetic Justice",
+                  "Kendrick Lamar, Drake", true),
             ];
             break;
           case 4:
@@ -199,7 +243,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         decoration: BoxDecoration(
           color: const Color(0xff313131), // Dark grey background
-          borderRadius: BorderRadius.circular(3), // Rounded corners
+          borderRadius: BorderRadius.circular(4), // Rounded corners
         ),
         child: Row(
           children: [
@@ -210,11 +254,16 @@ class _HomePageState extends State<HomePage> {
                   fit: BoxFit.contain), // Category image
             ),
             const SizedBox(width: 7),
-            Text(
-              category.name, // Category name
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
+            Flexible(
+              //The Flexible widget is used here to make sure the text wraps within the available space.
+              child: Text(
+                category.name, // Category name
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                ),
+                overflow: TextOverflow.ellipsis, // Ellipsis if text is too long
+                maxLines: 2, // Allow text to wrap to the next line
               ),
             ),
           ],
@@ -299,9 +348,18 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10),
             Text(music.name,
                 style: const TextStyle(color: Colors.white)), // Music name
-            Text(music.desc,
-                style: const TextStyle(
-                    color: Colors.white54, fontSize: 13)), // Music description
+            Container(
+              height: 40,
+              width: 180,
+              child: Flexible(
+                child: Text(
+                  music.desc,
+                  style: const TextStyle(color: Colors.white54, fontSize: 13),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+              ),
+            ), // Music description
           ],
         ),
       ),
@@ -363,7 +421,7 @@ class _HomePageState extends State<HomePage> {
             context,
             MaterialPageRoute(
               builder: (context) => AlbumView(
-                title: '',
+                title: music.name,
                 imageUrl: music.imageURL,
                 songInfo: songs,
                 desc: music.description,
@@ -386,9 +444,18 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10),
             Text(music.name,
                 style: const TextStyle(color: Colors.white)), // Music name
-            Text(music.desc,
-                style: const TextStyle(
-                    color: Colors.white54, fontSize: 13)), // Music description
+            Container(
+              height: 40,
+              width: 180,
+              child: Flexible(
+                child: Text(
+                  music.desc,
+                  style: const TextStyle(color: Colors.white54, fontSize: 13),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+              ),
+            ), // Music description
           ],
         ),
       ),
@@ -409,7 +476,7 @@ class _HomePageState extends State<HomePage> {
         ),
         Container(
           padding: const EdgeInsets.only(left: 10),
-          height: 400,
+          height: 260,
           child: ScrollConfiguration(
             behavior:
                 NoOverscrollGlowBehavior(), // Disable overscroll glow effect
@@ -420,6 +487,102 @@ class _HomePageState extends State<HomePage> {
                     context, musicList2[index], index); // Create music widgets
               },
               itemCount: musicList2.length, // Number of music items
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+// Create a widget for 'Popular' music section
+  Widget popular(BuildContext context, MusicList music, int index) {
+    return GestureDetector(
+      onTap: () {
+        List<Song> songs;
+        switch (index) {
+          case 0:
+            songs = [Song("url1_for_music_0", "", "", false)];
+            break;
+          case 1:
+            songs = [Song("url1_for_music_1", "", "", false)];
+            break;
+          case 2:
+            songs = [Song("url1_for_music_2", "", "", false)];
+            break;
+          default:
+            songs = [Song("default_url1", "", "", false)];
+        }
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AlbumView(
+                title: music.name,
+                imageUrl: music.imageURL,
+                songInfo: songs,
+                desc: music.description,
+                year: music.year,
+                showTitle: music.showTitle,
+              ),
+            ));
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(right: 18.0, top: 5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 180,
+              width: 180,
+              child: Image.network(music.imageURL,
+                  fit: BoxFit.cover), // Music cover image
+            ),
+            const SizedBox(height: 10),
+            Text(music.name,
+                style: const TextStyle(color: Colors.white)), // Music name
+            Container(
+              height: 40,
+              width: 180,
+              child: Flexible(
+                child: Text(
+                  music.desc,
+                  style: const TextStyle(color: Colors.white54, fontSize: 13),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+              ),
+            ), // Music description
+          ],
+        ),
+      ),
+    );
+  }
+
+// Create the 'Popular' music list section
+  Widget createMusicList3(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+          child: const Text(
+            'Best Of Artists', // Section title
+            style: TextStyle(color: Colors.white, fontSize: 25),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(left: 10),
+          height: 400,
+          child: ScrollConfiguration(
+            behavior:
+                NoOverscrollGlowBehavior(), // Disable overscroll glow effect
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal, // Horizontal scrolling
+              itemBuilder: (ctx, index) {
+                return bestOfArtists(
+                    context, musicList3[index], index); // Create music widgets
+              },
+              itemCount: musicList3.length, // Number of music items
             ),
           ),
         ),

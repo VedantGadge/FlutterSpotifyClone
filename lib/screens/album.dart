@@ -105,14 +105,14 @@ class _AlbumViewState extends State<AlbumView> {
                       const ClampingScrollPhysics(), // Disable bouncing scroll effect
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 1200,
+                    height: 2500,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
                           _backgroundColor ?? Colors.black,
                           Colors.black,
                         ],
-                        stops: const [0.25, 1],
+                        stops: const [0.2, 0.4],
                         begin: Alignment.topCenter,
                         end: Alignment.center,
                       ),

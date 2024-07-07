@@ -14,8 +14,8 @@ class MusiclistOperations1 {
       MusicList(
           'Your Discover Weekly',
           'https://newjams-images.scdn.co/image/ab676477000033ad/dt/v3/discover-weekly/39MO4rpxkctRc574LExDwQ==/ZGlkaWRpZGlkaWRpZGlkaQ==',
-          'Your weekly mixtape \n of fresh music',
-          'Your weekly mixtape \n of fresh music',
+          'Your weekly mixtape of fresh music',
+          'Your weekly mixtape  of fresh music',
           '2024',
           false),
       MusicList(
