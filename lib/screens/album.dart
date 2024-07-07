@@ -121,6 +121,7 @@ class _AlbumViewState extends State<AlbumView> {
                         SizedBox(height: initialSize + imageTopMargin + 30),
                         albumInfo(),
                         playlistFunctions(),
+                        const SizedBox(height: 30),
                         ...generateSongWidgets(context),
                       ],
                     ),
@@ -204,9 +205,9 @@ class _AlbumViewState extends State<AlbumView> {
 
   Widget songWidget(BuildContext context, int index) {
     return Container(
-      padding: EdgeInsets.only(left: 10, top: index == 0 ? 20 : 0),
+      padding: const EdgeInsets.only(left: 10),
       width: MediaQuery.of(context).size.width,
-      height: 80,
+      height: 75,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

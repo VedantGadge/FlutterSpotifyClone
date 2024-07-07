@@ -117,7 +117,13 @@ class _HomePageState extends State<HomePage> {
             songs = [Song("url1_for_category_0", "", '')];
             break;
           case 1:
-            songs = [Song("url1_for_category_1", "FE!N", "Travis Scott")];
+            songs = [Song("url1_for_category_1", "FE!N", "Travis Scott, Playboi Carti"),
+            Song("url1_for_category_1", "GOD'S COUNTRY", "Travis Scott"),
+            Song("url1_for_category_1", "MY EYES", "Travis Scott"),
+            Song("url1_for_category_1", "HYAENA", "Travis Scott"),
+            Song("url1_for_category_1", "TOPIA TWINS", "Travis Scott, Rob49, 21 Savage"),
+            Song("url1_for_category_1", "CIRCUS MAXIMUS", "Travis Scott, The Weeknd, Swae Lee"),
+            Song("url1_for_category_1", "K-POP", "Travis Scott, Bad Bunny, The Weeknd"),];
             break;
           case 2:
             songs = [Song("url1_for_category_2", "DIVINE", "")];
@@ -126,12 +132,23 @@ class _HomePageState extends State<HomePage> {
             songs = [Song("url1_for_category_3", "Kendrick Lamar", "")];
             break;
           case 4:
-            songs = [Song("url1_for_category_4", "Shape Of You", "Ed Sheeran")];
+            songs = [Song("url1_for_category_4", "Shape Of You", "Ed Sheeran"),
+            Song("url1_for_category_4", "Perfect", "Ed Sheeran"),
+            Song("url1_for_category_4", "Eraser", "Ed Sheeran"),
+            Song("url1_for_category_4", "Happier", "Ed Sheeran"),
+            Song("url1_for_category_4", "What Do I Know?", "Ed Sheeran"),
+            Song("url1_for_category_4", "Let Her Go", "Ed Sheeran, Passenger"),
+            Song("url1_for_category_4", "Let Her Go", "Ed Sheeran, Passenger"),];
             break;
           case 5:
             songs = [
-              Song("url1_for_category_5", "Blinding Lights", "The Weeknd"),
+              Song("url1_for_category_5", "Starboy", "The Weeknd"),
               Song("url1_for_category_5", "Die For You", "The Weeknd"),
+              Song("url1_for_category_5", "Rockin'", "The Weeknd"),
+              Song("url1_for_category_5", "Blinding Lights", "The Weeknd"),
+              Song("url1_for_category_5", "Stargirl Interlude", "The Weeknd, Lana Del Ray"),
+              Song("url1_for_category_5", "I Feel It Coming", "The Weeknd, Daft Punk"),
+              Song("url1_for_category_5", "Party Monster", "The Weeknd"),
             ];
             break;
           default:
