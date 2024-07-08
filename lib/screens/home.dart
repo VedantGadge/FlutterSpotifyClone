@@ -309,7 +309,10 @@ class _HomePageState extends State<HomePage> {
         List<Song> songs;
         switch (index) {
           case 0:
-            songs = [Song("url1_for_music_0", "", "", false)];
+            songs = [
+              Song("url1_for_music_0", "Here With Me", "Marshmello, CHVRCHES",
+                  false),
+            ];
             break;
           case 1:
             songs = [Song("url1_for_music_1", "", "", false)];
@@ -405,13 +408,47 @@ class _HomePageState extends State<HomePage> {
         List<Song> songs;
         switch (index) {
           case 0:
-            songs = [Song("url1_for_music_0", "", "", false)];
+            songs = [
+              Song("url1_for_music_0", "Here With Me", "Marshmello, CHVRCHES",
+                  false),
+              Song("url1_for_music_0", "FRIENDS", "Marshmello, Anne-Marie",
+                  true),
+              Song("url1_for_music_0", "Alone", "Marshmello", false),
+              Song("url1_for_music_0", "Everyday", "Marshmello, Logic", true),
+              Song("url1_for_music_0", "Summer", "Marshmello", false),
+              Song("url1_for_music_0", "Alone", "Marshmello", false),
+              Song("url1_for_music_0", "Wolves", "Marshmello, Selena Gomez",
+                  false),
+            ];
             break;
           case 1:
-            songs = [Song("url1_for_music_1", "", "", false)];
+            songs = [
+              Song(
+                  "url1_for_music_1", "Best Song Ever", "One Direction", false),
+              Song("url1_for_music_1", "Night Changes", "One Direction", false),
+              Song("url1_for_music_1", "What makes You Beautiful",
+                  "One Direction", false),
+              Song("url1_for_music_1", "Drag Me Down", "One Direction", false),
+              Song("url1_for_music_1", "No Control", "One Direction", false),
+              Song("url1_for_music_1", "History", "One Direction", false),
+              Song("url1_for_music_1", "Perfect", "One Direction", false),
+            ];
             break;
           case 2:
-            songs = [Song("url1_for_music_2", "", "", false)];
+            songs = [
+              Song("url1_for_music_2", "That's What I Like", "Bruno Mars",
+                  false),
+              Song("url1_for_music_2", "Just the Way You Are", "Bruno Mars",
+                  false),
+              Song("url1_for_music_2", "24K Magic", "Bruno Mars", false),
+              Song("url1_for_music_2", "Uptown Funk", "Bruno Mars,Mark Ronson",
+                  true),
+              Song("url1_for_music_2", "Grenade", "Bruno Mars", false),
+              Song("url1_for_music_2", "Leave The Door Open",
+                  "Bruno Mars, Anderson Paak, Silk Sonic", false),
+              Song("url1_for_music_2", "Versace on the Floor", "Bruno Mars",
+                  false),
+            ];
             break;
           default:
             songs = [Song("default_url1", "", "", false)];
@@ -450,7 +487,7 @@ class _HomePageState extends State<HomePage> {
               child: Flexible(
                 child: Text(
                   music.desc,
-                  style: const TextStyle(color: Colors.white54, fontSize: 13),
+                  style: const TextStyle(color: Colors.white54, fontSize: 12),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
@@ -501,7 +538,7 @@ class _HomePageState extends State<HomePage> {
         List<Song> songs;
         switch (index) {
           case 0:
-            songs = [Song("url1_for_music_0", "", "", false)];
+            songs = [Song("url1_for_music_0", "", "Jab We Met", false)];
             break;
           case 1:
             songs = [Song("url1_for_music_1", "", "", false)];
@@ -566,7 +603,7 @@ class _HomePageState extends State<HomePage> {
           alignment: Alignment.topLeft,
           padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
           child: const Text(
-            'Best Of Artists', // Section title
+            'Popular', // Section title
             style: TextStyle(color: Colors.white, fontSize: 25),
           ),
         ),
@@ -579,7 +616,7 @@ class _HomePageState extends State<HomePage> {
             child: ListView.builder(
               scrollDirection: Axis.horizontal, // Horizontal scrolling
               itemBuilder: (ctx, index) {
-                return bestOfArtists(
+                return popular(
                     context, musicList3[index], index); // Create music widgets
               },
               itemCount: musicList3.length, // Number of music items

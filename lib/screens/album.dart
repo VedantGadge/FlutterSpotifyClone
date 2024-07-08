@@ -297,7 +297,7 @@ class _AlbumViewState extends State<AlbumView> {
                     widget.desc,
                     style: GoogleFonts.roboto(
                       color: Colors.white54,
-                      fontSize: 14.5,
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -405,9 +405,9 @@ class _AlbumViewState extends State<AlbumView> {
             width: 50,
             height: 50,
             decoration: const BoxDecoration(
-                shape: BoxShape.circle, color: Color(0xff14D860)),
+                shape: BoxShape.circle, color: Color(0xff1DB954)),
             child: const Icon(
-              Icons.play_arrow_rounded,
+              Icons.play_arrow_sharp,
               size: 37,
             ),
           ),
