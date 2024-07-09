@@ -7,6 +7,7 @@ import 'package:spotify_clone_app/services/category_operations.dart';
 import 'package:spotify_clone_app/services/musicList_operations1.dart';
 import 'package:spotify_clone_app/services/musicList_operations2.dart';
 import 'package:spotify_clone_app/services/musicList_operations3.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Song {
   String songUrl;
@@ -345,7 +346,8 @@ class _HomePageState extends State<HomePage> {
             Container(
               height: 180,
               width: 180,
-              child: Image.network(music.imageURL,
+              child: CachedNetworkImage(
+                  imageUrl: music.imageURL,
                   fit: BoxFit.cover), // Music cover image
             ),
             const SizedBox(height: 10),

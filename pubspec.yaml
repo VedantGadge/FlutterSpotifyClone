@@ -33,6 +33,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   palette_generator: ^0.3.3+3
   google_fonts: ^6.2.1
+  cached_network_image: ^3.3.1
 
 
   # The following adds the Cupertino Icons font to your application.
