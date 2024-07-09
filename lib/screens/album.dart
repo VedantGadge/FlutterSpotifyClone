@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spotify_clone_app/screens/home.dart';
@@ -12,14 +13,14 @@ class AlbumView extends StatefulWidget {
   final bool showTitle;
 
   AlbumView({
-    super.key,
+    Key? key,
     required this.title,
     required this.imageUrl,
     required this.songInfo,
     required this.desc,
     required this.year,
     required this.showTitle,
-  });
+  }) : super(key: key);
 
   @override
   _AlbumViewState createState() => _AlbumViewState();
@@ -33,7 +34,6 @@ class _AlbumViewState extends State<AlbumView> {
   double minImageSize = 100; // Minimum size the image can shrink to
   double imageOpacity = 1;
   double appBarOpacity = 0;
-  late PaletteGenerator _paletteGenerator;
   Color? _backgroundColor;
 
   @override
@@ -67,21 +67,22 @@ class _AlbumViewState extends State<AlbumView> {
 
         setState(() {});
       });
-    super.initState();
     _loadPalette();
+    super.initState();
   }
 
   Future<void> _loadPalette() async {
     final imageProvider = NetworkImage(widget.imageUrl);
-    _paletteGenerator = await PaletteGenerator.fromImageProvider(imageProvider);
+    PaletteGenerator paletteGenerator =
+        await PaletteGenerator.fromImageProvider(imageProvider);
     setState(() {
-      _backgroundColor = _paletteGenerator.dominantColor?.color;
+      _backgroundColor = paletteGenerator.dominantColor?.color;
     });
   }
 
   @override
   void dispose() {
-    scrollController.dispose(); // Dispose the scroll controller properly
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -93,105 +94,105 @@ class _AlbumViewState extends State<AlbumView> {
         : 0;
 
     return SafeArea(
-      child: ScrollConfiguration(
-        behavior: NoGlowScrollBehavior(), // Disable overscroll glow effect
-        child: Scaffold(
-          body: Stack(
-            children: [
-              SafeArea(
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  physics:
-                      const ClampingScrollPhysics(), // Disable bouncing scroll effect
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 2500,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          _backgroundColor ?? Colors.black,
-                          Colors.black,
-                        ],
-                        stops: const [0.2, 0.4],
-                        begin: Alignment.topCenter,
-                        end: Alignment.center,
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: initialSize + imageTopMargin + 30),
-                        albumInfo(),
-                        playlistFunctions(),
-                        const SizedBox(height: 30),
-                        ...generateSongWidgets(context),
-                      ],
-                    ),
+      child: Scaffold(
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              controller: scrollController,
+              physics: ClampingScrollPhysics(),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 2500,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      _backgroundColor ?? Colors.black,
+                      Colors.black,
+                    ],
+                    stops: const [0.2, 0.4],
+                    begin: Alignment.topCenter,
+                    end: Alignment.center,
                   ),
                 ),
-              ),
-              Positioned(
-                top: topPosition + 20,
-                left: MediaQuery.of(context).size.width / 2 - imageSize / 2,
-                child: Opacity(
-                  opacity: imageOpacity,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 20,
-                          spreadRadius: 7.5,
-                          color: Colors.black.withOpacity(0.3),
-                        ),
-                      ],
-                    ),
-                    child: Image.network(
-                      widget.imageUrl,
-                      height: imageSize,
-                      width: imageSize,
-                    ),
-                  ),
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top,
                 ),
-              ),
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: AppBar(
-                  scrolledUnderElevation: 0,
-                  title: Opacity(
-                    opacity: appBarOpacity,
-                    child: Text(
-                      widget.title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  backgroundColor: _backgroundColor?.withOpacity(appBarOpacity),
-                  leading: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_outlined,
-                      color: Colors.white,
-                    ),
-                  ),
-                  elevation: 0,
-                  actions: [
-                    Opacity(
-                      opacity: appBarOpacity,
-                      child: Container(
-                        color: _backgroundColor ?? Colors.black,
-                      ),
-                    ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: initialSize + imageTopMargin + 30),
+                    albumInfo(),
+                    playlistFunctions(),
+                    const SizedBox(height: 30),
+                    ...generateSongWidgets(context),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+            Positioned(
+              top: topPosition + 20,
+              left: MediaQuery.of(context).size.width / 2 - imageSize / 2,
+              child: Opacity(
+                opacity: imageOpacity,
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 20,
+                        spreadRadius: 7.5,
+                        color: Colors.black.withOpacity(0.3),
+                      ),
+                    ],
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.imageUrl,
+                    height: imageSize,
+                    width: imageSize,
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: AppBar(
+                scrolledUnderElevation: 0,
+                title: Opacity(
+                  opacity: appBarOpacity,
+                  child: Text(
+                    widget.title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                foregroundColor: Colors.transparent,
+                backgroundColor: _backgroundColor?.withOpacity(appBarOpacity),
+                leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_outlined,
+                    color: Colors.white,
+                  ),
+                ),
+                elevation: 0,
+                actions: [
+                  Opacity(
+                    opacity: appBarOpacity,
+                    child: Container(
+                      color: _backgroundColor ?? Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -207,7 +208,6 @@ class _AlbumViewState extends State<AlbumView> {
 
   Widget songWidget(BuildContext context, int index) {
     return InkWell(
-      //We are using InkWell instead of GestureDetector because, if we use GestureDetector, only the Title Text is tappable and not the whole row container, this we use InkWell so that the whole area is tappable.
       onTap: () {
         print('${widget.songInfo[index].songName} button pressed');
       },

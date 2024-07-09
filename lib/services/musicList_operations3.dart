@@ -12,6 +12,13 @@ class MusiclistOperations3 {
           '2024',
           false),
       MusicList(
+          'Bollywood Dance Music',
+          'https://i.scdn.co/image/ab67706f00000002e9124f623f4bf5f90b393aa3',
+          'Party-ready, the biggest Bollywood dance tracks.',
+          'Party-ready, the biggest Bollywood dance tracks.',
+          '2024',
+          false),
+      MusicList(
           'This is Atif Aslam',
           'https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evO1n6IJz-default.jpg',
           'This is Atif Aslam. The essential tracks, all in one playlist.',
@@ -23,13 +30,6 @@ class MusiclistOperations3 {
           'https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evNZY5NHq-default.jpg',
           'This is Maroon 5. The essential tracks, all in one playlist',
           'This is Maroon 5. The essential tracks, all in one playlist',
-          '2024',
-          false),
-      MusicList(
-          'Bollywood Dance Music',
-          'https://i.scdn.co/image/ab67706f00000002e9124f623f4bf5f90b393aa3',
-          'Party-ready, the biggest Bollywood dance tracks.',
-          'Party-ready, the biggest Bollywood dance tracks.',
           '2024',
           false),
     ];

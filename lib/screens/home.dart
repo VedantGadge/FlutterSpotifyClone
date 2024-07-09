@@ -251,8 +251,11 @@ class _HomePageState extends State<HomePage> {
             ClipRRect(
               borderRadius:
                   const BorderRadius.horizontal(left: Radius.circular(3)),
-              child: Image.network(category.imageURL,
-                  fit: BoxFit.contain), // Category image
+              child: CachedNetworkImage(
+                imageUrl: category.imageURL,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => const SizedBox(width: 58.5),
+              ), // Category image
             ),
             const SizedBox(width: 7),
             Flexible(
@@ -347,8 +350,9 @@ class _HomePageState extends State<HomePage> {
               height: 180,
               width: 180,
               child: CachedNetworkImage(
-                  imageUrl: music.imageURL,
-                  fit: BoxFit.cover), // Music cover image
+                imageUrl: music.imageURL,
+                fit: BoxFit.cover,
+              ), // Music cover image
             ),
             const SizedBox(height: 10),
             Text(music.name,
@@ -477,8 +481,10 @@ class _HomePageState extends State<HomePage> {
             Container(
               height: 180,
               width: 180,
-              child: Image.network(music.imageURL,
-                  fit: BoxFit.cover), // Music cover image
+              child: CachedNetworkImage(
+                imageUrl: music.imageURL,
+                fit: BoxFit.cover,
+              ), // Music cover image
             ),
             const SizedBox(height: 10),
             Text(music.name,
@@ -573,8 +579,10 @@ class _HomePageState extends State<HomePage> {
             Container(
               height: 180,
               width: 180,
-              child: Image.network(music.imageURL,
-                  fit: BoxFit.cover), // Music cover image
+              child: CachedNetworkImage(
+                imageUrl: music.imageURL,
+                fit: BoxFit.cover,
+              ), // Music cover image
             ),
             const SizedBox(height: 10),
             Text(music.name,

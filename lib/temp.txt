@@ -1,603 +1,417 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:spotify_clone_app/models/category.dart';
-import 'package:spotify_clone_app/models/musicList.dart';
-import 'package:spotify_clone_app/screens/album.dart';
-import 'package:spotify_clone_app/services/category_operations.dart';
-import 'package:spotify_clone_app/services/musicList_operations1.dart';
-import 'package:spotify_clone_app/services/musicList_operations2.dart';
+import 'package:palette_generator/palette_generator.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:spotify_clone_app/screens/home.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class AlbumView extends StatefulWidget {
+  final String title;
+  final String imageUrl;
+  final String desc;
+  final String year;
+  final List<Song> songInfo;
+  final bool showTitle;
+
+  AlbumView({
+    super.key,
+    required this.title,
+    required this.imageUrl,
+    required this.songInfo,
+    required this.desc,
+    required this.year,
+    required this.showTitle,
+  });
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _AlbumViewState createState() => _AlbumViewState();
 }
 
-class _HomePageState extends State<HomePage> {
-  late List<Category> categoryList;
-  late List<MusicList> musicList1;
-  late List<MusicList> musicList2;
+class _AlbumViewState extends State<AlbumView> {
+  late ScrollController scrollController;
+  double imageSize = 0;
+  double initialSize = 240;
+  double imageTopMargin = 80; // Initial top margin for the image
+  double minImageSize = 100; // Minimum size the image can shrink to
+  double imageOpacity = 1;
+  double appBarOpacity = 0;
+  late PaletteGenerator _paletteGenerator;
+  Color? _backgroundColor;
 
   @override
   void initState() {
+    imageSize = initialSize;
+    scrollController = ScrollController()
+      ..addListener(() {
+        double offset = scrollController.offset;
+        if (offset < imageTopMargin) {
+          // Image moves up with the rest of the screen
+          imageOpacity = 1;
+        } else {
+          // Image starts shrinking and fading when it reaches the top
+          double shrinkOffset = offset - imageTopMargin;
+          imageSize =
+              (initialSize - shrinkOffset).clamp(minImageSize, initialSize);
+          imageOpacity =
+              ((initialSize - shrinkOffset) / initialSize).clamp(0.0, 1.0);
+        }
+
+        // Adjust app bar opacity based on when the image reaches its minimum size
+        if (imageSize == minImageSize) {
+          double minSizeOffset =
+              offset - (initialSize - minImageSize + imageTopMargin);
+          appBarOpacity =
+              minSizeOffset / 50.0; // Adjust 50.0 to control the fade-in speed
+          appBarOpacity = appBarOpacity.clamp(0.0, 1.0);
+        } else {
+          appBarOpacity = 0;
+        }
+
+        setState(() {});
+      });
     super.initState();
-    // Initialize your data fetching or any other initialization here
-    categoryList = CategoryOperations.getCategories();
-    musicList1 = MusiclistOperations1.getMusic1();
-    musicList2 = MusiclistOperations2.getMusic2();
+    _loadPalette();
+  }
+
+  Future<void> _loadPalette() async {
+    final imageProvider = NetworkImage(widget.imageUrl);
+    _paletteGenerator = await PaletteGenerator.fromImageProvider(imageProvider);
+    setState(() {
+      _backgroundColor = _paletteGenerator.dominantColor?.color;
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose(); // Dispose the scroll controller properly
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: NoOverscrollGlowBehavior(),
-      child: SingleChildScrollView(
-        child: SafeArea(
-          child: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xffb3b3b3), // Light grey color
-                  Colors.black, // Black color
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: [0.1, 0.3],
+    double topPosition = (scrollController.hasClients &&
+            scrollController.offset < imageTopMargin)
+        ? imageTopMargin - scrollController.offset
+        : 0;
+
+    return SafeArea(
+      child: ScrollConfiguration(
+        behavior: NoGlowScrollBehavior(), // Disable overscroll glow effect
+        child: Scaffold(
+          body: Stack(
+            children: [
+              SafeArea(
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  physics:
+                      const ClampingScrollPhysics(), // Disable bouncing scroll effect
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 2500,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          _backgroundColor ?? Colors.black,
+                          Colors.black,
+                        ],
+                        stops: const [0.2, 0.4],
+                        begin: Alignment.topCenter,
+                        end: Alignment.center,
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: initialSize + imageTopMargin + 30),
+                        albumInfo(),
+                        playlistFunctions(),
+                        const SizedBox(height: 30),
+                        ...generateSongWidgets(context),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                _appBar(), // Custom app bar widget
-                const SizedBox(height: 5),
-                createGrid(context), // Grid of categories
-                const SizedBox(height: 10),
-                createMusicList1(context), // First list of music
-                const SizedBox(height: 10),
-                createMusicList2(context), // Second list of music
-              ],
-            ),
+              Positioned(
+                top: topPosition + 20,
+                left: MediaQuery.of(context).size.width / 2 - imageSize / 2,
+                child: Opacity(
+                  opacity: imageOpacity,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 20,
+                          spreadRadius: 7.5,
+                          color: Colors.black.withOpacity(0.3),
+                        ),
+                      ],
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.imageUrl,
+                      height: imageSize,
+                      width: imageSize,
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: AppBar(
+                  scrolledUnderElevation: 0,
+                  title: Opacity(
+                    opacity: appBarOpacity,
+                    child: Text(
+                      widget.title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  backgroundColor: _backgroundColor?.withOpacity(appBarOpacity),
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_outlined,
+                      color: Colors.white,
+                    ),
+                  ),
+                  elevation: 0,
+                  actions: [
+                    Opacity(
+                      opacity: appBarOpacity,
+                      child: Container(
+                        color: _backgroundColor ?? Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  // Custom app bar with dynamic greeting based on time of day
-  AppBar _appBar() {
-    return AppBar(
-      title: Container(
-        padding: const EdgeInsets.only(top: 8.0, left: 0),
-        child: Text(
-          (DateTime.now().hour >= 5 && DateTime.now().hour <= 12
-              ? 'Good morning'
-              : (DateTime.now().hour >= 12 && DateTime.now().hour <= 17
-                  ? 'Good afternoon'
-                  : (DateTime.now().hour >= 17 && DateTime.now().hour <= 21
-                      ? 'Good evening'
-                      : 'Good night'))),
-          textAlign: TextAlign.start,
-          style: const TextStyle(
-            fontFamily: 'Circular',
-            fontWeight: FontWeight.w800,
-            fontSize: 25,
-            color: Colors.white,
-          ),
-        ),
-      ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 15),
-          child: Container(
-            height: 27,
-            width: 27,
-            child: SvgPicture.asset('assets/icons/gear.svg'),
-          ),
-        )
-      ],
-      backgroundColor: Colors.transparent, // Transparent app bar background
-    );
+  List<Widget> generateSongWidgets(BuildContext context) {
+    List<Widget> songWidgets = [];
+    for (int i = 0; i < widget.songInfo.length; i++) {
+      songWidgets.add(songWidget(context, i));
+    }
+    return songWidgets;
   }
 
-  // Create a category widget with a gesture detector for navigation
-  Widget createCategory(BuildContext context, Category category, int index) {
-    return GestureDetector(
+  Widget songWidget(BuildContext context, int index) {
+    return InkWell(
+      //We are using InkWell instead of GestureDetector because, if we use GestureDetector, only the Title Text is tappable and not the whole row container, this we use InkWell so that the whole area is tappable.
       onTap: () {
-        String song1Url,
-            song2Url,
-            song3Url,
-            albumDesc,
-            song1imageUrl,
-            song2imageUrl,
-            song3imageUrl,
-            song1name,
-            song1singers,
-            song2name,
-            song2singers,
-            song3name,
-            song3singers;
-
-        // Determine the song URLs based on the tapped category
-        if (index == 0) {
-          song1Url = "url1_for_category_0";
-          song2Url = "url2_for_category_0";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = 'Arijit Singh';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 1) {
-          song1Url = "url1_for_category_1";
-          song2Url = "url2_for_category_1";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = 'Travis Scott';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 2) {
-          song1Url = "url1_for_category_2";
-          song2Url = "url2_for_category_2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = 'DIVINE';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 3) {
-          song1Url = "url1_for_category_2";
-          song2Url = "url2_for_category_2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = 'Kendrick Lamar';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 4) {
-          song1Url = "url1_for_category_2";
-          song2Url = "url2_for_category_2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = 'Shape Of You';
-          song1singers = 'Ed Sheeran';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 5) {
-          song1Url = "url1_for_category_2";
-          song2Url = "url2_for_category_2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = 'Blinding Lights';
-          song1singers = 'The Weeknd';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else {
-          // Default URLs or add more conditions as needed
-          song1Url = "default_url1";
-          song2Url = "default_url2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        }
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AlbumView(
-              title: category.name,
-              imageUrl: category.imageURL,
-              song1Url: song1Url,
-              song2Url: song2Url,
-              song3Url: song3Url,
-              albumDesc: albumDesc,
-              song1imageUrl: song1imageUrl,
-              song2imageUrl: song2imageUrl,
-              song3imageUrl: song3imageUrl,
-              song1name: song1name,
-              song1singers: song1singers,
-              song2name: song2name,
-              song2singers: song2singers,
-              song3name: song3name,
-              song3singers: song3singers,
-            ),
-          ),
-        );
+        print('${widget.songInfo[index].songName} button pressed');
       },
       child: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xff313131), // Dark grey background
-          borderRadius: BorderRadius.circular(3), // Rounded corners
-        ),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius:
-                  const BorderRadius.horizontal(left: Radius.circular(3)),
-              child: Image.network(category.imageURL,
-                  fit: BoxFit.contain), // Category image
-            ),
-            const SizedBox(width: 7),
-            Text(
-              category.name, // Category name
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Create a list of category widgets
-  List<Widget> createListOfCategories(BuildContext context) {
-    return categoryList.asMap().entries.map((entry) {
-      int index = entry.key;
-      Category category = entry.value;
-      return createCategory(context, category, index);
-    }).toList();
-  }
-/* => categoryList.asMap().entries creates an iterable of entries where each entry is a key-value pair of index and category.
-   => entry.key provides the index.
-   => entry.value provides the category.
-   => createCategory(context, category, index) is called with the appropriate index for each category.
-*/
-
-  // Create a grid view of categories
-  Widget createGrid(BuildContext context) {
-    return Container(
-      height: 200,
-      width: 380,
-      child: GridView.count(
-        childAspectRatio: 7 / 2.2, // Aspect ratio for grid items
-        crossAxisSpacing: 7,
-        mainAxisSpacing: 7,
-        crossAxisCount: 2, // Number of columns
-        physics: const NeverScrollableScrollPhysics(), // Disable scrolling
-        children: createListOfCategories(context), // Add category widgets
-      ),
-    );
-  }
-
-  // Create a widget for 'Made For You' music section
-  Widget madeForYou(BuildContext context, MusicList music, int index) {
-    return GestureDetector(
-      onTap: () {
-        String song1Url,
-            song2Url,
-            song3Url,
-            albumDesc,
-            song1imageUrl,
-            song2imageUrl,
-            song3imageUrl,
-            song1name,
-            song1singers,
-            song2name,
-            song2singers,
-            song3name,
-            song3singers;
-
-        if (index == 0) {
-          song1Url = "url1_for_music_0";
-          song2Url = "url2_for_music_0";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 1) {
-          song1Url = "url1_for_music_1";
-          song2Url = "url2_for_music_1";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 2) {
-          song1Url = "url1_for_music_2";
-          song2Url = "url2_for_music_2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else {
-          song1Url = "default_url1";
-          song2Url = "default_url2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        }
-
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AlbumView(
-                title: music.name,
-                imageUrl: music.imageURL,
-                song1Url: song1Url,
-                song2Url: song2Url,
-                song3Url: song3Url,
-                albumDesc: albumDesc,
-                song1imageUrl: song1imageUrl,
-                song2imageUrl: song2imageUrl,
-                song3imageUrl: song3imageUrl,
-                song1name: song1name,
-                song1singers: song1singers,
-                song2name: song2name,
-                song2singers: song2singers,
-                song3name: song3name,
-                song3singers: song3singers,
-              ),
-            ));
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(right: 18.0, top: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        width: MediaQuery.of(context).size.width,
+        height: 70,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 180,
-              width: 180,
-              child: Image.network(music.imageURL,
-                  fit: BoxFit.cover), // Music cover image
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.songInfo[index].songName,
+                        style: GoogleFonts.roboto(
+                          color: const Color.fromARGB(248, 255, 255, 255),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      widget.songInfo[index].isExplicit
+                          ? Row(
+                              children: [
+                                const Icon(
+                                  Icons.explicit_rounded,
+                                  color: Colors.white54,
+                                  size: 17,
+                                ),
+                                const SizedBox(width: 2),
+                                Text(
+                                  widget.songInfo[index].songArtists,
+                                  style: GoogleFonts.roboto(
+                                    color: const Color.fromARGB(
+                                        161, 255, 255, 255),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Text(
+                              widget.songInfo[index].songArtists,
+                              style: GoogleFonts.roboto(
+                                color: const Color.fromARGB(161, 255, 255, 255),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                    ],
+                  ),
+                  GestureDetector(
+                    child: const Icon(Icons.more_vert_rounded,
+                        color: Colors.white),
+                    onTap: () {
+                      print('More button pressed');
+                    },
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 10),
-            Text(music.name,
-                style: const TextStyle(color: Colors.white)), // Music name
-            Text(music.description,
-                style: const TextStyle(
-                    color: Colors.white54, fontSize: 13)), // Music description
           ],
         ),
       ),
     );
   }
 
-  // Create the 'Made For You' music list section
-  Widget createMusicList1(BuildContext context) {
+  Column albumInfo() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          alignment: Alignment.topLeft,
-          padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
-          child: const Text(
-            'Made For You', // Section title
-            style: TextStyle(color: Colors.white, fontSize: 25),
-          ),
+        Padding(
+          padding: const EdgeInsets.only(top: 5, left: 5),
+          child: widget.showTitle
+              ? Text(
+                  widget.title,
+                  style: const TextStyle(color: Colors.white, fontSize: 25),
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Text(
+                    widget.desc,
+                    style: GoogleFonts.roboto(
+                      color: Colors.white54,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
         ),
-        Container(
-          padding: const EdgeInsets.only(left: 10),
-          height: 260,
-          child: ScrollConfiguration(
-            behavior:
-                NoOverscrollGlowBehavior(), // Disable overscroll glow effect
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal, // Horizontal scrolling
-              itemBuilder: (ctx, index) {
-                return madeForYou(
-                    context, musicList1[index], index); // Create music widgets
-              },
-              itemCount: musicList1.length, // Number of music items
-            ),
-          ),
-        ),
+        widget.showTitle
+            ? Padding(
+                padding: const EdgeInsets.only(left: 7, top: 5),
+                child: Text(
+                  widget.songInfo[0].songArtists,
+                  style: const TextStyle(color: Colors.white, fontSize: 13),
+                ),
+              )
+            : const SizedBox(),
+        widget.showTitle
+            ? Padding(
+                padding: const EdgeInsets.only(left: 7, top: 5),
+                child: Text(
+                  widget.showTitle ? 'Album • ${widget.year}' : '',
+                  style: const TextStyle(
+                      color: Colors.white60,
+                      fontSize: 12,
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w700),
+                ),
+              )
+            : const SizedBox(),
       ],
     );
   }
 
-  // Create a widget for 'Best Of Artists' music section
-  Widget bestOfArtists(BuildContext context, MusicList music, int index) {
-    return GestureDetector(
-      onTap: () {
-        String song1Url,
-            song2Url,
-            song3Url,
-            albumDesc,
-            song1imageUrl,
-            song2imageUrl,
-            song3imageUrl,
-            song1name,
-            song1singers,
-            song2name,
-            song2singers,
-            song3name,
-            song3singers;
-
-        if (index == 0) {
-          song1Url = "url1_for_music_0";
-          song2Url = "url2_for_music_0";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 1) {
-          song1Url = "url1_for_music_1";
-          song2Url = "url2_for_music_1";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else if (index == 2) {
-          song1Url = "url1_for_music_2";
-          song2Url = "url2_for_music_2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        } else {
-          song1Url = "default_url1";
-          song2Url = "default_url2";
-          song3Url = '';
-          albumDesc = '';
-          song1imageUrl = '';
-          song2imageUrl = '';
-          song3imageUrl = '';
-          song1name = '';
-          song1singers = '';
-          song2name = '';
-          song2singers = '';
-          song3name = '';
-          song3singers = '';
-        }
-
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AlbumView(
-                title: music.name,
-                imageUrl: music.imageURL,
-                song1Url: song1Url,
-                song2Url: song2Url,
-                song3Url: song3Url,
-                albumDesc: albumDesc,
-                song1imageUrl: song1imageUrl,
-                song2imageUrl: song2imageUrl,
-                song3imageUrl: song3imageUrl,
-                song1name: song1name,
-                song1singers: song1singers,
-                song2name: song2name,
-                song2singers: song2singers,
-                song3name: song3name,
-                song3singers: song3singers,
-              ),
-            ));
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(right: 18.0, top: 5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 180,
-              width: 180,
-              child: Image.network(music.imageURL,
-                  fit: BoxFit.cover), // Music cover image
-            ),
-            const SizedBox(height: 10),
-            Text(music.name,
-                style: const TextStyle(color: Colors.white)), // Music name
-            Text(music.description,
-                style: const TextStyle(
-                    color: Colors.white54, fontSize: 13)), // Music description
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Create the 'Best Of Artists' music list section
-  Widget createMusicList2(BuildContext context) {
-    return Column(
+  Row playlistFunctions() {
+    return Row(
       children: [
-        Container(
-          alignment: Alignment.topLeft,
-          padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
-          child: const Text(
-            'Best Of Artists', // Section title
-            style: TextStyle(color: Colors.white, fontSize: 25),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(
+            'assets/icons/logo.png',
+            height: 20,
+            width: 20,
           ),
         ),
-        Container(
-          padding: const EdgeInsets.only(left: 10),
-          height: 400,
-          child: ScrollConfiguration(
-            behavior:
-                NoOverscrollGlowBehavior(), // Disable overscroll glow effect
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal, // Horizontal scrolling
-              itemBuilder: (ctx, index) {
-                return bestOfArtists(
-                    context, musicList2[index], index); // Create music widgets
-              },
-              itemCount: musicList2.length, // Number of music items
+        const Padding(
+          padding: EdgeInsets.only(bottom: 1),
+          child: Text(
+            'Spotify',
+            style: TextStyle(fontSize: 14, color: Colors.white60),
+          ),
+        ),
+        GestureDetector(
+          child: const Padding(
+            padding: EdgeInsets.only(left: 16, top: 3),
+            child: Icon(
+              Icons.playlist_add_rounded,
+              color: Colors.white70,
+              size: 25,
+            ),
+          ),
+          onTap: () {
+            print('Add to playlist button tapped');
+          },
+        ),
+        GestureDetector(
+          child: const Padding(
+            padding: EdgeInsets.only(left: 16, top: 3),
+            child: Icon(
+              Icons.download_for_offline_outlined,
+              color: Colors.white70,
+              size: 25,
+            ),
+          ),
+          onTap: () {
+            print('Download button tapped');
+          },
+        ),
+        GestureDetector(
+          child: const Padding(
+            padding: EdgeInsets.only(left: 16, top: 3),
+            child: Icon(
+              Icons.more_vert_sharp,
+              color: Colors.white70,
+              size: 25,
+            ),
+          ),
+          onTap: () {
+            print('More button tapped');
+          },
+        ),
+        GestureDetector(
+          child: const Padding(
+            padding: EdgeInsets.only(left: 80, top: 3, right: 13),
+            child: Icon(
+              Icons.shuffle_rounded,
+              color: Colors.white70,
+              size: 25,
+            ),
+          ),
+          onTap: () {
+            print('Shuffle button tapped');
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Container(
+            width: 50,
+            height: 50,
+            decoration: const BoxDecoration(
+                shape: BoxShape.circle, color: Color(0xff1DB954)),
+            child: const Icon(
+              Icons.play_arrow_sharp,
+              size: 37,
             ),
           ),
         ),
@@ -606,11 +420,10 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// Custom ScrollBehavior to disable overscroll glow effect
-class NoOverscrollGlowBehavior extends ScrollBehavior {
+class NoGlowScrollBehavior extends ScrollBehavior {
   @override
   Widget buildOverscrollIndicator(
       BuildContext context, Widget child, ScrollableDetails details) {
-    return child; // Disable overscroll glow effect
+    return child;
   }
 }
