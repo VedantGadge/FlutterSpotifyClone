@@ -93,9 +93,14 @@ class _AlbumViewState extends State<AlbumView> {
         ? imageTopMargin - scrollController.offset
         : 0;
     if (_backgroundColor == null) {
-      return SingleChildScrollView(
-          controller: scrollController,
-          child: const Center(child: CircularProgressIndicator()));
+      return Center(
+        child: SingleChildScrollView(
+            controller: scrollController,
+            child: const CircularProgressIndicator(
+              color: Color(0xff1DB954),
+              strokeWidth: 4,
+            )),
+      );
     }
     return SafeArea(
       child: Scaffold(
