@@ -25,7 +25,7 @@ class SearchPage extends StatelessWidget {
                       style: TextStyle(fontSize: 30, color: Colors.white),
                       textAlign: TextAlign.start,
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: 240,
                     ),
                     Padding(
