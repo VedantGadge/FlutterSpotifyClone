@@ -1,0 +1,107 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
+  @override
+  _SearchPage createState() => _SearchPage();
+}
+
+class _SearchPage extends State<SearchPage> {
+  late ScrollController scrollController;
+  double imageTopMargin = 100;
+
+  void initState() {
+    scrollController = ScrollController()
+      ..addListener(() {
+        double offset = scrollController.offset;
+
+        setState(() {});
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double topPosition = (scrollController.hasClients &&
+            scrollController.offset < imageTopMargin)
+        ? imageTopMargin - scrollController.offset
+        : 0;
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: ScrollConfiguration(
+          behavior: _NoOverscrollGlowBehavior(),
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 8, top: 10, bottom: 10),
+                  child: Text(
+                    'Search',
+                    style: TextStyle(fontSize: 30, color: Colors.white),
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                Positioned(
+                  top: topPosition + 20,
+                  child: Container(
+                    color: Colors.black,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 5.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'What do you want to listen to?',
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.all(11),
+                        hintStyle: GoogleFonts.roboto(
+                          textStyle: const TextStyle(
+                            color: Colors.black54,
+                            fontSize: 17.5,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(11),
+                          child: SvgPicture.asset('assets/icons/search.svg'),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.blue,
+                  height: 500,
+                ),
+                Container(
+                  color: Colors.yellow,
+                  height: 500,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NoOverscrollGlowBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
+  }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: SearchPage(),
+  ));
+}

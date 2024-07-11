@@ -59,7 +59,7 @@ class _AlbumViewState extends State<AlbumView> {
           double minSizeOffset =
               offset - (initialSize - minImageSize + imageTopMargin);
           appBarOpacity =
-              minSizeOffset / 50.0; // Adjust 50.0 to control the fade-in speed
+              minSizeOffset / 100.0; // Adjust 50.0 to control the fade-in speed
           appBarOpacity = appBarOpacity.clamp(0.0, 1.0);
         } else {
           appBarOpacity = 0;
