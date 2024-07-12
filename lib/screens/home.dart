@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
           textAlign: TextAlign.start,
           style: const TextStyle(
             fontFamily: 'Circular',
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
             fontSize: 25,
             color: Colors.white,
           ),
@@ -265,6 +265,7 @@ class _HomePageState extends State<HomePage> {
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,
+                  fontWeight: FontWeight.w700,
                 ),
                 overflow: TextOverflow.ellipsis, // Ellipsis if text is too long
                 maxLines: 2, // Allow text to wrap to the next line
@@ -356,14 +357,19 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 10),
             Text(music.name,
-                style: const TextStyle(color: Colors.white)), // Music name
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700)), // Music name
             Container(
               height: 40,
               width: 180,
               child: Flexible(
                 child: Text(
                   music.desc,
-                  style: const TextStyle(color: Colors.white54, fontSize: 13),
+                  style: const TextStyle(
+                      color: Colors.white54,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w200),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
@@ -384,7 +390,8 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
           child: const Text(
             'Made For You', // Section title
-            style: TextStyle(color: Colors.white, fontSize: 25),
+            style: TextStyle(
+                color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700),
           ),
         ),
         Container(
@@ -488,14 +495,19 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 10),
             Text(music.name,
-                style: const TextStyle(color: Colors.white)), // Music name
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700)), // Music name
             Container(
               height: 40,
               width: 180,
               child: Flexible(
                 child: Text(
                   music.desc,
-                  style: const TextStyle(color: Colors.white54, fontSize: 12),
+                  style: const TextStyle(
+                      color: Colors.white54,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w200),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
@@ -516,7 +528,8 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
           child: const Text(
             'Best Of Artists', // Section title
-            style: TextStyle(color: Colors.white, fontSize: 25),
+            style: TextStyle(
+                color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700),
           ),
         ),
         Container(
@@ -586,14 +599,19 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 10),
             Text(music.name,
-                style: const TextStyle(color: Colors.white)), // Music name
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700)), // Music name
             Container(
               height: 40,
               width: 180,
               child: Flexible(
                 child: Text(
                   music.desc,
-                  style: const TextStyle(color: Colors.white54, fontSize: 13),
+                  style: const TextStyle(
+                      color: Colors.white54,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w200),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
@@ -614,7 +632,8 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
           child: const Text(
             'Popular', // Section title
-            style: TextStyle(color: Colors.white, fontSize: 25),
+            style: TextStyle(
+                color: Colors.white, fontSize: 25, fontWeight: FontWeight.w700),
           ),
         ),
         Container(

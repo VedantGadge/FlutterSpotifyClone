@@ -176,6 +176,7 @@ class _AlbumViewState extends State<AlbumView> {
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
@@ -237,10 +238,10 @@ class _AlbumViewState extends State<AlbumView> {
                     children: [
                       Text(
                         widget.songInfo[index].songName,
-                        style: GoogleFonts.roboto(
+                        style: const TextStyle(
                           color: const Color.fromARGB(248, 255, 255, 255),
                           fontSize: 17,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       widget.songInfo[index].isExplicit
@@ -254,21 +255,21 @@ class _AlbumViewState extends State<AlbumView> {
                                 const SizedBox(width: 2),
                                 Text(
                                   widget.songInfo[index].songArtists,
-                                  style: GoogleFonts.roboto(
+                                  style: const TextStyle(
                                     color: const Color.fromARGB(
                                         161, 255, 255, 255),
                                     fontSize: 13,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ),
                               ],
                             )
                           : Text(
                               widget.songInfo[index].songArtists,
-                              style: GoogleFonts.roboto(
+                              style: const TextStyle(
                                 color: const Color.fromARGB(161, 255, 255, 255),
                                 fontSize: 13,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                     ],
@@ -298,16 +299,19 @@ class _AlbumViewState extends State<AlbumView> {
           child: widget.showTitle
               ? Text(
                   widget.title,
-                  style: const TextStyle(color: Colors.white, fontSize: 25),
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700),
                 )
               : Padding(
                   padding: const EdgeInsets.only(left: 8),
                   child: Text(
                     widget.desc,
-                    style: GoogleFonts.roboto(
+                    style: const TextStyle(
                       color: Colors.white54,
                       fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
@@ -317,7 +321,10 @@ class _AlbumViewState extends State<AlbumView> {
                 padding: const EdgeInsets.only(left: 7, top: 5),
                 child: Text(
                   widget.songInfo[0].songArtists,
-                  style: const TextStyle(color: Colors.white, fontSize: 13),
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700),
                 ),
               )
             : const SizedBox(),
@@ -329,8 +336,7 @@ class _AlbumViewState extends State<AlbumView> {
                   style: const TextStyle(
                       color: Colors.white60,
                       fontSize: 12,
-                      fontFamily: 'Proxima Nova',
-                      fontWeight: FontWeight.w700),
+                      fontWeight: FontWeight.w400),
                 ),
               )
             : const SizedBox(),
@@ -342,7 +348,7 @@ class _AlbumViewState extends State<AlbumView> {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 8, top: 1, right: 7),
           child: Image.asset(
             'assets/icons/logo.png',
             height: 20,
@@ -350,10 +356,14 @@ class _AlbumViewState extends State<AlbumView> {
           ),
         ),
         const Padding(
-          padding: EdgeInsets.only(bottom: 1),
+          padding: EdgeInsets.only(top: 2),
           child: Text(
             'Spotify',
-            style: TextStyle(fontSize: 14, color: Colors.white60),
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white60,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
         GestureDetector(
@@ -371,7 +381,7 @@ class _AlbumViewState extends State<AlbumView> {
         ),
         GestureDetector(
           child: const Padding(
-            padding: EdgeInsets.only(left: 16, top: 3),
+            padding: EdgeInsets.only(left: 16, top: 2),
             child: Icon(
               Icons.download_for_offline_outlined,
               color: Colors.white70,
@@ -384,7 +394,7 @@ class _AlbumViewState extends State<AlbumView> {
         ),
         GestureDetector(
           child: const Padding(
-            padding: EdgeInsets.only(left: 16, top: 3),
+            padding: EdgeInsets.only(left: 16, top: 2),
             child: Icon(
               Icons.more_vert_sharp,
               color: Colors.white70,

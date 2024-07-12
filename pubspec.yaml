@@ -34,7 +34,7 @@ dependencies:
   palette_generator: ^0.3.3+3
   google_fonts: ^6.2.1
   cached_network_image: ^3.3.1
-
+  spotify: ^0.13.7
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -65,6 +65,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/icons/
+     - assets/categories_thumbnail/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -95,7 +96,12 @@ flutter:
 
      - family: Circular
        fonts:
-         - asset: assets/fonts/lineto-circular-black.ttf
+         - asset: assets/fonts/Circular Std Bold.ttf
+           weight: 700
+         - asset: assets/fonts/Circular Std Book.ttf
+           weight: 200
+         - asset: assets/fonts/Circular Std Medium.ttf
+           weight: 400
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

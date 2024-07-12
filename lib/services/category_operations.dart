@@ -17,7 +17,7 @@ class CategoryOperations {
         imageURL:
             'https://i.scdn.co/image/ab67616d0000b273881d8d8378cd01099babcd44',
         desc: '',
-        year: '',
+        year: '2023',
         showTitle: true,
       ),
       Category(

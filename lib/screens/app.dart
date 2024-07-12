@@ -22,7 +22,7 @@ class _MainAppState extends State<MainApp> {
 
   final List<Widget> tabs = [
     const HomePage(),
-    const SearchPage(),
+    SearchPage(),
     const LibraryPage(),
   ];
 
