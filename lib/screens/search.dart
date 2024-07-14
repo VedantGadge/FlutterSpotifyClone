@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:spotify_clone_app/screens/album.dart'; // Adjust import as per your project structure
+import 'package:spotify_clone_app/models/genres.dart';
+import 'package:spotify_clone_app/services/genre_operations.dart';
 
-class SearchPage extends StatelessWidget {
-  SearchPage({Key? key}) : super(key: key);
+class SearchPage extends StatefulWidget {
+  SearchPage({super.key});
 
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  late List<Genres> genresList;
   // Dummy data for categories
-  final List<String> categories = [
-    'Pop',
-    'Rock',
-    'Hip Hop',
-    'Electronic',
-    'Jazz',
-    'Classical',
-    'Folk',
-    'Country',
-    'R&B',
-    'Reggae',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    // Initialize your data fetching or any other initialization here
+    genresList = GenreOperations.getGenres();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class SearchPage extends StatelessWidget {
                     ),
                     SizedBox(width: 240),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Icon(
                         Icons.camera_alt_outlined,
                         color: Colors.white,
@@ -61,28 +61,100 @@ class SearchPage extends StatelessWidget {
               floating: true,
               delegate: SearchBarHeaderDelegate(),
             ),
+            const SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 8.0, top: 5, bottom: 4),
+                    child: Text(
+                      'Explore your genres',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 8.0, bottom: 8),
+                    child: Text(
+                      'Browse all',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // Number of columns
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 10.0,
-                childAspectRatio: 1.2, // Aspect ratio of each grid item
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
+                childAspectRatio: 2, // Aspect ratio of each grid item
               ),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
+                  final genreInfo = genresList[index];
                   return GestureDetector(
                     onTap: () {},
                     child: Container(
                       // Placeholder color
                       alignment: Alignment.center,
-                      child: Image.asset(
-                        'assets/categories_thumbnail/Love.jpg',
-                        scale: 3,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: genreInfo.bgcolor,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, top: 12),
+                              child: Text(
+                                genreInfo.genre,
+                                style: const TextStyle(
+                                  fontSize: 18.5,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                              bottom: 0,
+                              left: 128,
+                              child: Transform.rotate(
+                                angle: 0.33,
+                                child: Container(
+                                  decoration: const BoxDecoration(boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black,
+                                      blurRadius: 5,
+                                    )
+                                  ]),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(4),
+                                    child: Image.asset(
+                                      genreInfo.imageURL,
+                                      scale: 4,
+                                    ),
+                                  ),
+                                ),
+                              )),
+                        ],
                       ),
                     ),
                   );
                 },
-                childCount: categories.length,
+                childCount: genresList.length,
               ),
             ),
           ],
@@ -98,7 +170,8 @@ class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       color: Colors.black,
-      padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 5.0),
+      padding:
+          const EdgeInsets.only(left: 4.0, right: 4.0, top: 5.0, bottom: 7),
       child: TextField(
         decoration: InputDecoration(
           hintText: 'What do you want to listen to?',
@@ -106,7 +179,7 @@ class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
           fillColor: Colors.white,
           contentPadding: const EdgeInsets.all(11),
           hintStyle: const TextStyle(
-            color: Colors.black54,
+            color: Color.fromARGB(154, 0, 0, 0),
             fontSize: 17,
             fontWeight: FontWeight.w700,
           ),

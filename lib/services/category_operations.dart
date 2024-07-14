@@ -1,7 +1,7 @@
 import 'package:spotify_clone_app/models/category.dart';
 
 class CategoryOperations {
-  CategoryOperations._() {} //Writing the constructor withm '._' so that the constructor remains private, and does not gets tampered later on.
+  CategoryOperations._(); //Writing the constructor withm '._' so that the constructor remains private, and does not gets tampered later on.
   static List<Category> getCategories() {
     return <Category>[
       Category(

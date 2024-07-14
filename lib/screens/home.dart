@@ -49,15 +49,7 @@ class _HomePageState extends State<HomePage> {
         child: SafeArea(
           child: Container(
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xffb3b3b3), // Light grey color
-                  Colors.black, // Black color
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: [0.1, 0.3],
-              ),
+              color: Color(0xff282828),
             ),
             child: Column(
               children: [
