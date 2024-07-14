@@ -24,13 +24,14 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5),
         decoration: const BoxDecoration(color: Colors.black),
         child: CustomScrollView(
           scrollBehavior: const ScrollBehavior(),
           slivers: [
             const SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.only(left: 8, top: 10, bottom: 10),
+                padding: EdgeInsets.symmetric(vertical: 10),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -43,14 +44,10 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                       textAlign: TextAlign.start,
                     ),
-                    SizedBox(width: 240),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.camera_alt_outlined,
-                        color: Colors.white,
-                        size: 25,
-                      ),
+                    SizedBox(width: 260),
+                    Icon(
+                      Icons.camera_alt_outlined,
+                      color: Colors.white,
                     )
                   ],
                 ),
@@ -66,7 +63,7 @@ class _SearchPageState extends State<SearchPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: 8.0, top: 5, bottom: 4),
+                    padding: EdgeInsets.only(top: 5, bottom: 4),
                     child: Text(
                       'Explore your genres',
                       style: TextStyle(
@@ -77,7 +74,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 8.0, bottom: 8),
+                    padding: EdgeInsets.only(bottom: 8),
                     child: Text(
                       'Browse all',
                       style: TextStyle(
@@ -170,8 +167,7 @@ class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       color: Colors.black,
-      padding:
-          const EdgeInsets.only(left: 4.0, right: 4.0, top: 5.0, bottom: 7),
+      padding: const EdgeInsets.only(top: 5.0, bottom: 7),
       child: TextField(
         decoration: InputDecoration(
           hintText: 'What do you want to listen to?',

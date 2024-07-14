@@ -48,20 +48,21 @@ class _HomePageState extends State<HomePage> {
       child: SingleChildScrollView(
         child: SafeArea(
           child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 5),
             decoration: const BoxDecoration(
-              color: Color(0xff282828),
+              color: Color(0xff121212),
             ),
             child: Column(
               children: [
                 _appBar(), // Custom app bar widget
                 const SizedBox(height: 5),
                 createGrid(context), // Grid of categories
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 createMusicList1(context), // First list of music
-                const SizedBox(height: 10),
-                createMusicList2(context),
-                const SizedBox(height: 10),
-                createMusicList3(context), // Second list of music
+                const SizedBox(height: 5),
+                createMusicList2(context), // Second  list of music
+                const SizedBox(height: 5),
+                createMusicList3(context), // Third list of music
               ],
             ),
           ),
@@ -74,7 +75,7 @@ class _HomePageState extends State<HomePage> {
   AppBar _appBar() {
     return AppBar(
       title: Container(
-        padding: const EdgeInsets.only(top: 8.0, left: 0),
+        padding: const EdgeInsets.only(top: 8.0),
         child: Text(
           (DateTime.now().hour >= 5 && DateTime.now().hour <= 12
               ? 'Good morning'
@@ -83,7 +84,6 @@ class _HomePageState extends State<HomePage> {
                   : (DateTime.now().hour >= 17 && DateTime.now().hour <= 21
                       ? 'Good evening'
                       : 'Good night'))),
-          textAlign: TextAlign.start,
           style: const TextStyle(
             fontFamily: 'Circular',
             fontWeight: FontWeight.w700,
@@ -235,7 +235,7 @@ class _HomePageState extends State<HomePage> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xff313131), // Dark grey background
+          color: const Color(0xff2a2a2a),
           borderRadius: BorderRadius.circular(4), // Rounded corners
         ),
         child: Row(
@@ -285,16 +285,19 @@ class _HomePageState extends State<HomePage> {
 
   // Create a grid view of categories
   Widget createGrid(BuildContext context) {
-    return Container(
-      height: 200,
-      width: 380,
-      child: GridView.count(
-        childAspectRatio: 7 / 2.2, // Aspect ratio for grid items
-        crossAxisSpacing: 7,
-        mainAxisSpacing: 7,
-        crossAxisCount: 2, // Number of columns
-        physics: const NeverScrollableScrollPhysics(), // Disable scrolling
-        children: createListOfCategories(context), // Add category widgets
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 9.0),
+      child: Container(
+        height: 200,
+        width: 380,
+        child: GridView.count(
+          childAspectRatio: 7 / 2.2, // Aspect ratio for grid items
+          crossAxisSpacing: 7,
+          mainAxisSpacing: 7,
+          crossAxisCount: 2, // Number of columns
+          physics: const NeverScrollableScrollPhysics(), // Disable scrolling
+          children: createListOfCategories(context), // Add category widgets
+        ),
       ),
     );
   }
@@ -379,7 +382,7 @@ class _HomePageState extends State<HomePage> {
       children: [
         Container(
           alignment: Alignment.topLeft,
-          padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: const Text(
             'Made For You', // Section title
             style: TextStyle(
@@ -387,7 +390,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Container(
-          padding: const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 9),
           height: 260,
           child: ScrollConfiguration(
             behavior:
@@ -525,7 +528,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Container(
-          padding: const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 9),
           height: 260,
           child: ScrollConfiguration(
             behavior:
@@ -629,7 +632,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Container(
-          padding: const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 9),
           height: 400,
           child: ScrollConfiguration(
             behavior:

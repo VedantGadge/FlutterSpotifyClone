@@ -294,7 +294,7 @@ class _AlbumViewState extends State<AlbumView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 5, left: 5),
+          padding: const EdgeInsets.only(top: 5, left: 10),
           child: widget.showTitle
               ? Text(
                   widget.title,
@@ -304,7 +304,7 @@ class _AlbumViewState extends State<AlbumView> {
                       fontWeight: FontWeight.w700),
                 )
               : Padding(
-                  padding: const EdgeInsets.only(left: 8),
+                  padding: const EdgeInsets.only(left: 3),
                   child: Text(
                     widget.desc,
                     style: const TextStyle(
@@ -317,7 +317,7 @@ class _AlbumViewState extends State<AlbumView> {
         ),
         widget.showTitle
             ? Padding(
-                padding: const EdgeInsets.only(left: 7, top: 5),
+                padding: const EdgeInsets.only(left: 10, top: 5),
                 child: Text(
                   widget.songInfo[0].songArtists,
                   style: const TextStyle(
@@ -329,7 +329,7 @@ class _AlbumViewState extends State<AlbumView> {
             : const SizedBox(),
         widget.showTitle
             ? Padding(
-                padding: const EdgeInsets.only(left: 7, top: 5),
+                padding: const EdgeInsets.only(left: 10, top: 5),
                 child: Text(
                   widget.showTitle ? 'Album • ${widget.year}' : '',
                   style: const TextStyle(
@@ -347,7 +347,7 @@ class _AlbumViewState extends State<AlbumView> {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 8, top: 1, right: 7),
+          padding: const EdgeInsets.only(left: 10, top: 1, right: 7),
           child: Image.asset(
             'assets/icons/logo.png',
             height: 20,

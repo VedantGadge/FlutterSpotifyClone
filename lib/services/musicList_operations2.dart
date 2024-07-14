@@ -14,7 +14,7 @@ class MusiclistOperations2 {
       MusicList(
           'One Direction',
           'https://i.scdn.co/image/ab67706f00000002b75cdf3f088c129cc350c0f8',
-          ' This is One Direction. The essential tracks, all in one playlist.',
+          'This is One Direction. The essential tracks, all in one playlist.',
           'Dance all night to the best song ever!',
           '2024',
           false),
