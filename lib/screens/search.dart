@@ -127,9 +127,9 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                           Positioned(
                               bottom: 0,
-                              left: 128,
+                              left: 133,
                               child: Transform.rotate(
-                                angle: 0.33,
+                                angle: 0.48,
                                 child: Container(
                                   decoration: const BoxDecoration(boxShadow: [
                                     BoxShadow(
@@ -141,7 +141,7 @@ class _SearchPageState extends State<SearchPage> {
                                     borderRadius: BorderRadius.circular(4),
                                     child: Image.asset(
                                       genreInfo.imageURL,
-                                      scale: 4,
+                                      scale: 4.2,
                                     ),
                                   ),
                                 ),
