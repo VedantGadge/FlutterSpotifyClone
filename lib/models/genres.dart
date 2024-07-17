@@ -8,6 +8,7 @@ class Genres {
   String title2;
   List<String> listViewImgs1;
   List<String> listViewImgs2;
+  Color gradColor;
 
   Genres({
     required this.genre,
@@ -17,5 +18,6 @@ class Genres {
     required this.title2,
     required this.listViewImgs1,
     required this.listViewImgs2,
+    required this.gradColor,
   });
 }

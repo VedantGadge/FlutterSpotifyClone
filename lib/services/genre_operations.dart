@@ -13,6 +13,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Music',
@@ -22,6 +23,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Music',
@@ -31,6 +33,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Music',
@@ -40,6 +43,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Hindi',
@@ -49,6 +53,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: Colors.red,
       ),
       Genres(
         genre: 'Punjabi',
@@ -58,6 +63,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Tamil',
@@ -67,6 +73,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Charts',
@@ -76,6 +83,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Telugu',
@@ -85,6 +93,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Malayalam',
@@ -94,6 +103,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Summer',
@@ -103,6 +113,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Discover',
@@ -112,6 +123,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Party',
@@ -121,6 +133,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Chill',
@@ -130,6 +143,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Music',
@@ -139,6 +153,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Music',
@@ -148,6 +163,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Music',
@@ -157,6 +173,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Music',
@@ -166,6 +183,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Music',
@@ -175,6 +193,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Music',
@@ -184,6 +203,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Music',
@@ -193,6 +213,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
       Genres(
         genre: 'Music',
@@ -202,6 +223,7 @@ class GenreOperations {
         title2: "",
         listViewImgs1: [],
         listViewImgs2: [],
+        gradColor: const Color(0xffdc148c),
       ),
     ];
   }

@@ -107,7 +107,7 @@ class _AlbumViewState extends State<AlbumView> {
           children: [
             SingleChildScrollView(
               controller: scrollController,
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: 2500,
