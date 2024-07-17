@@ -58,7 +58,8 @@ class _GenreScreenState extends State<GenreScreen> {
                   gradient: LinearGradient(
                     colors: [
                       widget.gradColor,
-                      widget.gradColor.withOpacity(0.5),
+                      widget.gradColor,
+                      widget.gradColor,
                       Colors.black,
                       Colors.black,
                       Colors.black,
