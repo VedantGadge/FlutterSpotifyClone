@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify_clone_app/models/genres.dart';
 import 'package:spotify_clone_app/services/genre_operations.dart';
+import 'package:spotify_clone_app/screens/genre.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage({super.key});
@@ -24,7 +25,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         decoration: const BoxDecoration(color: Colors.black),
         child: CustomScrollView(
           scrollBehavior: const ScrollBehavior(),
@@ -98,7 +99,14 @@ class _SearchPageState extends State<SearchPage> {
                 (BuildContext context, int index) {
                   final genreInfo = genresList[index];
                   return GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const GenreScreen(),
+                        ),
+                      );
+                    },
                     child: Container(
                       // Placeholder color
                       alignment: Alignment.center,
