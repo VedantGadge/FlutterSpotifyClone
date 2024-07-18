@@ -103,12 +103,12 @@ class _SearchPageState extends State<SearchPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>  GenreScreen(
+                          builder: (context) => GenreScreen(
                             title1: genresList[index].title1,
                             title2: genresList[index].title2,
                             listViewImgs1: genresList[index].listViewImgs1,
                             listViewImgs2: genresList[index].listViewImgs2,
-                            gradColor: genresList[index].gradColor,
+                            gradColor: genresList[index].bgcolor,
                             genreName: genresList[index].genre,
                           ),
                         ),

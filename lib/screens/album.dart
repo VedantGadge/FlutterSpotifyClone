@@ -191,14 +191,6 @@ class _AlbumViewState extends State<AlbumView> {
                   ),
                 ),
                 elevation: 0,
-                actions: [
-                  Opacity(
-                    opacity: appBarOpacity,
-                    child: Container(
-                      color: _backgroundColor ?? Colors.black,
-                    ),
-                  ),
-                ],
               ),
             ),
           ],
@@ -227,61 +219,58 @@ class _AlbumViewState extends State<AlbumView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.songInfo[index].songName,
-                        style: const TextStyle(
-                          color: const Color.fromARGB(248, 255, 255, 255),
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                        ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.songInfo[index].songName,
+                      style: const TextStyle(
+                        color: Color.fromARGB(248, 255, 255, 255),
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
                       ),
-                      widget.songInfo[index].isExplicit
-                          ? Row(
-                              children: [
-                                const Icon(
-                                  Icons.explicit_rounded,
-                                  color: Colors.white54,
-                                  size: 17,
-                                ),
-                                const SizedBox(width: 2),
-                                Text(
-                                  widget.songInfo[index].songArtists,
-                                  style: const TextStyle(
-                                    color: const Color.fromARGB(
-                                        161, 255, 255, 255),
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Text(
-                              widget.songInfo[index].songArtists,
-                              style: const TextStyle(
-                                color: const Color.fromARGB(161, 255, 255, 255),
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
+                    ),
+                    widget.songInfo[index].isExplicit
+                        ? Row(
+                            children: [
+                              const Icon(
+                                Icons.explicit_rounded,
+                                color: Colors.white54,
+                                size: 17,
                               ),
+                              const SizedBox(width: 2),
+                              Text(
+                                widget.songInfo[index].songArtists,
+                                style: const TextStyle(
+                                  color: Color.fromARGB(161, 255, 255, 255),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Text(
+                            widget.songInfo[index].songArtists,
+                            style: const TextStyle(
+                              color: Color.fromARGB(161, 255, 255, 255),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
                             ),
-                    ],
-                  ),
-                  GestureDetector(
-                    child: const Icon(Icons.more_vert_rounded,
-                        color: Colors.white),
-                    onTap: () {
-                      print('More button pressed');
-                    },
-                  ),
-                ],
-              ),
+                          ),
+                  ],
+                ),
+                GestureDetector(
+                  child:
+                      const Icon(Icons.more_vert_rounded, color: Colors.white),
+                  onTap: () {
+                    print('More button pressed');
+                  },
+                ),
+              ],
             ),
           ],
         ),

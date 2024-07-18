@@ -58,15 +58,6 @@ class _GenreScreenState extends State<GenreScreen> {
                   gradient: LinearGradient(
                     colors: [
                       widget.gradColor,
-                      widget.gradColor,
-                      widget.gradColor,
-                      Colors.black,
-                      Colors.black,
-                      Colors.black,
-                      Colors.black,
-                      Colors.black,
-                      Colors.black,
-                      Colors.black,
                       Colors.black,
                       Colors.black,
                       Colors.black,
@@ -84,10 +75,29 @@ class _GenreScreenState extends State<GenreScreen> {
                 ),
               ),
             ),
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
+            _appBar(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Positioned _appBar(BuildContext context) {
+    return Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    widget.gradColor,
+                    const Color.fromARGB(28, 0, 0, 0),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
               child: AppBar(
                 scrolledUnderElevation: 0,
                 title: Opacity(
@@ -101,7 +111,7 @@ class _GenreScreenState extends State<GenreScreen> {
                     ),
                   ),
                 ),
-                backgroundColor: widget.gradColor.withOpacity(appBarOpacity),
+                backgroundColor: Colors.transparent,
                 leading: IconButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -114,9 +124,6 @@ class _GenreScreenState extends State<GenreScreen> {
                 elevation: 0,
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }
