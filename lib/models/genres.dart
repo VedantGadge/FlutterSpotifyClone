@@ -6,8 +6,8 @@ class Genres {
   Color bgcolor;
   String title1;
   String title2;
-  List<String> listViewImgs1;
-  List<String> listViewImgs2;
+  List<List<String>> listViewImgs1;
+  List<List<String>> listViewImgs2;
 
   Genres({
     required this.genre,
