@@ -88,7 +88,7 @@ class _GenreScreenState extends State<GenreScreen> {
                     const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 89, vertical: 10),
+                          horizontal: 88, vertical: 10),
                       child: Text(
                         widget.title1,
                         style: const TextStyle(
@@ -111,7 +111,7 @@ class _GenreScreenState extends State<GenreScreen> {
 
   Container _listView1() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       height: 180,
       child: ScrollConfiguration(
         behavior: NoGlowScrollBehavior(),
