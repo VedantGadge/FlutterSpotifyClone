@@ -53,63 +53,80 @@ class _GenreScreenState extends State<GenreScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Filter out the genre at genreIndex, the genre we currently are at is removed from the browse more genres
+    List<Genres> filteredGenresList = List.from(genresList)
+      ..removeAt(widget.genreIndex);
+
     return SafeArea(
       child: Scaffold(
         body: Stack(
           children: [
-            SingleChildScrollView(
-              controller: scrollController,
-              physics: const ClampingScrollPhysics(),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 1000,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      widget.gradColor,
-                      Colors.black,
-                      Colors.black,
-                      Colors.black,
-                      Colors.black,
-                      Colors.black,
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.center,
-                  ),
-                ),
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).padding.top,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _genreName(),
-                    const SizedBox(height: 10),
-                    _title1(),
-                    _listView1(),
-                    const SizedBox(height: 10),
-                    _title2(),
-                    _listView2(),
-                    const SizedBox(height: 10),
-                    _gridView(),
-                    if (!showAllGridItems)
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            showAllGridItems = true;
-                          });
-                        },
-                        child: Text(
-                          'Browse All',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
+            Container(
+              color: Colors.black,
+              child: CustomScrollView(
+                scrollBehavior: NoGlowScrollBehavior(),
+                controller: scrollController,
+                slivers: [
+                  SliverToBoxAdapter(child: _genreName()),
+                  const SliverToBoxAdapter(child: SizedBox(height: 10)),
+                  SliverToBoxAdapter(child: _title1()),
+                  SliverToBoxAdapter(child: _listView1()),
+                  const SliverToBoxAdapter(child: SizedBox(height: 10)),
+                  SliverToBoxAdapter(child: _title2()),
+                  SliverToBoxAdapter(child: _listView2()),
+                  const SliverToBoxAdapter(child: SizedBox(height: 30)),
+                  const SliverToBoxAdapter(
+                      child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 145.0, vertical: 15),
+                    child: Text(
+                      'Browse All',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  )),
+                  _gridView(filteredGenresList),
+                  if (!showAllGridItems)
+                    SliverToBoxAdapter(
+                      child: PressableItem(
+                        child: TextButton(
+                          onPressed: () {
+                            setState(() {
+                              showAllGridItems = true;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.horizontal(
+                                left: Radius.circular(30), // Curved side edges
+                                right: Radius.circular(30),
+                              ),
+                              border: Border.all(
+                                color: Colors.white30, // Border color
+                                width: 1, // Border width
+                              ),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.only(
+                                  left: 20.0, right: 20, top: 1),
+                              child: Text(
+                                'Browse more genres',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                  ],
-                ),
+                    ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 300)),
+                ],
               ),
             ),
             _appBar(context),
@@ -121,7 +138,7 @@ class _GenreScreenState extends State<GenreScreen> {
 
   Padding _genreName() {
     return Padding(
-      padding: const EdgeInsets.only(left: 15, top: 30),
+      padding: const EdgeInsets.only(left: 15, top: 50),
       child: Text(
         widget.genreName,
         style: const TextStyle(
@@ -250,71 +267,72 @@ class _GenreScreenState extends State<GenreScreen> {
     );
   }
 
-  Container _gridView() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      height: 300, // Adjust height as needed
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Number of columns
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
-          childAspectRatio: 2, // Aspect ratio of each grid item
-        ),
-        itemCount: showAllGridItems
-            ? genresList.length
-            : (genresList.length > 8 ? 8 : genresList.length),
-        itemBuilder: (context, index) {
-          final genreInfo = genresList[index];
-          return Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: genreInfo.bgcolor,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 12),
-                    child: Text(
-                      genreInfo.genre,
-                      style: const TextStyle(
-                        fontSize: 18.5,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
+  SliverGrid _gridView(List<Genres> filteredGenresList) {
+    return SliverGrid(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, // Number of columns
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
+        childAspectRatio: 2, // Aspect ratio of each grid item
+      ),
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          final genreInfo = filteredGenresList[index];
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: genreInfo.bgcolor,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0, top: 12),
+                      child: Text(
+                        genreInfo.genre,
+                        style: const TextStyle(
+                          fontSize: 18.5,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                    bottom: 0,
-                    left: 133,
-                    child: Transform.rotate(
-                      angle: 0.48,
-                      child: Container(
-                        decoration: const BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Colors.black,
-                            blurRadius: 5,
-                          )
-                        ]),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: Image.asset(
-                            genreInfo.imageURL,
-                            scale: 4.2,
+                  Positioned(
+                      bottom: 0,
+                      left: 133,
+                      child: Transform.rotate(
+                        angle: 0.48,
+                        child: Container(
+                          decoration: const BoxDecoration(boxShadow: [
+                            BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 5,
+                            )
+                          ]),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: Image.asset(
+                              genreInfo.imageURL,
+                              scale: 4.2,
+                            ),
                           ),
                         ),
-                      ),
-                    )),
-              ],
+                      )),
+                ],
+              ),
             ),
           );
         },
+        childCount: showAllGridItems
+            ? filteredGenresList.length
+            : (filteredGenresList.length > 8 ? 8 : filteredGenresList.length),
       ),
     );
   }
@@ -328,12 +346,14 @@ class _GenreScreenState extends State<GenreScreen> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              widget.gradColor,
-              Colors.black.withOpacity(appBarOpacity < 0.3
-                  ? 0
-                  : appBarOpacity == 1
-                      ? appBarOpacity
-                      : appBarOpacity - 0.2),
+              widget.gradColor.withOpacity(appBarOpacity),
+              Colors.black.withOpacity(
+                appBarOpacity < 0.3
+                    ? 0
+                    : appBarOpacity == 1
+                        ? appBarOpacity
+                        : appBarOpacity - 0.1,
+              ),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,

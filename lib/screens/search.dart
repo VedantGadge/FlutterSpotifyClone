@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify_clone_app/constants/pressEffect.dart';
 import 'package:spotify_clone_app/models/genres.dart';
+import 'package:spotify_clone_app/screens/album.dart';
 import 'package:spotify_clone_app/services/genre_operations.dart';
 import 'package:spotify_clone_app/screens/genre.dart';
 
@@ -14,11 +15,10 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   late List<Genres> genresList;
-  // Dummy data for categories
+
   @override
   void initState() {
     super.initState();
-    // Initialize your data fetching or any other initialization here
     genresList = GenreOperations.getGenres();
   }
 
@@ -29,7 +29,7 @@ class _SearchPageState extends State<SearchPage> {
         padding: const EdgeInsets.symmetric(horizontal: 5),
         decoration: const BoxDecoration(color: Colors.black),
         child: CustomScrollView(
-          scrollBehavior: const ScrollBehavior(),
+          scrollBehavior: NoGlowScrollBehavior(),
           slivers: [
             const SliverToBoxAdapter(
               child: Padding(
@@ -91,10 +91,10 @@ class _SearchPageState extends State<SearchPage> {
             ),
             SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Number of columns
+                crossAxisCount: 2,
                 crossAxisSpacing: 15,
                 mainAxisSpacing: 15,
-                childAspectRatio: 2, // Aspect ratio of each grid item
+                childAspectRatio: 2,
               ),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
@@ -117,44 +117,46 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                         );
                       },
-                      child: Container(
-                        // Placeholder color
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          color: genreInfo.bgcolor,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 12),
-                                child: Text(
-                                  genreInfo.genre,
-                                  style: const TextStyle(
-                                    fontSize: 18.5,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: genreInfo.bgcolor,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 8.0, top: 12),
+                                  child: Text(
+                                    genreInfo.genre,
+                                    style: const TextStyle(
+                                      fontSize: 18.5,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Positioned(
+                              Positioned(
                                 bottom: 0,
                                 left: 133,
                                 child: Transform.rotate(
                                   angle: 0.48,
                                   child: Container(
-                                    decoration: const BoxDecoration(boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black,
-                                        blurRadius: 5,
-                                      )
-                                    ]),
+                                    decoration: const BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black,
+                                          blurRadius: 5,
+                                        )
+                                      ],
+                                    ),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(4),
                                       child: Image.asset(
@@ -163,8 +165,10 @@ class _SearchPageState extends State<SearchPage> {
                                       ),
                                     ),
                                   ),
-                                )),
-                          ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -219,6 +223,7 @@ class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => false;
 }
+
 
 
 
