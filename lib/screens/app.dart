@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:spotify_clone_app/constants/pressEffect.dart';
 import 'package:spotify_clone_app/screens/home.dart';
 import 'package:spotify_clone_app/screens/library.dart';
 import 'package:spotify_clone_app/screens/search.dart';
@@ -40,7 +41,7 @@ class _MainAppState extends State<MainApp> {
             bottom: 0,
             child: Container(
               height: 80,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -49,24 +50,22 @@ class _MainAppState extends State<MainApp> {
                     Colors.transparent,
                     Colors.transparent,
                     Colors.transparent,
-                    Color.fromARGB(80, 0, 0, 0),
-                    Color.fromARGB(120, 0, 0, 0),
-                    Color.fromARGB(140, 0, 0, 0),
-                    Color.fromARGB(160, 0, 0, 0),
-                    Color.fromARGB(180, 0, 0, 0),
-                    Color.fromARGB(220, 0, 0, 0),
+                    Colors.black.withOpacity(0.2),
+                    Colors.black.withOpacity(0.4),
+                    Colors.black.withOpacity(0.6),
+                    Colors.black.withOpacity(0.8),
+                    Colors.black.withOpacity(0.8),
                   ],
-                  stops: [
-                    0.1,
+                  stops: const [
+                    0.0,
                     0.2,
-                    0.5,
+                    0.4,
                     0.6,
-                    0.68,
-                    0.72,
-                    0.78,
-                    0.82,
-                    0.86,
-                    1,
+                    0.7,
+                    0.8,
+                    0.85,
+                    0.9,
+                    1.0,
                   ],
                 ),
               ),
@@ -79,30 +78,39 @@ class _MainAppState extends State<MainApp> {
             child: BottomNavigationBar(
               items: [
                 BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    _selectedIndex == 0
-                        ? 'assets/icons/home_alt.svg'
-                        : 'assets/icons/home.svg',
-                    height: 25,
-                    color: Colors.white,
+                  icon: PressableItem(
+                    child: SvgPicture.asset(
+                      _selectedIndex == 0
+                          ? 'assets/icons/home_alt.svg'
+                          : 'assets/icons/home.svg',
+                      height: 25,
+                      color: Colors.white,
+                    ),
+                    onTap: () => _onItemTapped(0),
                   ),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    _selectedIndex == 1
-                        ? 'assets/icons/search_alt.svg'
-                        : 'assets/icons/search.svg',
-                    height: 25,
-                    color: Colors.white,
+                  icon: PressableItem(
+                    child: SvgPicture.asset(
+                      _selectedIndex == 1
+                          ? 'assets/icons/search_alt.svg'
+                          : 'assets/icons/search.svg',
+                      height: 25,
+                      color: Colors.white,
+                    ),
+                    onTap: () => _onItemTapped(1),
                   ),
                   label: 'Search',
                 ),
                 BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/icons/library.svg',
-                    height: 25,
-                    color: Colors.white,
+                  icon: PressableItem(
+                    child: SvgPicture.asset(
+                      'assets/icons/library.svg',
+                      height: 25,
+                      color: Colors.white,
+                    ),
+                    onTap: () => _onItemTapped(2),
                   ),
                   label: 'Your Library',
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:spotify_clone_app/constants/pressEffect.dart';
 import 'package:spotify_clone_app/models/genres.dart';
 import 'package:spotify_clone_app/services/genre_operations.dart';
 import 'package:spotify_clone_app/screens/genre.dart';
@@ -98,70 +99,73 @@ class _SearchPageState extends State<SearchPage> {
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
                   final genreInfo = genresList[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => GenreScreen(
-                            title1: genresList[index].title1,
-                            title2: genresList[index].title2,
-                            listViewImgs1: genresList[index].listViewImgs1,
-                            listViewImgs2: genresList[index].listViewImgs2,
-                            gradColor: genresList[index].bgcolor,
-                            genreName: genresList[index].genre,
+                  return PressableItem(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GenreScreen(
+                              genreIndex: index,
+                              title1: genresList[index].title1,
+                              title2: genresList[index].title2,
+                              listViewImgs1: genresList[index].listViewImgs1,
+                              listViewImgs2: genresList[index].listViewImgs2,
+                              gradColor: genresList[index].bgcolor,
+                              genreName: genresList[index].genre,
+                            ),
                           ),
+                        );
+                      },
+                      child: Container(
+                        // Placeholder color
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          color: genreInfo.bgcolor,
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                      );
-                    },
-                    child: Container(
-                      // Placeholder color
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        color: genreInfo.bgcolor,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 8.0, top: 12),
-                              child: Text(
-                                genreInfo.genre,
-                                style: const TextStyle(
-                                  fontSize: 18.5,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8.0, top: 12),
+                                child: Text(
+                                  genreInfo.genre,
+                                  style: const TextStyle(
+                                    fontSize: 18.5,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                              bottom: 0,
-                              left: 133,
-                              child: Transform.rotate(
-                                angle: 0.48,
-                                child: Container(
-                                  decoration: const BoxDecoration(boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black,
-                                      blurRadius: 5,
-                                    )
-                                  ]),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4),
-                                    child: Image.asset(
-                                      genreInfo.imageURL,
-                                      scale: 4.2,
+                            Positioned(
+                                bottom: 0,
+                                left: 133,
+                                child: Transform.rotate(
+                                  angle: 0.48,
+                                  child: Container(
+                                    decoration: const BoxDecoration(boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black,
+                                        blurRadius: 5,
+                                      )
+                                    ]),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(4),
+                                      child: Image.asset(
+                                        genreInfo.imageURL,
+                                        scale: 4.2,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              )),
-                        ],
+                                )),
+                          ],
+                        ),
                       ),
                     ),
                   );

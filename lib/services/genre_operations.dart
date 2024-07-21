@@ -48,30 +48,51 @@ class GenreOperations {
         imageURL: 'assets/categories_thumbnail/Hindi.jpg',
         bgcolor: const Color(0xffdc148c),
         title1: "Popular Hindi Playlists",
-        title2: "",
+        title2: "New & Trending",
         listViewImgs1: [
           [
-            'assets/categories_thumbnail/TTH.jpg',
+            'assets/categories_thumbnail/HindiImg4.jpg',
             'Hot Hits Hindi',
             '2,227,577 followers',
           ],
           [
-            'assets/categories_thumbnail/Punjabi.jpg',
-            'Hot Hits Hindi',
-            '1786970 followers',
+            'assets/categories_thumbnail/HindiImg1.jpg',
+            'Bollywood Mush',
+            '1,354,744 followers',
           ],
           [
-            'assets/categories_thumbnail/Hindi.jpg',
-            'Hot Hits Hindi',
-            '1786970 followers',
+            'assets/categories_thumbnail/HindiImg3.jpg',
+            'Bollywood Central',
+            '1,343,306 followers',
           ],
           [
-            'assets/categories_thumbnail/Tamil.jpg',
-            'Hot Hits Hindi',
-            '1786970 followers',
+            'assets/categories_thumbnail/HindiImg8.jpg',
+            '90s Love Hits',
+            '515,828 followers',
           ],
         ],
-        listViewImgs2: [],
+        listViewImgs2: [
+          [
+            'assets/categories_thumbnail/HindiImg2.jpg',
+            'New Music Hindi',
+            '827,974 followers',
+          ],
+          [
+            'assets/categories_thumbnail/HindiImg5.jpg',
+            'Bollywood Sundowner',
+            '227,639 followers',
+          ],
+          [
+            'assets/categories_thumbnail/HindiImg6.jpg',
+            'New in dance',
+            '539,567 followers',
+          ],
+          [
+            'assets/categories_thumbnail/HindiImg7.jpg',
+            'All Out Hindi 00s',
+            '640,530 followers',
+          ],
+        ],
       ),
       Genres(
         genre: 'Punjabi',

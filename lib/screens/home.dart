@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:spotify_clone_app/constants/pressEffect.dart';
 import 'package:spotify_clone_app/models/category.dart';
 import 'package:spotify_clone_app/models/musicList.dart';
 import 'package:spotify_clone_app/screens/album.dart';
@@ -108,162 +109,168 @@ class _HomePageState extends State<HomePage> {
 
   // Create a category widget with a gesture detector for navigation
   Widget createCategory(BuildContext context, Category category, int index) {
-    return GestureDetector(
-      onTap: () {
-        List<Song> songs;
-        switch (index) {
-          case 0:
-            songs = [
-              Song("url1_for_category_0", "Tera Fitoor", 'Arijit Singh', false),
-              Song("url1_for_category_0", "Chaleya",
-                  'Arijit Singh, Anirudh Ravichander, Shilpa Rao,', false),
-              Song("url1_for_category_0", "Kabhi Jo Baadal Barse",
-                  'Arijit Singh', false),
-              Song("url1_for_category_0", "Tere Hawale",
-                  'Arijit Singh,Pritam,Shilpa Rao', false),
-              Song("url1_for_category_0", "Raabta", 'Arijit Singh,Pritam',
-                  false),
-              Song("url1_for_category_0", "Ghungroo", 'Arijit Singh,Shilpa Rao',
-                  false),
-              Song("url1_for_category_0", "Chahun Main Ya Naa",
-                  'Arijit Singh,Palak Muchhal', false),
-              Song(
-                  "url1_for_category_0", "Ilahi", 'Arijit Singh,Pritam', false),
-              Song("url1_for_category_0", "Main Rang Sharabton Ka",
-                  'Arijit Singh,Pritam', false),
-              Song("url1_for_category_0", "Shaayraana", 'Arijit Singh,Pritam',
-                  false),
-              Song("url1_for_category_0", "Phir Mohabbat",
-                  'Arijit Singh,Mohammed Irfan,Saim Bhat', false),
-              Song("url1_for_category_0", "Phir Bhi Tumko Chaahunga",
-                  'Arijit Singh,Mithoon,Shashaa Tirupati', false),
-            ];
-            break;
-          case 1:
-            songs = [
-              Song("url1_for_category_1", "FE!N", "Travis Scott, Playboi Carti",
-                  true),
-              Song(
-                  "url1_for_category_1", "GOD'S COUNTRY", "Travis Scott", true),
-              Song("url1_for_category_1", "MY EYES", "Travis Scott", true),
-              Song("url1_for_category_1", "HYAENA", "Travis Scott", true),
-              Song("url1_for_category_1", "TOPIA TWINS",
-                  "Travis Scott, Rob49, 21 Savage", true),
-              Song("url1_for_category_1", "CIRCUS MAXIMUS",
-                  "Travis Scott, The Weeknd, Swae Lee", true),
-              Song("url1_for_category_1", "K-POP",
-                  "Travis Scott, Bad Bunny, The Weeknd", true),
-            ];
-            break;
-          case 2:
-            songs = [
-              Song("url1_for_category_2", "3:59", "DIVINE", true),
-              Song("url1_for_category_2", "Satya", "DIVINE", true),
-              Song("url1_for_category_2", "Punya Paap", "DIVINE", false),
-              Song("url1_for_category_2", "Mirchi",
-                  "DIVINE, MC Altaf, Stylo G, Phenom", false),
-              Song("url1_for_category_2", "Baazigar", "DIVINE, Armani White",
-                  true),
-              Song("url1_for_category_2", "Drill Karte", "DIVINE, dutchavelli",
-                  false),
-              Song("url1_for_category_2", "Kaam 25 - Sacred Games", "DIVINE",
-                  false),
-            ];
-            break;
-          case 3:
-            songs = [
-              Song(
-                  "url1_for_category_3", "Not Like Us", "Kendrick Lamar", true),
-              Song("url1_for_category_3", "family ties",
-                  "Kendrick Lamar, Baby Keem", true),
-              Song("url1_for_category_3", "HUMBLE.", "Kendrick Lamar", true),
-              Song("url1_for_category_3", "Like That",
-                  "Kendrick Lamar, Future, Metro Boomin", true),
-              Song("url1_for_category_3", "Pray For Me",
-                  "Kendrick Lamar, The Weeknd", true),
-              Song("url1_for_category_3", "Don't Wanna Know",
-                  "Kendrick Lamar, Maroon 5", false),
-              Song("url1_for_category_3", "Poetic Justice",
-                  "Kendrick Lamar, Drake", true),
-            ];
-            break;
-          case 4:
-            songs = [
-              Song("url1_for_category_4", "Shape Of You", "Ed Sheeran", false),
-              Song("url1_for_category_4", "Perfect", "Ed Sheeran", false),
-              Song("url1_for_category_4", "Eraser", "Ed Sheeran", false),
-              Song("url1_for_category_4", "Happier", "Ed Sheeran", false),
-              Song("url1_for_category_4", "What Do I Know?", "Ed Sheeran",
-                  false),
-              Song("url1_for_category_4", "Let Her Go", "Ed Sheeran, Passenger",
-                  false),
-              Song("url1_for_category_4", "Castle on the Hill", "Ed Sheeran",
-                  false),
-            ];
-            break;
-          case 5:
-            songs = [
-              Song("url1_for_category_5", "Starboy", "The Weeknd", false),
-              Song("url1_for_category_5", "Die For You", "The Weeknd", false),
-              Song("url1_for_category_5", "Rockin'", "The Weeknd", false),
-              Song("url1_for_category_5", "Blinding Lights", "The Weeknd",
-                  false),
-              Song("url1_for_category_5", "Stargirl Interlude",
-                  "The Weeknd, Lana Del Ray", false),
-              Song("url1_for_category_5", "I Feel It Coming",
-                  "The Weeknd, Daft Punk", false),
-              Song("url1_for_category_5", "Party Monster", "The Weeknd", false),
-            ];
-            break;
-          default:
-            songs = [Song("default_url1", "", "", false)];
-        }
+    return PressableItem(
+      child: GestureDetector(
+        onTap: () {
+          List<Song> songs;
+          switch (index) {
+            case 0:
+              songs = [
+                Song("url1_for_category_0", "Tera Fitoor", 'Arijit Singh',
+                    false),
+                Song("url1_for_category_0", "Chaleya",
+                    'Arijit Singh, Anirudh Ravichander, Shilpa Rao,', false),
+                Song("url1_for_category_0", "Kabhi Jo Baadal Barse",
+                    'Arijit Singh', false),
+                Song("url1_for_category_0", "Tere Hawale",
+                    'Arijit Singh,Pritam,Shilpa Rao', false),
+                Song("url1_for_category_0", "Raabta", 'Arijit Singh,Pritam',
+                    false),
+                Song("url1_for_category_0", "Ghungroo",
+                    'Arijit Singh,Shilpa Rao', false),
+                Song("url1_for_category_0", "Chahun Main Ya Naa",
+                    'Arijit Singh,Palak Muchhal', false),
+                Song("url1_for_category_0", "Ilahi", 'Arijit Singh,Pritam',
+                    false),
+                Song("url1_for_category_0", "Main Rang Sharabton Ka",
+                    'Arijit Singh,Pritam', false),
+                Song("url1_for_category_0", "Shaayraana", 'Arijit Singh,Pritam',
+                    false),
+                Song("url1_for_category_0", "Phir Mohabbat",
+                    'Arijit Singh,Mohammed Irfan,Saim Bhat', false),
+                Song("url1_for_category_0", "Phir Bhi Tumko Chaahunga",
+                    'Arijit Singh,Mithoon,Shashaa Tirupati', false),
+              ];
+              break;
+            case 1:
+              songs = [
+                Song("url1_for_category_1", "FE!N",
+                    "Travis Scott, Playboi Carti", true),
+                Song("url1_for_category_1", "GOD'S COUNTRY", "Travis Scott",
+                    true),
+                Song("url1_for_category_1", "MY EYES", "Travis Scott", true),
+                Song("url1_for_category_1", "HYAENA", "Travis Scott", true),
+                Song("url1_for_category_1", "TOPIA TWINS",
+                    "Travis Scott, Rob49, 21 Savage", true),
+                Song("url1_for_category_1", "CIRCUS MAXIMUS",
+                    "Travis Scott, The Weeknd, Swae Lee", true),
+                Song("url1_for_category_1", "K-POP",
+                    "Travis Scott, Bad Bunny, The Weeknd", true),
+              ];
+              break;
+            case 2:
+              songs = [
+                Song("url1_for_category_2", "3:59", "DIVINE", true),
+                Song("url1_for_category_2", "Satya", "DIVINE", true),
+                Song("url1_for_category_2", "Punya Paap", "DIVINE", false),
+                Song("url1_for_category_2", "Mirchi",
+                    "DIVINE, MC Altaf, Stylo G, Phenom", false),
+                Song("url1_for_category_2", "Baazigar", "DIVINE, Armani White",
+                    true),
+                Song("url1_for_category_2", "Drill Karte",
+                    "DIVINE, dutchavelli", false),
+                Song("url1_for_category_2", "Kaam 25 - Sacred Games", "DIVINE",
+                    false),
+              ];
+              break;
+            case 3:
+              songs = [
+                Song("url1_for_category_3", "Not Like Us", "Kendrick Lamar",
+                    true),
+                Song("url1_for_category_3", "family ties",
+                    "Kendrick Lamar, Baby Keem", true),
+                Song("url1_for_category_3", "HUMBLE.", "Kendrick Lamar", true),
+                Song("url1_for_category_3", "Like That",
+                    "Kendrick Lamar, Future, Metro Boomin", true),
+                Song("url1_for_category_3", "Pray For Me",
+                    "Kendrick Lamar, The Weeknd", true),
+                Song("url1_for_category_3", "Don't Wanna Know",
+                    "Kendrick Lamar, Maroon 5", false),
+                Song("url1_for_category_3", "Poetic Justice",
+                    "Kendrick Lamar, Drake", true),
+              ];
+              break;
+            case 4:
+              songs = [
+                Song(
+                    "url1_for_category_4", "Shape Of You", "Ed Sheeran", false),
+                Song("url1_for_category_4", "Perfect", "Ed Sheeran", false),
+                Song("url1_for_category_4", "Eraser", "Ed Sheeran", false),
+                Song("url1_for_category_4", "Happier", "Ed Sheeran", false),
+                Song("url1_for_category_4", "What Do I Know?", "Ed Sheeran",
+                    false),
+                Song("url1_for_category_4", "Let Her Go",
+                    "Ed Sheeran, Passenger", false),
+                Song("url1_for_category_4", "Castle on the Hill", "Ed Sheeran",
+                    false),
+              ];
+              break;
+            case 5:
+              songs = [
+                Song("url1_for_category_5", "Starboy", "The Weeknd", false),
+                Song("url1_for_category_5", "Die For You", "The Weeknd", false),
+                Song("url1_for_category_5", "Rockin'", "The Weeknd", false),
+                Song("url1_for_category_5", "Blinding Lights", "The Weeknd",
+                    false),
+                Song("url1_for_category_5", "Stargirl Interlude",
+                    "The Weeknd, Lana Del Ray", false),
+                Song("url1_for_category_5", "I Feel It Coming",
+                    "The Weeknd, Daft Punk", false),
+                Song("url1_for_category_5", "Party Monster", "The Weeknd",
+                    false),
+              ];
+              break;
+            default:
+              songs = [Song("default_url1", "", "", false)];
+          }
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AlbumView(
-              title: category.name,
-              imageUrl: category.imageURL,
-              songInfo: songs,
-              desc: category.desc,
-              year: category.year,
-              showTitle: category.showTitle,
-            ),
-          ),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xff2a2a2a),
-          borderRadius: BorderRadius.circular(4), // Rounded corners
-        ),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius:
-                  const BorderRadius.horizontal(left: Radius.circular(3)),
-              child: CachedNetworkImage(
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AlbumView(
+                title: category.name,
                 imageUrl: category.imageURL,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => const SizedBox(width: 58.5),
-              ), // Category image
-            ),
-            const SizedBox(width: 7),
-            Flexible(
-              //The Flexible widget is used here to make sure the text wraps within the available space.
-              child: Text(
-                category.name, // Category name
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                ),
-                overflow: TextOverflow.ellipsis, // Ellipsis if text is too long
-                maxLines: 2, // Allow text to wrap to the next line
+                songInfo: songs,
+                desc: category.desc,
+                year: category.year,
+                showTitle: category.showTitle,
               ),
             ),
-          ],
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color(0xff2a2a2a),
+            borderRadius: BorderRadius.circular(4), // Rounded corners
+          ),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius:
+                    const BorderRadius.horizontal(left: Radius.circular(3)),
+                child: CachedNetworkImage(
+                  imageUrl: category.imageURL,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => const SizedBox(width: 58.5),
+                ), // Category image
+              ),
+              const SizedBox(width: 7),
+              Flexible(
+                //The Flexible widget is used here to make sure the text wraps within the available space.
+                child: Text(
+                  category.name, // Category name
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  overflow:
+                      TextOverflow.ellipsis, // Ellipsis if text is too long
+                  maxLines: 2, // Allow text to wrap to the next line
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -304,73 +311,75 @@ class _HomePageState extends State<HomePage> {
 
   // Create a widget for 'Made For You' music section
   Widget madeForYou(BuildContext context, MusicList music, int index) {
-    return GestureDetector(
-      onTap: () {
-        List<Song> songs;
-        switch (index) {
-          case 0:
-            songs = [
-              Song("url1_for_music_0", "Here With Me", "Marshmello, CHVRCHES",
-                  false),
-            ];
-            break;
-          case 1:
-            songs = [Song("url1_for_music_1", "", "", false)];
-            break;
-          case 2:
-            songs = [Song("url1_for_music_2", "", "", false)];
-            break;
-          default:
-            songs = [Song("default_url1", "", "", false)];
-        }
+    return PressableItem(
+      child: GestureDetector(
+        onTap: () {
+          List<Song> songs;
+          switch (index) {
+            case 0:
+              songs = [
+                Song("url1_for_music_0", "Here With Me", "Marshmello, CHVRCHES",
+                    false),
+              ];
+              break;
+            case 1:
+              songs = [Song("url1_for_music_1", "", "", false)];
+              break;
+            case 2:
+              songs = [Song("url1_for_music_2", "", "", false)];
+              break;
+            default:
+              songs = [Song("default_url1", "", "", false)];
+          }
 
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AlbumView(
-                title: music.name,
-                imageUrl: music.imageURL,
-                songInfo: songs,
-                desc: music.description,
-                year: music.year,
-                showTitle: music.showTitle,
-              ),
-            ));
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(right: 18.0, top: 5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 180,
-              width: 180,
-              child: CachedNetworkImage(
-                imageUrl: music.imageURL,
-                fit: BoxFit.cover,
-              ), // Music cover image
-            ),
-            const SizedBox(height: 10),
-            Text(music.name,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700)), // Music name
-            Container(
-              height: 40,
-              width: 180,
-              child: Flexible(
-                child: Text(
-                  music.desc,
-                  style: const TextStyle(
-                      color: Colors.white54,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w200),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AlbumView(
+                  title: music.name,
+                  imageUrl: music.imageURL,
+                  songInfo: songs,
+                  desc: music.description,
+                  year: music.year,
+                  showTitle: music.showTitle,
                 ),
+              ));
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(right: 18.0, top: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 180,
+                width: 180,
+                child: CachedNetworkImage(
+                  imageUrl: music.imageURL,
+                  fit: BoxFit.cover,
+                ), // Music cover image
               ),
-            ), // Music description
-          ],
+              const SizedBox(height: 10),
+              Text(music.name,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700)), // Music name
+              Container(
+                height: 40,
+                width: 180,
+                child: Flexible(
+                  child: Text(
+                    music.desc,
+                    style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w200),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                ),
+              ), // Music description
+            ],
+          ),
         ),
       ),
     );
@@ -411,104 +420,108 @@ class _HomePageState extends State<HomePage> {
 
   // Create a widget for 'Best Of Artists' music section
   Widget bestOfArtists(BuildContext context, MusicList music, int index) {
-    return GestureDetector(
-      onTap: () {
-        List<Song> songs;
-        switch (index) {
-          case 0:
-            songs = [
-              Song("url1_for_music_0", "Here With Me", "Marshmello, CHVRCHES",
-                  false),
-              Song("url1_for_music_0", "FRIENDS", "Marshmello, Anne-Marie",
-                  true),
-              Song("url1_for_music_0", "Alone", "Marshmello", false),
-              Song("url1_for_music_0", "Everyday", "Marshmello, Logic", true),
-              Song("url1_for_music_0", "Summer", "Marshmello", false),
-              Song("url1_for_music_0", "Alone", "Marshmello", false),
-              Song("url1_for_music_0", "Wolves", "Marshmello, Selena Gomez",
-                  false),
-            ];
-            break;
-          case 1:
-            songs = [
-              Song(
-                  "url1_for_music_1", "Best Song Ever", "One Direction", false),
-              Song("url1_for_music_1", "Night Changes", "One Direction", false),
-              Song("url1_for_music_1", "What makes You Beautiful",
-                  "One Direction", false),
-              Song("url1_for_music_1", "Drag Me Down", "One Direction", false),
-              Song("url1_for_music_1", "No Control", "One Direction", false),
-              Song("url1_for_music_1", "History", "One Direction", false),
-              Song("url1_for_music_1", "Perfect", "One Direction", false),
-            ];
-            break;
-          case 2:
-            songs = [
-              Song("url1_for_music_2", "That's What I Like", "Bruno Mars",
-                  false),
-              Song("url1_for_music_2", "Just the Way You Are", "Bruno Mars",
-                  false),
-              Song("url1_for_music_2", "24K Magic", "Bruno Mars", false),
-              Song("url1_for_music_2", "Uptown Funk", "Bruno Mars,Mark Ronson",
-                  true),
-              Song("url1_for_music_2", "Grenade", "Bruno Mars", false),
-              Song("url1_for_music_2", "Leave The Door Open",
-                  "Bruno Mars, Anderson Paak, Silk Sonic", false),
-              Song("url1_for_music_2", "Versace on the Floor", "Bruno Mars",
-                  false),
-            ];
-            break;
-          default:
-            songs = [Song("default_url1", "", "", false)];
-        }
+    return PressableItem(
+      child: GestureDetector(
+        onTap: () {
+          List<Song> songs;
+          switch (index) {
+            case 0:
+              songs = [
+                Song("url1_for_music_0", "Here With Me", "Marshmello, CHVRCHES",
+                    false),
+                Song("url1_for_music_0", "FRIENDS", "Marshmello, Anne-Marie",
+                    true),
+                Song("url1_for_music_0", "Alone", "Marshmello", false),
+                Song("url1_for_music_0", "Everyday", "Marshmello, Logic", true),
+                Song("url1_for_music_0", "Summer", "Marshmello", false),
+                Song("url1_for_music_0", "Alone", "Marshmello", false),
+                Song("url1_for_music_0", "Wolves", "Marshmello, Selena Gomez",
+                    false),
+              ];
+              break;
+            case 1:
+              songs = [
+                Song("url1_for_music_1", "Best Song Ever", "One Direction",
+                    false),
+                Song("url1_for_music_1", "Night Changes", "One Direction",
+                    false),
+                Song("url1_for_music_1", "What makes You Beautiful",
+                    "One Direction", false),
+                Song(
+                    "url1_for_music_1", "Drag Me Down", "One Direction", false),
+                Song("url1_for_music_1", "No Control", "One Direction", false),
+                Song("url1_for_music_1", "History", "One Direction", false),
+                Song("url1_for_music_1", "Perfect", "One Direction", false),
+              ];
+              break;
+            case 2:
+              songs = [
+                Song("url1_for_music_2", "That's What I Like", "Bruno Mars",
+                    false),
+                Song("url1_for_music_2", "Just the Way You Are", "Bruno Mars",
+                    false),
+                Song("url1_for_music_2", "24K Magic", "Bruno Mars", false),
+                Song("url1_for_music_2", "Uptown Funk",
+                    "Bruno Mars,Mark Ronson", true),
+                Song("url1_for_music_2", "Grenade", "Bruno Mars", false),
+                Song("url1_for_music_2", "Leave The Door Open",
+                    "Bruno Mars, Anderson Paak, Silk Sonic", false),
+                Song("url1_for_music_2", "Versace on the Floor", "Bruno Mars",
+                    false),
+              ];
+              break;
+            default:
+              songs = [Song("default_url1", "", "", false)];
+          }
 
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AlbumView(
-                title: music.name,
-                imageUrl: music.imageURL,
-                songInfo: songs,
-                desc: music.description,
-                year: music.year,
-                showTitle: music.showTitle,
-              ),
-            ));
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(right: 18.0, top: 5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 180,
-              width: 180,
-              child: CachedNetworkImage(
-                imageUrl: music.imageURL,
-                fit: BoxFit.cover,
-              ), // Music cover image
-            ),
-            const SizedBox(height: 10),
-            Text(music.name,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700)), // Music name
-            Container(
-              height: 40,
-              width: 180,
-              child: Flexible(
-                child: Text(
-                  music.desc,
-                  style: const TextStyle(
-                      color: Colors.white54,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w200),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AlbumView(
+                  title: music.name,
+                  imageUrl: music.imageURL,
+                  songInfo: songs,
+                  desc: music.description,
+                  year: music.year,
+                  showTitle: music.showTitle,
                 ),
+              ));
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(right: 18.0, top: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 180,
+                width: 180,
+                child: CachedNetworkImage(
+                  imageUrl: music.imageURL,
+                  fit: BoxFit.cover,
+                ), // Music cover image
               ),
-            ), // Music description
-          ],
+              const SizedBox(height: 10),
+              Text(music.name,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700)), // Music name
+              Container(
+                height: 40,
+                width: 180,
+                child: Flexible(
+                  child: Text(
+                    music.desc,
+                    style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w200),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                ),
+              ), // Music description
+            ],
+          ),
         ),
       ),
     );
@@ -549,70 +562,72 @@ class _HomePageState extends State<HomePage> {
 
 // Create a widget for 'Popular' music section
   Widget popular(BuildContext context, MusicList music, int index) {
-    return GestureDetector(
-      onTap: () {
-        List<Song> songs;
-        switch (index) {
-          case 0:
-            songs = [Song("url1_for_music_0", "", "Jab We Met", false)];
-            break;
-          case 1:
-            songs = [Song("url1_for_music_1", "", "", false)];
-            break;
-          case 2:
-            songs = [Song("url1_for_music_2", "", "", false)];
-            break;
-          default:
-            songs = [Song("default_url1", "", "", false)];
-        }
+    return PressableItem(
+      child: GestureDetector(
+        onTap: () {
+          List<Song> songs;
+          switch (index) {
+            case 0:
+              songs = [Song("url1_for_music_0", "", "Jab We Met", false)];
+              break;
+            case 1:
+              songs = [Song("url1_for_music_1", "", "", false)];
+              break;
+            case 2:
+              songs = [Song("url1_for_music_2", "", "", false)];
+              break;
+            default:
+              songs = [Song("default_url1", "", "", false)];
+          }
 
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AlbumView(
-                title: music.name,
-                imageUrl: music.imageURL,
-                songInfo: songs,
-                desc: music.description,
-                year: music.year,
-                showTitle: music.showTitle,
-              ),
-            ));
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(right: 18.0, top: 5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 180,
-              width: 180,
-              child: CachedNetworkImage(
-                imageUrl: music.imageURL,
-                fit: BoxFit.cover,
-              ), // Music cover image
-            ),
-            const SizedBox(height: 10),
-            Text(music.name,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700)), // Music name
-            Container(
-              height: 40,
-              width: 180,
-              child: Flexible(
-                child: Text(
-                  music.desc,
-                  style: const TextStyle(
-                      color: Colors.white54,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w200),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AlbumView(
+                  title: music.name,
+                  imageUrl: music.imageURL,
+                  songInfo: songs,
+                  desc: music.description,
+                  year: music.year,
+                  showTitle: music.showTitle,
                 ),
+              ));
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(right: 18.0, top: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 180,
+                width: 180,
+                child: CachedNetworkImage(
+                  imageUrl: music.imageURL,
+                  fit: BoxFit.cover,
+                ), // Music cover image
               ),
-            ), // Music description
-          ],
+              const SizedBox(height: 10),
+              Text(music.name,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700)), // Music name
+              Container(
+                height: 40,
+                width: 180,
+                child: Flexible(
+                  child: Text(
+                    music.desc,
+                    style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w200),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                ),
+              ), // Music description
+            ],
+          ),
         ),
       ),
     );
