@@ -26,18 +26,111 @@ class GenreOperations {
         listViewImgs2: [],
       ),
       Genres(
-        genre: 'Music',
-        imageURL: 'assets/categories_thumbnail/TTH.jpg',
-        bgcolor: const Color(0xffdc148c),
+        genre: 'Party',
+        imageURL: 'assets/categories_thumbnail/Party.jpg',
+        bgcolor: const Color(0xff8c67ac),
         title1: "",
         title2: "",
-        listViewImgs1: [],
-        listViewImgs2: [],
+        listViewImgs1: [
+          [
+            'assets/categories_thumbnail/PartyImg1.jpg',
+            'Bollywood Dance Music',
+            '843,945 followers',
+          ],
+          [
+            'assets/categories_thumbnail/PartyImg2.jpg',
+            'Dance Pop Hits',
+            '509,181 followers',
+          ],
+          [
+            'assets/categories_thumbnail/PartyImg3.jpg',
+            'Party Hard',
+            '423,974 followers',
+          ],
+          [
+            'assets/categories_thumbnail/PartyImg4.jpg',
+            '90s Dance Party',
+            '1,245,,828 followers',
+          ],
+        ],
+        listViewImgs2: [
+          [
+            'assets/categories_thumbnail/PartyImg5.jpg',
+            'Pop Party',
+            '694,502 followers',
+          ],
+          [
+            'assets/categories_thumbnail/PartyImg6.jpg',
+            'I-Pop Party',
+            '191,565 followers',
+          ],
+          [
+            'assets/categories_thumbnail/PartyImg7.jpg',
+            'Dance Hits',
+            '3,915,559 followers'
+          ],
+          [
+            'assets/categories_thumbnail/PartyImg8.jpg',
+            'Psytrance Supernova',
+            '548,015 followers',
+          ],
+        ],
       ),
       Genres(
-        genre: 'Music',
-        imageURL: 'assets/categories_thumbnail/TTH.jpg',
-        bgcolor: const Color(0xffdc148c),
+        genre: 'Punjabi',
+        imageURL: 'assets/categories_thumbnail/Punjabi.jpg',
+        bgcolor: const Color(0xffb02897),
+        title1: "Popular Punjabi playlists",
+        title2: "Punjabi Pop",
+        listViewImgs1: [
+          [
+            'assets/categories_thumbnail/PunjabiImg1.jpg',
+            'Hot Hits Punjabi',
+            '1,083,430 followers',
+          ],
+          [
+            'assets/categories_thumbnail/PunjabiImg2.jpg',
+            'Punjabi Pop',
+            '159,219 followers',
+          ],
+          [
+            'assets/categories_thumbnail/PunjabiImg3.jpg',
+            'Mega Punjabi Hits',
+            '343,306 followers',
+          ],
+          [
+            'assets/categories_thumbnail/PunjabiImg4.jpg',
+            'Punjabi Swag',
+            '183,,828 followers',
+          ],
+        ],
+        listViewImgs2: [
+          [
+            'assets/categories_thumbnail/PunjabiImg5.jpg',
+            'Party Hits Punjabi',
+            '73,639 followers',
+          ],
+          [
+            'assets/categories_thumbnail/PunjabiImg6.jpg',
+            'Punjabi X',
+            '262,540 followers',
+          ],
+          [
+            'assets/categories_thumbnail/PunjabiImg7.jpg',
+            'Hip Te Hop',
+            '487,729 followers'
+          ],
+          [
+            'assets/categories_thumbnail/PunjabiImg8.jpg',
+            'Trending Now Punjabi',
+            '202,296 followers',
+          ],
+        ],
+      ),
+      Genres(
+        genre: 'Charts',
+        imageURL: 'assets/categories_thumbnail/Charts.jpg',
+        bgcolor: const Color(0xff8c67ac),
         title1: "",
         title2: "",
         listViewImgs1: [],
@@ -95,33 +188,6 @@ class GenreOperations {
         ],
       ),
       Genres(
-        genre: 'Punjabi',
-        imageURL: 'assets/categories_thumbnail/Punjabi.jpg',
-        bgcolor: const Color(0xffb02897),
-        title1: "",
-        title2: "",
-        listViewImgs1: [],
-        listViewImgs2: [],
-      ),
-      Genres(
-        genre: 'Tamil',
-        imageURL: 'assets/categories_thumbnail/Tamil.jpg',
-        bgcolor: const Color(0xffa56752),
-        title1: "",
-        title2: "",
-        listViewImgs1: [],
-        listViewImgs2: [],
-      ),
-      Genres(
-        genre: 'Charts',
-        imageURL: 'assets/categories_thumbnail/Charts.jpg',
-        bgcolor: const Color(0xff8c67ac),
-        title1: "",
-        title2: "",
-        listViewImgs1: [],
-        listViewImgs2: [],
-      ),
-      Genres(
         genre: 'Telugu',
         imageURL: 'assets/categories_thumbnail/Telugu.jpg',
         bgcolor: const Color(0xffb45b07),
@@ -158,9 +224,9 @@ class GenreOperations {
         listViewImgs2: [],
       ),
       Genres(
-        genre: 'Party',
-        imageURL: 'assets/categories_thumbnail/Party.jpg',
-        bgcolor: const Color(0xff8c67ac),
+        genre: 'Tamil',
+        imageURL: 'assets/categories_thumbnail/Tamil.jpg',
+        bgcolor: const Color(0xffa56752),
         title1: "",
         title2: "",
         listViewImgs1: [],

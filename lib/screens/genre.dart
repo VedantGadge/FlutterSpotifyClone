@@ -136,9 +136,18 @@ class _GenreScreenState extends State<GenreScreen> {
     );
   }
 
-  Padding _genreName() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15, top: 50),
+  Container _genreName() {
+    return Container(
+      padding: const EdgeInsets.only(top: 50, left: 15),
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+        colors: [
+          widget.gradColor,
+          Colors.black,
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      )),
       child: Text(
         widget.genreName,
         style: const TextStyle(
@@ -147,24 +156,28 @@ class _GenreScreenState extends State<GenreScreen> {
     );
   }
 
-  Padding _title1() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 88, vertical: 10),
-      child: Text(
-        widget.title1,
-        style: const TextStyle(
-            fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+  Center _title1() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Text(
+          widget.title1,
+          style: const TextStyle(
+              fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+        ),
       ),
     );
   }
 
-  Padding _title2() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 10),
-      child: Text(
-        widget.title2,
-        style: const TextStyle(
-            fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+  Center _title2() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Text(
+          widget.title2,
+          style: const TextStyle(
+              fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+        ),
       ),
     );
   }
