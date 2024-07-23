@@ -191,10 +191,52 @@ class GenreOperations {
         genre: 'Telugu',
         imageURL: 'assets/categories_thumbnail/Telugu.jpg',
         bgcolor: const Color(0xffb45b07),
-        title1: "",
-        title2: "",
-        listViewImgs1: [],
-        listViewImgs2: [],
+        title1: "Popular Telugu Playlists",
+        title2: "Telugu essentials",
+         listViewImgs1: [
+          [
+            'assets/categories_thumbnail/TeluguImg1.jpeg',
+            'Hot Hits Telugu',
+            '440,708 followers',
+          ],
+          [
+            'assets/categories_thumbnail/TeluguImg2.jpeg',
+            'Trending Now Telugu',
+            '121,538 followers',
+          ],
+          [
+            'assets/categories_thumbnail/TeluguImg3.jpeg',
+            'Telugu Love Songs',
+            '293,034 followers',
+          ],
+          [
+            'assets/categories_thumbnail/TeluguImg4.jpeg',
+            'Telugu Party Time',
+            '675,928 followers',
+          ],
+        ],
+        listViewImgs2: [
+          [
+            'assets/categories_thumbnail/TeluguImg5.jpeg',
+            'Latest Tamil',
+            '768,344 followers',
+          ],
+          [
+            'assets/categories_thumbnail/TeluguImg6.jpeg',
+            'All Out 00\'s Telugu',
+            '323,235 followers',
+          ],
+          [
+            'assets/categories_thumbnail/TeluguImg7.jpeg',
+            'Latest Telugu',
+            '539,567 followers',
+          ],
+          [
+            'assets/categories_thumbnail/TeluguImg8.jpeg',
+            'Kiraak Telugu',
+            '320,536 followers',
+          ],
+        ],
       ),
       Genres(
         genre: 'Malayalam',

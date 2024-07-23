@@ -114,8 +114,8 @@ class _AlbumViewState extends State<AlbumView> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      _backgroundColor ?? Colors.black,
-                      Colors.black,
+                      _backgroundColor ?? const Color(0xff121212),
+                      const Color(0xff121212),
                     ],
                     stops: const [0.2, 0.4],
                     begin: Alignment.topCenter,
@@ -166,31 +166,48 @@ class _AlbumViewState extends State<AlbumView> {
               top: 0,
               left: 0,
               right: 0,
-              child: AppBar(
-                scrolledUnderElevation: 0,
-                title: Opacity(
-                  opacity: appBarOpacity,
-                  child: Text(
-                    widget.title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
+              child: Container(
+                decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              _backgroundColor!.withOpacity(appBarOpacity),
+              Color.fromARGB(0, 18, 18, 18).withOpacity(
+                appBarOpacity < 0.3
+                    ? 0
+                    : appBarOpacity == 1
+                        ? appBarOpacity
+                        : appBarOpacity - 0.1,
+              ),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+                child: AppBar(
+                  scrolledUnderElevation: 0,
+                  title: Opacity(
+                    opacity: appBarOpacity,
+                    child: Text(
+                      widget.title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                ),
-                foregroundColor: Colors.transparent,
-                backgroundColor: _backgroundColor?.withOpacity(appBarOpacity),
-                leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_outlined,
-                    color: Colors.white,
+                  backgroundColor: Colors.transparent,
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_outlined,
+                      color: Colors.white,
+                    ),
                   ),
+                  elevation: 0,
                 ),
-                elevation: 0,
               ),
             ),
           ],

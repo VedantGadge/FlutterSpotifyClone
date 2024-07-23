@@ -62,7 +62,8 @@ class _GenreScreenState extends State<GenreScreen> {
         body: Stack(
           children: [
             Container(
-              color: Colors.black,
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              color: const Color(0xff121212),
               child: CustomScrollView(
                 scrollBehavior: NoGlowScrollBehavior(),
                 controller: scrollController,
@@ -78,7 +79,7 @@ class _GenreScreenState extends State<GenreScreen> {
                   const SliverToBoxAdapter(
                       child: Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 145.0, vertical: 15),
+                        EdgeInsets.symmetric(horizontal: 140.0, vertical: 15),
                     child: Text(
                       'Browse All',
                       style: TextStyle(
@@ -138,12 +139,12 @@ class _GenreScreenState extends State<GenreScreen> {
 
   Container _genreName() {
     return Container(
-      padding: const EdgeInsets.only(top: 50, left: 15),
+      padding: const EdgeInsets.only(top: 50, left: 10),
       decoration: BoxDecoration(
           gradient: LinearGradient(
         colors: [
           widget.gradColor,
-          Colors.black,
+          const Color(0xff121212),
         ],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
@@ -184,7 +185,7 @@ class _GenreScreenState extends State<GenreScreen> {
 
   Container _listView1() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       height: 180,
       child: ScrollConfiguration(
         behavior: NoGlowScrollBehavior(),
@@ -209,7 +210,7 @@ class _GenreScreenState extends State<GenreScreen> {
                     child: Text(
                       widget.listViewImgs1[index][1],
                       style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 13,
                           color: Colors.white,
                           fontWeight: FontWeight.w700),
                     ),
@@ -217,7 +218,7 @@ class _GenreScreenState extends State<GenreScreen> {
                   Text(
                     widget.listViewImgs1[index][2],
                     style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 13,
                         color: Colors.white60,
                         fontWeight: FontWeight.w400),
                   ),
@@ -233,7 +234,7 @@ class _GenreScreenState extends State<GenreScreen> {
 
   Container _listView2() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       height: 180,
       child: ScrollConfiguration(
         behavior: NoGlowScrollBehavior(),
@@ -360,7 +361,7 @@ class _GenreScreenState extends State<GenreScreen> {
           gradient: LinearGradient(
             colors: [
               widget.gradColor.withOpacity(appBarOpacity),
-              Colors.black.withOpacity(
+              Color.fromARGB(0, 18, 18, 18).withOpacity(
                 appBarOpacity < 0.3
                     ? 0
                     : appBarOpacity == 1

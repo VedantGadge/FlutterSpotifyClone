@@ -27,7 +27,7 @@ class _SearchPageState extends State<SearchPage> {
     return SafeArea(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5),
-        decoration: const BoxDecoration(color: Colors.black),
+        decoration: const BoxDecoration(color: Color(0xff121212)),
         child: CustomScrollView(
           scrollBehavior: NoGlowScrollBehavior(),
           slivers: [
@@ -189,7 +189,7 @@ class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: Colors.black,
+      color: const Color(0xff121212),
       padding: const EdgeInsets.only(top: 5.0, bottom: 7),
       child: TextField(
         decoration: InputDecoration(
