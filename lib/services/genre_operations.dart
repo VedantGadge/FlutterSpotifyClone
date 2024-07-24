@@ -29,8 +29,8 @@ class GenreOperations {
         genre: 'Party',
         imageURL: 'assets/categories_thumbnail/Party.jpg',
         bgcolor: const Color(0xff8c67ac),
-        title1: "",
-        title2: "",
+        title1: "Popular Party Playlists",
+        title2: "Dance Party",
         listViewImgs1: [
           [
             'assets/categories_thumbnail/PartyImg1.jpg',
@@ -193,7 +193,7 @@ class GenreOperations {
         bgcolor: const Color(0xffb45b07),
         title1: "Popular Telugu Playlists",
         title2: "Telugu essentials",
-         listViewImgs1: [
+        listViewImgs1: [
           [
             'assets/categories_thumbnail/TeluguImg1.jpeg',
             'Hot Hits Telugu',

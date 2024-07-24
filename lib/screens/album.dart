@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:spotify_clone_app/screens/home.dart';
+import 'package:spotify_clone_app/constants/Colors.dart';
+import 'package:spotify_clone_app/screens/musicPlayer.dart';
 
 class AlbumView extends StatefulWidget {
   final String title;
@@ -168,21 +170,21 @@ class _AlbumViewState extends State<AlbumView> {
               right: 0,
               child: Container(
                 decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              _backgroundColor!.withOpacity(appBarOpacity),
-              Color.fromARGB(0, 18, 18, 18).withOpacity(
-                appBarOpacity < 0.3
-                    ? 0
-                    : appBarOpacity == 1
-                        ? appBarOpacity
-                        : appBarOpacity - 0.1,
-              ),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+                  gradient: LinearGradient(
+                    colors: [
+                      _backgroundColor!.withOpacity(appBarOpacity),
+                      const Color.fromARGB(0, 18, 18, 18).withOpacity(
+                        appBarOpacity < 0.3
+                            ? 0
+                            : appBarOpacity == 1
+                                ? appBarOpacity
+                                : appBarOpacity - 0.1,
+                      ),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
                 child: AppBar(
                   scrolledUnderElevation: 0,
                   title: Opacity(
@@ -227,6 +229,12 @@ class _AlbumViewState extends State<AlbumView> {
   Widget songWidget(BuildContext context, int index) {
     return InkWell(
       onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Musicplayer(
+                      songBgColor: _backgroundColor ?? const Color(0xff121212),
+                    )));
         print('${widget.songInfo[index].songName} button pressed');
       },
       child: Container(
@@ -429,7 +437,7 @@ class _AlbumViewState extends State<AlbumView> {
             width: 50,
             height: 50,
             decoration: const BoxDecoration(
-                shape: BoxShape.circle, color: Color(0xff1DB954)),
+                shape: BoxShape.circle, color: customColors.primaryColor),
             child: const Icon(
               Icons.play_arrow_sharp,
               size: 37,
