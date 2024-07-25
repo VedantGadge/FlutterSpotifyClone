@@ -207,8 +207,9 @@ class _HomePageState extends State<HomePage> {
               break;
             case 5:
               songs = [
-                Song("url1_for_category_5", "Starboy", "The Weeknd", false),
-                Song("url1_for_category_5", "Die For You", "The Weeknd", false),
+                Song("7MXVkk9YMctZqd1Srtv4MB", "Starboy", "The Weeknd", false),
+                Song("2Ch7LmS7r2Gy2kc64wv3Bz", "Die For You", "The Weeknd",
+                    false),
                 Song("url1_for_category_5", "Rockin'", "The Weeknd", false),
                 Song("url1_for_category_5", "Blinding Lights", "The Weeknd",
                     false),
