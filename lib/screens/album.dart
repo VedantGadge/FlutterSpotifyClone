@@ -234,6 +234,10 @@ class _AlbumViewState extends State<AlbumView> {
             MaterialPageRoute(
                 builder: (context) => Musicplayer(
                       songBgColor: _backgroundColor ?? const Color(0xff121212),
+                      srcName: widget.title,
+                      imgUrl: widget.imageUrl,
+                      songTitle: widget.songInfo[index].songName,
+                      songArtists: widget.songInfo[index].songArtists,
                     )));
         print('${widget.songInfo[index].songName} button pressed');
       },
@@ -254,9 +258,9 @@ class _AlbumViewState extends State<AlbumView> {
                     Text(
                       widget.songInfo[index].songName,
                       style: const TextStyle(
-                        color: Color.fromARGB(248, 255, 255, 255),
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                     widget.songInfo[index].isExplicit
@@ -264,14 +268,14 @@ class _AlbumViewState extends State<AlbumView> {
                             children: [
                               const Icon(
                                 Icons.explicit_rounded,
-                                color: Colors.white54,
+                                color: Color(0xffa7a7a7),
                                 size: 17,
                               ),
                               const SizedBox(width: 2),
                               Text(
                                 widget.songInfo[index].songArtists,
                                 style: const TextStyle(
-                                  color: Color.fromARGB(161, 255, 255, 255),
+                                  color: Color(0xffa7a7a7),
                                   fontSize: 13,
                                   fontWeight: FontWeight.w400,
                                 ),
