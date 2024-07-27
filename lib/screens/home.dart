@@ -442,17 +442,20 @@ class _HomePageState extends State<HomePage> {
               break;
             case 1:
               songs = [
-                Song("url1_for_music_1", "Best Song Ever", "One Direction",
-                    false),
-                Song("url1_for_music_1", "Night Changes", "One Direction",
-                    false),
-                Song("url1_for_music_1", "What makes You Beautiful",
+                Song("5T7ZFtCcOgkpjxcuaeZbw0", "Best Song Ever",
                     "One Direction", false),
-                Song(
-                    "url1_for_music_1", "Drag Me Down", "One Direction", false),
-                Song("url1_for_music_1", "No Control", "One Direction", false),
-                Song("url1_for_music_1", "History", "One Direction", false),
-                Song("url1_for_music_1", "Perfect", "One Direction", false),
+                Song("5O2P9iiztwhomNh8xkR9lJ", "Night Changes", "One Direction",
+                    false),
+                Song("4cluDES4hQEUhmXj6TXkSo", "What makes You Beautiful",
+                    "One Direction", false),
+                Song("2K87XMYnUMqLcX3zvtAF4G", "Drag Me Down", "One Direction",
+                    false),
+                Song("4JaLkM90MJutDAl5jD9BZX", "No Control", "One Direction",
+                    false),
+                Song("6Vh03bkEfXqekWp7Y1UBRb", "Live While We're Young",
+                    "One Direction", false),
+                Song("3NLnwwAQbbFKcEcV8hDItk", "Perfect", "One Direction",
+                    false),
               ];
               break;
             case 2:
