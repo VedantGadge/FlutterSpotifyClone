@@ -4,8 +4,6 @@ import 'package:palette_generator/palette_generator.dart';
 import 'package:spotify_clone_app/screens/home.dart';
 import 'package:spotify_clone_app/constants/Colors.dart';
 import 'package:spotify_clone_app/screens/musicPlayer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 class AlbumView extends StatefulWidget {
   final String title;
   final String imageUrl;
