@@ -290,7 +290,6 @@ class _MusicplayerState extends State<Musicplayer> {
     return StreamBuilder<PlayerState>(
       stream: player.playerStateStream,
       builder: (context, snapshot) {
-        final processingState = snapshot.data?.processingState;
         final playing = snapshot.data?.playing;
 
         return Row(
