@@ -55,7 +55,8 @@ class _MusicplayerState extends State<Musicplayer> {
       }
 
       final yt = YoutubeExplode();
-      final searchResults = await yt.search.search(tempSongName);
+      final searchResults =
+          await yt.search.search("$tempSongName ${widget.songArtists}");
       final video = searchResults.elementAt(1);
 
       var manifest = await yt.videos.streamsClient.getManifest(video.id.value);
