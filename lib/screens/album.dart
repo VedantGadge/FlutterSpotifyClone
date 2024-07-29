@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:spotify_clone_app/screens/app.dart';
 import 'package:spotify_clone_app/screens/home.dart';
 import 'package:spotify_clone_app/constants/Colors.dart';
 import 'package:spotify_clone_app/screens/musicPlayer.dart';
+
 class AlbumView extends StatefulWidget {
   final String title;
   final String imageUrl;
@@ -259,7 +261,7 @@ class _AlbumViewState extends State<AlbumView> {
                       widget.songInfo[index].songName,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -269,14 +271,14 @@ class _AlbumViewState extends State<AlbumView> {
                               const Icon(
                                 Icons.explicit_rounded,
                                 color: Color(0xffa7a7a7),
-                                size: 17,
+                                size: 17.5,
                               ),
                               const SizedBox(width: 2),
                               Text(
                                 widget.songInfo[index].songArtists,
                                 style: const TextStyle(
                                   color: Color(0xffa7a7a7),
-                                  fontSize: 13,
+                                  fontSize: 12.5,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -286,7 +288,7 @@ class _AlbumViewState extends State<AlbumView> {
                             widget.songInfo[index].songArtists,
                             style: const TextStyle(
                               color: Color.fromARGB(161, 255, 255, 255),
-                              fontSize: 13,
+                              fontSize: 12.5,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -436,10 +438,10 @@ class _AlbumViewState extends State<AlbumView> {
           },
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.only(top: 8, left: 7),
           child: Container(
-            width: 50,
-            height: 50,
+            width: 55,
+            height: 55,
             decoration: const BoxDecoration(
                 shape: BoxShape.circle, color: customColors.primaryColor),
             child: const Icon(

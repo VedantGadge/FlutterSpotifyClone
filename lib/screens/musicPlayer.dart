@@ -311,7 +311,7 @@ class _MusicplayerState extends State<Musicplayer> {
                 playing == true
                     ? Icons.pause_circle_filled_sharp
                     : Icons.play_circle_fill_rounded,
-                size: 60,
+                size: 75,
               ),
               color: Colors.white,
               onPressed: () async {
