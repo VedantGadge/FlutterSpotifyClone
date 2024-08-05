@@ -38,7 +38,6 @@ class AlbumView extends StatefulWidget {
 class _AlbumViewState extends State<AlbumView> {
   final AudioManager _audioManager = AudioManager();
   final player = AudioPlayer();
-  late AudioPlayerStream _audioPlayerStream;
   Duration? duration;
   bool isLoading = true;
   bool _isMusicSlabVisible = false;
@@ -92,10 +91,6 @@ class _AlbumViewState extends State<AlbumView> {
       });
     _loadPalette();
     super.initState();
-    _audioPlayerStream = AudioPlayerStream(
-      player.playerStateStream,
-      player.positionStream,
-    );
   }
 
   Future<void> _initializePlayer() async {

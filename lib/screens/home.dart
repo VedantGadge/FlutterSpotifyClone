@@ -4,7 +4,6 @@ import 'package:spotify_clone_app/constants/pressEffect.dart';
 import 'package:spotify_clone_app/models/category.dart';
 import 'package:spotify_clone_app/models/musicList.dart';
 import 'package:spotify_clone_app/screens/album.dart';
-import 'package:spotify_clone_app/screens/app.dart';
 import 'package:spotify_clone_app/services/category_operations.dart';
 import 'package:spotify_clone_app/services/musicList_operations1.dart';
 import 'package:spotify_clone_app/services/musicList_operations2.dart';
@@ -211,9 +210,9 @@ class _HomePageState extends State<HomePage> {
               break;
             case 1:
               songs = [
-                Song("url1_for_category_1", "FE!N",
+                Song("42VsgItocQwOQC3XWZ8JNA", "FE!N",
                     "Travis Scott, Playboi Carti", true),
-                Song("url1_for_category_1", "GOD'S COUNTRY", "Travis Scott",
+                Song("04WxWo7XeVyx22xEsrWRUb", "GOD'S COUNTRY", "Travis Scott",
                     true),
                 Song("url1_for_category_1", "MY EYES", "Travis Scott", true),
                 Song("url1_for_category_1", "HYAENA", "Travis Scott", true),
