@@ -1,10 +1,17 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:palette_generator/palette_generator.dart';
-import 'package:spotify_clone_app/screens/app.dart';
+import 'package:spotify/spotify.dart' as Spotify;
+import 'package:spotify_clone_app/constants/audio_manager.dart';
+import 'package:spotify_clone_app/constants/clientId.dart';
+import 'package:spotify_clone_app/constants/playback_state.dart';
+import 'package:spotify_clone_app/constants/pressEffect.dart';
 import 'package:spotify_clone_app/screens/home.dart';
 import 'package:spotify_clone_app/constants/Colors.dart';
 import 'package:spotify_clone_app/screens/musicPlayer.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class AlbumView extends StatefulWidget {
   final String title;
@@ -29,6 +36,13 @@ class AlbumView extends StatefulWidget {
 }
 
 class _AlbumViewState extends State<AlbumView> {
+  final AudioManager _audioManager = AudioManager();
+  final player = AudioPlayer();
+  late AudioPlayerStream _audioPlayerStream;
+  Duration? duration;
+  bool isLoading = true;
+  bool _isMusicSlabVisible = false;
+  late int songIndex;
   late ScrollController scrollController;
   double imageSize = 0;
   double initialSize = 240;
@@ -37,6 +51,13 @@ class _AlbumViewState extends State<AlbumView> {
   double imageOpacity = 1;
   double appBarOpacity = 0;
   Color? _backgroundColor;
+  Color darkenColor(Color color, [double amount = 0.1]) {
+    assert(amount >= 0 && amount <= 1);
+    int r = (color.red * (1 - amount)).toInt();
+    int g = (color.green * (1 - amount)).toInt();
+    int b = (color.blue * (1 - amount)).toInt();
+    return Color.fromARGB(color.alpha, r, g, b);
+  }
 
   @override
   void initState() {
@@ -71,6 +92,50 @@ class _AlbumViewState extends State<AlbumView> {
       });
     _loadPalette();
     super.initState();
+    _audioPlayerStream = AudioPlayerStream(
+      player.playerStateStream,
+      player.positionStream,
+    );
+  }
+
+  Future<void> _initializePlayer() async {
+    try {
+      final credentials = Spotify.SpotifyApiCredentials(
+          CustomStrings.clientId, CustomStrings.clientSecret);
+      final spotify = Spotify.SpotifyApi(credentials);
+      String? tempSongName = '';
+      setState(() async {
+        final track =
+            await spotify.tracks.get(widget.songInfo[songIndex].songUrl);
+        tempSongName = track.name;
+
+        if (tempSongName == null) {
+          throw Exception('Track name is null');
+        }
+
+        final yt = YoutubeExplode();
+        final searchResults = await yt.search
+            .search("$tempSongName ${widget.songInfo[songIndex].songArtists}");
+        final video = searchResults.elementAt(1);
+        duration = video.duration;
+        setState(() {
+          player.processingState == ProcessingState.loading ||
+                  player.processingState == ProcessingState.buffering
+              ? isLoading = true
+              : isLoading = false;
+        });
+        var manifest =
+            await yt.videos.streamsClient.getManifest(video.id.value);
+        var audioUrl = manifest.audioOnly.first.url;
+        print(audioUrl);
+        _audioManager.setUrl(audioUrl);
+      });
+    } catch (e) {
+      print("Error initializing player: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   Future<void> _loadPalette() async {
@@ -86,6 +151,7 @@ class _AlbumViewState extends State<AlbumView> {
   void dispose() {
     scrollController.dispose();
     super.dispose();
+    player.dispose();
   }
 
   @override
@@ -174,7 +240,7 @@ class _AlbumViewState extends State<AlbumView> {
                   gradient: LinearGradient(
                     colors: [
                       _backgroundColor!.withOpacity(appBarOpacity),
-                      const Color.fromARGB(0, 18, 18, 18).withOpacity(
+                      darkenColor(_backgroundColor!, 0.55).withOpacity(
                         appBarOpacity < 0.3
                             ? 0
                             : appBarOpacity == 1
@@ -213,7 +279,148 @@ class _AlbumViewState extends State<AlbumView> {
                 ),
               ),
             ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: IgnorePointer(
+                child: Container(
+                  height: 220,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.black.withOpacity(0.02),
+                        Colors.black.withOpacity(0.05),
+                        Colors.black.withOpacity(0.1),
+                        Colors.black.withOpacity(0.15),
+                        Colors.black.withOpacity(0.2),
+                        Colors.black.withOpacity(0.25),
+                        Colors.black.withOpacity(0.3),
+                        Colors.black.withOpacity(0.35),
+                        Colors.black.withOpacity(0.4),
+                        Colors.black.withOpacity(0.45),
+                        Colors.black.withOpacity(0.5),
+                        Colors.black.withOpacity(0.55),
+                        Colors.black.withOpacity(0.6),
+                        Colors.black.withOpacity(0.65),
+                        Colors.black.withOpacity(0.7),
+                        Colors.black.withOpacity(0.75),
+                        Colors.black.withOpacity(0.8),
+                        Colors.black.withOpacity(0.85),
+                        Colors.black.withOpacity(0.87),
+                        Colors.black.withOpacity(0.9),
+                        Colors.black.withOpacity(0.92),
+                        Colors.black.withOpacity(0.93),
+                        Colors.black.withOpacity(0.94),
+                        Colors.black.withOpacity(0.94),
+                        Colors.black.withOpacity(0.95),
+                        Colors.black.withOpacity(0.96),
+                        Colors.black.withOpacity(0.97),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            if (_isMusicSlabVisible) // Conditional rendering
+              musicSlab(songIndex),
           ],
+        ),
+      ),
+    );
+  }
+
+  Positioned musicSlab(int index) {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 20,
+      child: GestureDetector(
+        onTap: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            isDismissible: true,
+            enableDrag: true,
+            useSafeArea: true,
+            builder: (context) => Musicplayer(
+              songBgColor: _backgroundColor ?? const Color(0xff121212),
+              srcName: widget.title,
+              imgUrl: widget.imageUrl,
+              songTitle: widget.songInfo[index].songName,
+              songArtists: widget.songInfo[index].songArtists,
+              songTrackId: widget.songInfo[index].songUrl,
+            ),
+          );
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(6),
+          child: Container(
+            color: _backgroundColor,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(3),
+                        child: Container(
+                          height: 50,
+                          child: CachedNetworkImage(imageUrl: widget.imageUrl),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3, // Adjust the flex as needed
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              widget.songInfo[index].songName,
+                              style: const TextStyle(color: Colors.white),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              widget.songInfo[index].songArtists,
+                              style: const TextStyle(color: Color(0xffa7a7a7)),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Spacer(), // Adds space between text and icons
+                    _buildControls(),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: _buildProgressBar(),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -227,83 +434,159 @@ class _AlbumViewState extends State<AlbumView> {
     return songWidgets;
   }
 
-  Widget songWidget(BuildContext context, int index) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Musicplayer(
-                      songBgColor: _backgroundColor ?? const Color(0xff121212),
-                      srcName: widget.title,
-                      imgUrl: widget.imageUrl,
-                      songTitle: widget.songInfo[index].songName,
-                      songArtists: widget.songInfo[index].songArtists,
-                      songTrackId: widget.songInfo[index].songUrl,
-                    )));
-        print('${widget.songInfo[index].songName} button pressed');
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        width: MediaQuery.of(context).size.width,
-        height: 70,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildControls() {
+    return ValueListenableBuilder<bool>(
+      valueListenable: globalPlaybackState,
+      builder: (context, isPlaying, child) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.songInfo[index].songName,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    widget.songInfo[index].isExplicit
-                        ? Row(
-                            children: [
-                              const Icon(
-                                Icons.explicit_rounded,
-                                color: Color(0xffa7a7a7),
-                                size: 17.5,
-                              ),
-                              const SizedBox(width: 2),
-                              Text(
-                                widget.songInfo[index].songArtists,
-                                style: const TextStyle(
-                                  color: Color(0xffa7a7a7),
-                                  fontSize: 12.5,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          )
-                        : Text(
-                            widget.songInfo[index].songArtists,
-                            style: const TextStyle(
-                              color: Color.fromARGB(161, 255, 255, 255),
-                              fontSize: 12.5,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                  ],
-                ),
-                GestureDetector(
-                  child:
-                      const Icon(Icons.more_vert_rounded, color: Colors.white),
-                  onTap: () {
-                    print('More button pressed');
-                  },
-                ),
-              ],
+            IconButton(
+              icon: Icon(
+                isPlaying == true
+                    ? Icons.pause_rounded
+                    : Icons.play_arrow_rounded,
+                size: 25,
+              ),
+              color: Colors.white,
+              onPressed: () async {
+                _audioManager.playPause();
+                globalPlaybackState.setPlaying(isPlaying);
+                setState(() {});
+              },
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Widget _buildProgressBar() {
+    return Stack(
+      children: [
+        StreamBuilder<PlayerState>(
+          stream: _audioManager.playerStateStream,
+          builder: (context, snapshot) {
+            final processingState = snapshot.data?.processingState;
+            if (processingState == ProcessingState.loading ||
+                processingState == ProcessingState.buffering) {
+              return Container(
+                height: 2,
+                child: const LinearProgressIndicator(
+                  backgroundColor: Colors.transparent,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white60),
+                ),
+              );
+            }
+            return Container();
+          },
+        ),
+        StreamBuilder<Duration?>(
+          stream: _audioManager.durationStream,
+          builder: (context, durationSnapshot) {
+            final duration = durationSnapshot.data;
+            return StreamBuilder<Duration>(
+              stream: _audioManager.positionStream,
+              builder: (context, positionSnapshot) {
+                final position = positionSnapshot.data ?? Duration.zero;
+
+                if (duration == null || duration.inMilliseconds == 0) {
+                  return Container(height: 2); // No progress bar if no duration
+                }
+
+                double sliderValue =
+                    position.inMilliseconds / duration.inMilliseconds;
+
+                return Container(
+                  height: 2,
+                  width: sliderValue * (MediaQuery.of(context).size.width - 32),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget songWidget(BuildContext context, int index) {
+    return PressableItem(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _isMusicSlabVisible = true;
+            songIndex = index;
+            _initializePlayer(); // Show the music slab
+          });
+
+          print('${widget.songInfo[index].songName} button pressed');
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          width: MediaQuery.of(context).size.width,
+          height: 70,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.songInfo[index].songName,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      widget.songInfo[index].isExplicit
+                          ? Row(
+                              children: [
+                                const Icon(
+                                  Icons.explicit_rounded,
+                                  color: Color(0xffa7a7a7),
+                                  size: 17.75,
+                                ),
+                                const SizedBox(width: 2),
+                                Text(
+                                  widget.songInfo[index].songArtists,
+                                  style: const TextStyle(
+                                    color: Color(0xffa7a7a7),
+                                    fontSize: 12.5,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Text(
+                              widget.songInfo[index].songArtists,
+                              style: const TextStyle(
+                                color: Color.fromARGB(161, 255, 255, 255),
+                                fontSize: 12.75,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                    ],
+                  ),
+                  GestureDetector(
+                    child: const Icon(Icons.more_vert_rounded,
+                        color: Colors.white),
+                    onTap: () {
+                      print('More button pressed');
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -453,6 +736,29 @@ class _AlbumViewState extends State<AlbumView> {
       ],
     );
   }
+}
+
+class AudioPlayerStream extends ChangeNotifier {
+  late StreamSubscription _subscription;
+  late Stream<PlayerState> _playerStateStream;
+  late Stream<Duration> _positionStream;
+  AudioPlayerStream(
+      Stream<PlayerState> playerStateStream, Stream<Duration> positionStream) {
+    _playerStateStream = playerStateStream;
+    _positionStream = positionStream;
+    _subscription = _playerStateStream.listen((state) {
+      notifyListeners();
+    });
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+
+  Stream<PlayerState> get playerStateStream => _playerStateStream;
+  Stream<Duration> get positionStream => _positionStream;
 }
 
 class NoGlowScrollBehavior extends ScrollBehavior {

@@ -1,11 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:spotify/spotify.dart';
-import 'package:spotify_clone_app/constants/Colors.dart';
-import 'package:spotify_clone_app/constants/clientId.dart';
-import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:spotify/spotify.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:spotify_clone_app/constants/audio_manager.dart';
+import 'package:spotify_clone_app/constants/clientId.dart';
+import 'package:spotify_clone_app/constants/playback_state.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:spotify_clone_app/constants/colors.dart';
 
 class Musicplayer extends StatefulWidget {
   final Color songBgColor;
@@ -30,14 +32,13 @@ class Musicplayer extends StatefulWidget {
 }
 
 class _MusicplayerState extends State<Musicplayer> {
-  final player = AudioPlayer();
+  final AudioManager _audioManager = AudioManager();
   Duration? duration;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    WidgetsFlutterBinding.ensureInitialized();
     _initializePlayer();
   }
 
@@ -48,7 +49,7 @@ class _MusicplayerState extends State<Musicplayer> {
       final spotify = SpotifyApi(credentials);
 
       final track = await spotify.tracks.get(widget.songTrackId);
-      String? tempSongName = track.name; // tempSongName is nullable
+      String? tempSongName = track.name;
 
       if (tempSongName == null) {
         throw Exception('Track name is null');
@@ -58,37 +59,27 @@ class _MusicplayerState extends State<Musicplayer> {
       final searchResults =
           await yt.search.search("$tempSongName ${widget.songArtists}");
       final video = searchResults.elementAt(1);
-
-      var manifest = await yt.videos.streamsClient.getManifest(video.id.value);
-      var audioUrl = manifest.audioOnly.first.url;
-
-      await player.setAudioSource(AudioSource.uri(audioUrl));
       duration = video.duration;
-
       setState(() {
-        player.processingState == ProcessingState.loading ||
-                player.processingState == ProcessingState.buffering
+        _audioManager.player.processingState == ProcessingState.loading ||
+                _audioManager.player.processingState ==
+                    ProcessingState.buffering
             ? isLoading = true
             : isLoading = false;
       });
+      var manifest = await yt.videos.streamsClient.getManifest(video.id.value);
+      var audioUrl = manifest.audioOnly.first.url;
     } catch (e) {
-      // Handle exceptions appropriately
       print("Error initializing player: $e");
       setState(() {
-        isLoading = false; // Set to false if there's an error
+        isLoading = false;
       });
     }
   }
 
   @override
-  void dispose() {
-    player.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (isLoading == true) {
+    if (isLoading) {
       return const Scaffold(
         backgroundColor: Colors.black,
         body: Center(
@@ -100,43 +91,49 @@ class _MusicplayerState extends State<Musicplayer> {
       );
     }
 
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: 1000,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  widget.songBgColor,
-                  widget.songBgColor,
-                  const Color(0xff121212),
-                  const Color(0xff121212),
-                  const Color(0xff121212),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+    return Scaffold(
+      backgroundColor: widget.songBgColor,
+      body: DraggableScrollableSheet(
+        initialChildSize: 1,
+        minChildSize: 0.9,
+        shouldCloseOnMinExtent: true,
+        builder: (BuildContext context, ScrollController scrollController) {
+          return SingleChildScrollView(
+            controller: scrollController,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 1500,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    widget.songBgColor,
+                    widget.songBgColor,
+                    const Color(0xff121212),
+                    const Color(0xff121212),
+                    const Color(0xff121212),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    _buildTopBar(context),
+                    const SizedBox(height: 60),
+                    _buildAlbumArt(),
+                    const SizedBox(height: 60),
+                    _buildSongInfo(),
+                    const SizedBox(height: 10),
+                    _buildProgressBar(),
+                    _buildControls(),
+                  ],
+                ),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                children: [
-                  _buildTopBar(context),
-                  const SizedBox(height: 60),
-                  _buildAlbumArt(),
-                  const SizedBox(height: 60),
-                  _buildSongInfo(),
-                  const SizedBox(height: 10),
-                  _buildProgressBar(),
-                  _buildControls()
-                ],
-              ),
-            ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -150,7 +147,6 @@ class _MusicplayerState extends State<Musicplayer> {
           child: GestureDetector(
             onTap: () {
               Navigator.pop(context);
-              player.dispose();
             },
             child: const Icon(
               Icons.arrow_downward_rounded,
@@ -237,62 +233,39 @@ class _MusicplayerState extends State<Musicplayer> {
   }
 
   Widget _buildProgressBar() {
-    return Stack(
-      children: [
-        StreamBuilder<PlayerState>(
-          stream: player.playerStateStream,
-          builder: (context, snapshot) {
-            final processingState = snapshot.data?.processingState;
-            if (processingState == ProcessingState.loading ||
-                processingState == ProcessingState.buffering) {
-              return Container(
-                height: 4,
-                child: const LinearProgressIndicator(
-                  backgroundColor: Colors.transparent,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white60),
-                ),
-              );
-            }
-            return Container(); // Empty container when not loading or buffering
+    return StreamBuilder<Duration>(
+      stream: _audioManager.positionStream,
+      builder: (context, snapshot) {
+        final position = snapshot.data ?? Duration.zero;
+        return ProgressBar(
+          progress: position,
+          buffered: const Duration(milliseconds: 2000),
+          total: duration ?? const Duration(minutes: 4),
+          bufferedBarColor: Colors.transparent,
+          baseBarColor: Colors.white10,
+          thumbColor: Colors.white,
+          thumbGlowColor: Colors.transparent,
+          progressBarColor: Colors.white,
+          thumbRadius: 5,
+          timeLabelPadding: 5,
+          timeLabelTextStyle: const TextStyle(
+            color: Colors.white54,
+            fontSize: 13,
+            fontFamily: "Circular",
+            fontWeight: FontWeight.w400,
+          ),
+          onSeek: (newDuration) {
+            _audioManager.player.seek(newDuration);
           },
-        ),
-        StreamBuilder<Duration>(
-          builder: (context, snapshot) {
-            final position = snapshot.data ?? Duration.zero;
-            return ProgressBar(
-              progress: position,
-              buffered: const Duration(milliseconds: 2000),
-              total: duration ?? const Duration(minutes: 4),
-              bufferedBarColor: Colors.transparent,
-              baseBarColor: Colors.white10,
-              thumbColor: Colors.white,
-              thumbGlowColor: Colors.transparent,
-              progressBarColor: Colors.white,
-              thumbRadius: 5,
-              timeLabelPadding: 5,
-              timeLabelTextStyle: const TextStyle(
-                color: Colors.white54,
-                fontSize: 13,
-                fontFamily: "Circular",
-                fontWeight: FontWeight.w400,
-              ),
-              onSeek: (newDuration) {
-                player.seek(newDuration);
-              },
-            );
-          },
-          stream: player.positionStream,
-        ),
-      ],
+        );
+      },
     );
   }
 
   Widget _buildControls() {
-    return StreamBuilder<PlayerState>(
-      stream: player.playerStateStream,
-      builder: (context, snapshot) {
-        final playing = snapshot.data?.playing;
-
+    return ValueListenableBuilder<bool>(
+      valueListenable: globalPlaybackState,
+      builder: (context, isPlaying, child) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -308,19 +281,14 @@ class _MusicplayerState extends State<Musicplayer> {
             ),
             IconButton(
               icon: Icon(
-                playing == true
+                isPlaying
                     ? Icons.pause_circle_filled_sharp
                     : Icons.play_circle_fill_rounded,
                 size: 75,
               ),
               color: Colors.white,
               onPressed: () async {
-                if (playing == true) {
-                  await player.pause();
-                } else {
-                  await player.play();
-                }
-                setState(() {});
+                _audioManager.playPause();
               },
             ),
             IconButton(

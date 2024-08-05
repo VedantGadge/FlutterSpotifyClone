@@ -4,6 +4,7 @@ import 'package:spotify_clone_app/constants/pressEffect.dart';
 import 'package:spotify_clone_app/models/category.dart';
 import 'package:spotify_clone_app/models/musicList.dart';
 import 'package:spotify_clone_app/screens/album.dart';
+import 'package:spotify_clone_app/screens/app.dart';
 import 'package:spotify_clone_app/services/category_operations.dart';
 import 'package:spotify_clone_app/services/musicList_operations1.dart';
 import 'package:spotify_clone_app/services/musicList_operations2.dart';
@@ -44,30 +45,93 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: NoOverscrollGlowBehavior(),
-      child: SingleChildScrollView(
-        child: SafeArea(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            decoration: const BoxDecoration(
-              color: Color(0xff121212),
-            ),
-            child: Column(
-              children: [
-                _appBar(), // Custom app bar widget
-                const SizedBox(height: 5),
-                createGrid(context), // Grid of categories
-                const SizedBox(height: 5),
-                createMusicList1(context), // First list of music
-                const SizedBox(height: 5),
-                createMusicList2(context), // Second  list of music
-                const SizedBox(height: 5),
-                createMusicList3(context), // Third list of music
-              ],
+    return Scaffold(
+      body: Stack(
+        children: [
+          ScrollConfiguration(
+            behavior: NoOverscrollGlowBehavior(),
+            child: SingleChildScrollView(
+              child: SafeArea(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  decoration: const BoxDecoration(
+                    color: Color(0xff121212),
+                  ),
+                  child: Column(
+                    children: [
+                      _appBar(), // Custom app bar widget
+                      const SizedBox(height: 5),
+                      createGrid(context), // Grid of categories
+                      const SizedBox(height: 5),
+                      createMusicList1(context), // First list of music
+                      const SizedBox(height: 5),
+                      createMusicList2(context), // Second  list of music
+                      const SizedBox(height: 5),
+                      createMusicList3(context), // Third list of music
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: IgnorePointer(
+              child: Container(
+                height: 220,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.black.withOpacity(0.02),
+                      Colors.black.withOpacity(0.05),
+                      Colors.black.withOpacity(0.1),
+                      Colors.black.withOpacity(0.15),
+                      Colors.black.withOpacity(0.2),
+                      Colors.black.withOpacity(0.25),
+                      Colors.black.withOpacity(0.3),
+                      Colors.black.withOpacity(0.35),
+                      Colors.black.withOpacity(0.4),
+                      Colors.black.withOpacity(0.45),
+                      Colors.black.withOpacity(0.5),
+                      Colors.black.withOpacity(0.55),
+                      Colors.black.withOpacity(0.6),
+                      Colors.black.withOpacity(0.65),
+                      Colors.black.withOpacity(0.7),
+                      Colors.black.withOpacity(0.75),
+                      Colors.black.withOpacity(0.8),
+                      Colors.black.withOpacity(0.85),
+                      Colors.black.withOpacity(0.87),
+                      Colors.black.withOpacity(0.9),
+                      Colors.black.withOpacity(0.92),
+                      Colors.black.withOpacity(0.93),
+                      Colors.black.withOpacity(0.94),
+                      Colors.black.withOpacity(0.94),
+                      Colors.black.withOpacity(0.95),
+                      Colors.black.withOpacity(0.96),
+                      Colors.black.withOpacity(0.97),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
